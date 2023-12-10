@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,15 +11,14 @@ class Helper {
       final Uri uri = Uri.parse(url);
       if (!await canLaunchUrl(uri)) throw Exception('Could not launch $url');
     } catch (e) {
-      print('Error: $e');
+      if (kDebugMode) {
+        print('Error: $e');
+      }
     }
   }
 
   static Future<void> launchCall({required String phone}) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phone,
-    );
+    final Uri launchUri = Uri(scheme: 'tel', path: phone);
     await launchUrl(launchUri);
   }
 
@@ -74,6 +74,7 @@ extension StringCasingExtension on String {
         ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}'
         : '';
   }
+
   String toTitleCase() => replaceAll(RegExp(' +'), ' ')
       .split(' ')
       .map((str) => str.toCapitalized())

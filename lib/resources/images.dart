@@ -1,6 +1,7 @@
 class Images {
   //icons
   static const logo = 'assets/icons/logo.png';
+  static const logo_main = 'assets/icons/logo_main.png';
 
   static const calendar = 'assets/icons/calendar.png';
 
@@ -9,8 +10,5 @@ class Images {
   static const home_active = 'assets/icons/home_active.png';
   static const individual = 'assets/icons/individual.png';
   static const individual_active = 'assets/icons/individual_active.png';
-  static const user = 'assets/icons/user.png';
-  static const user_active = 'assets/icons/user_active.png';
 
-//images
 }

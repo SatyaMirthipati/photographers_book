@@ -40,3 +40,30 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+
+  assets:
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+          weight: 400
+
+
+    - family: ReadexPro
+      fonts:
+        - asset: assets/fonts/readex_pro/ReadexPro-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/readex_pro/ReadexPro-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/readex_pro/ReadexPro-Regular.ttf
+          weight: 400
