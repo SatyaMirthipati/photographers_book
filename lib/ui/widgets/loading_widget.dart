@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../resources/colors.dart';
+import '../../resources/images.dart';
 import 'three_size_dot.dart';
 
 class LoadingWidget extends StatelessWidget {
@@ -12,13 +14,8 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var accentColor = MyColors.primaryColor;
     var child = Center(
-      child: ThreeSizeDot(
-        color_1: accentColor,
-        color_2: accentColor,
-        color_3: accentColor,
-      ),
+      child: Lottie.asset(Images.loading, width: 120, height: 120),
     );
     if (_scaffold) {
       return Scaffold(

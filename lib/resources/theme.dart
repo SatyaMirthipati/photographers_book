@@ -20,7 +20,7 @@ class AppTheme {
       color: Colors.black,
       height: 34 / 24,
       letterSpacing: 0,
-    ); //done
+    );
 
     var titleMedium = const TextStyle(
       fontSize: 14,
@@ -29,7 +29,7 @@ class AppTheme {
       height: 20 / 14,
       color: Colors.black,
       letterSpacing: 0,
-    ); //done
+    );
 
     var titleSmall = const TextStyle(
       fontSize: 12,
@@ -38,7 +38,7 @@ class AppTheme {
       height: 17 / 14,
       color: Colors.black,
       letterSpacing: 0,
-    ); //done
+    );
 
     var labelLarge = const TextStyle(
       fontSize: 16,
@@ -47,19 +47,19 @@ class AppTheme {
       height: 1,
       color: Colors.black,
       letterSpacing: 0,
-    ); //done
+    );
 
     var labelSmall = const TextStyle(
       fontSize: 12,
-      fontFamily: 'Outfit',
+      fontFamily: 'Poppins',
       fontWeight: FontWeight.w600,
       height: 15 / 12,
       color: MyColors.primaryColor,
       letterSpacing: 0,
-    ); //done
+    );
 
     var bodyLarge = const TextStyle(
-      fontFamily: 'Outfit',
+      fontFamily: 'ReadexPro',
       fontWeight: FontWeight.w600,
       fontSize: 16,
       height: 1,
@@ -69,7 +69,7 @@ class AppTheme {
     );
 
     var bodyMedium = TextStyle(
-      fontFamily: 'Outfit',
+      fontFamily: 'ReadexPro',
       fontWeight: FontWeight.w500,
       fontSize: 12,
       height: 1,
@@ -79,22 +79,23 @@ class AppTheme {
     );
 
     var bodySmall = const TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      fontFamily: 'Poppins',
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'ReadexPro',
       letterSpacing: 0,
+      height: 1,
       color: Colors.black,
-    ); //done
+    );
 
     var headlineMedium = const TextStyle(
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w600,
-      fontSize: 24,
-      height: 32 / 24,
+      fontSize: 18,
+      height: 27 / 18,
       color: Colors.black,
       fontStyle: FontStyle.normal,
       letterSpacing: 0,
-    ); //done
+    ); // Done
 
     var headlineSmall = const TextStyle(
       fontSize: 30,
@@ -168,10 +169,10 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: MyColors.primaryColor,
+          backgroundColor: MyColors.accentColor,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(5),
           ),
           textStyle: labelLarge,
           fixedSize: const Size(140, 50),
@@ -179,21 +180,24 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: MyColors.primaryColor,
+          foregroundColor: MyColors.accentColor,
           padding: EdgeInsets.zero,
-          textStyle: titleLarge.copyWith(fontSize: 16),
+          textStyle: titleMedium.copyWith(fontSize: 13),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: MyColors.primaryColor,
           shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 1, color: MyColors.primaryColor),
+            side: BorderSide(
+              width: 2,
+              color: MyColors.border.withOpacity(0.35),
+            ),
             borderRadius: BorderRadius.circular(8),
           ),
-          side: const BorderSide(width: 1, color: MyColors.primaryColor),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          textStyle: labelLarge,
+          side: BorderSide(width: 2, color: MyColors.border.withOpacity(0.35)),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          textStyle: bodySmall,
           fixedSize: const Size(140, 50),
         ),
       ),
