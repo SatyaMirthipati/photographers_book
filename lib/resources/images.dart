@@ -15,4 +15,5 @@ class Images {
 
   // Json
   static const loading = 'assets/images/loading.json';
+  static const success = 'assets/images/success.json';
 }
