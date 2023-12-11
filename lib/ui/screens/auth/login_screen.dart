@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:photographers_book/resources/colors.dart';
-import 'package:photographers_book/ui/widgets/progress_button.dart';
 
+import '../../../config/routes.dart';
+import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
+import '../../widgets/progress_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(
               'Login to your account',
               style: textTheme.headlineMedium!.copyWith(fontSize: 18),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
             TextFormField(
@@ -109,7 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: MyColors.accentColor,
                         fontSize: 13,
                       ),
-                      recognizer: TapGestureRecognizer()..onTap = () {},
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.pushNamed(context, Routes.register);
+                        },
                     )
                   ],
                 ),

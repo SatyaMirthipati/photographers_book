@@ -227,6 +227,13 @@ class AppTheme {
           color: Colors.black.withOpacity(0.5),
           fontSize: 14,
         ),
+        errorStyle: bodyLarge.copyWith(
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.8,
+          color: const Color(0xFFcf6679),
+          fontFamily: 'Poppins'
+        ),
         border: border,
         enabledBorder: border,
         focusedBorder: border,
