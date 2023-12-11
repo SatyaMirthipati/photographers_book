@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
+import 'package:photographers_book/ui/screens/auth/login_screen.dart';
 
 import '../ui/screens/splash/splash_screen.dart';
 
@@ -21,6 +22,7 @@ extension RouteString on String {
 
 class Routes {
   static String root = '/';
+  static String login = '/login';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -28,6 +30,12 @@ class Routes {
     router.define(
       root,
       handler: rootHandler,
+      transitionType: TransitionType.material,
+    );
+
+    router.define(
+      login,
+      handler: loginHandler,
       transitionType: TransitionType.material,
     );
   }
@@ -42,5 +50,7 @@ var notFoundHandler = Handler(
 );
 
 var rootHandler = Handler(handlerFunc: (c, p) => const SplashScreen());
+
+var loginHandler = Handler(handlerFunc: (c, p) => const LoginScreen());
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

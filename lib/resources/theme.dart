@@ -121,7 +121,7 @@ class AppTheme {
     );
 
     var border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(10),
       borderSide: const BorderSide(color: MyColors.border, width: 1),
     );
 
@@ -223,7 +223,10 @@ class AppTheme {
         ),
         filled: false,
         hintStyle: bodySmall.copyWith(color: Colors.black.withOpacity(0.7)),
-        labelStyle: titleSmall.copyWith(color: Colors.black.withOpacity(0.7)),
+        labelStyle: titleSmall.copyWith(
+          color: Colors.black.withOpacity(0.5),
+          fontSize: 14,
+        ),
         border: border,
         enabledBorder: border,
         focusedBorder: border,

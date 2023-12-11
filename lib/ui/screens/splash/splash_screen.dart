@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:photographers_book/config/routes.dart';
+import 'package:photographers_book/data/local/shared_prefs.dart';
 
 import '../../../resources/images.dart';
 
@@ -20,6 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
       () => setState(() => _showImage = true),
     );
     await Future.delayed(const Duration(seconds: 3));
+
+    var token = await Prefs.getToken();
+    if (token == null) {
+      navigator.pushNamedAndRemoveUntil(Routes.login, (route) => false);
+    } else {}
   }
 
   @override
