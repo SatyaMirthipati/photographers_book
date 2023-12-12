@@ -32,12 +32,12 @@ class IconWidget extends StatelessWidget {
               width: 25,
             ),
           ),
-          const SizedBox(height: 2),
           Text(
             text,
             style: textTheme.titleSmall!.copyWith(
               color: MyColors.accentColor,
               fontSize: 11,
+              height: 12 / 11,
             ),
           )
         ],

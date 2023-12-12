@@ -29,7 +29,7 @@ class Avatar extends StatelessWidget {
     var initials = getInitials(name);
     double fontSize = fontSizes ?? size / 2;
     var style = Theme.of(context).textTheme.titleLarge!.copyWith(
-          fontSize: fontSize - 10,
+          fontSize: fontSize - 6,
           color: Colors.white,
         );
     if (url == null || !url!.contains('http')) {
