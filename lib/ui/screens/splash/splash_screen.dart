@@ -26,7 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
     var token = await Prefs.getToken();
     if (token == null) {
       navigator.pushNamedAndRemoveUntil(Routes.login, (route) => false);
-    } else {}
+    } else {
+      navigator.pushNamedAndRemoveUntil(Routes.main, (route) => false);
+    }
   }
 
   @override

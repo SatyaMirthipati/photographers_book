@@ -97,7 +97,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 15),
             ProgressButton(
-              onPressed: () async {},
+              onPressed: () async {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.main,
+                  (route) => false,
+                );
+              },
               child: const Text('Login'),
             ),
             const SizedBox(height: 15),

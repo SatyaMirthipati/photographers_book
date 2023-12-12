@@ -2,6 +2,7 @@ class Images {
   // Icons
   static const logo = 'assets/icons/logo.png';
   static const logo_main = 'assets/icons/logo_main.png';
+  static const add = 'assets/icons/add.png';
 
   static const calendar = 'assets/icons/calendar.png';
 
