@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/main_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../resources/images.dart';
 import '../home/home_screen.dart';
 import '../sheets/sheets_screen.dart';
 import 'widgets/bottom_bar.dart';
 import 'widgets/icon_widget.dart';
-import 'widgets/profile_widget.dart';
+import 'widgets/profile_avatar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -38,9 +39,11 @@ class _MainScreenState extends State<MainScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
           titleSpacing: 20,
-          title: Text(getTitle(mainBloc.index), style: textTheme.titleLarge),
+          title: Text(getTitle(mainBloc.index)),
           actions: [
-            ProfileWidget(onTap: () {}),
+            ProfileAvatar(
+              onTap: () => Navigator.pushNamed(context, Routes.profile),
+            ),
             const SizedBox(width: 20),
           ],
         ),

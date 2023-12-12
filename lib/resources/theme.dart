@@ -56,7 +56,7 @@ class AppTheme {
       height: 15 / 12,
       color:  Colors.black.withOpacity(0.7),
       letterSpacing: 0,
-    );
+    ); // Done
 
     var bodyLarge = const TextStyle(
       fontFamily: 'ReadexPro',
@@ -68,15 +68,14 @@ class AppTheme {
       letterSpacing: 0,
     );
 
-    var bodyMedium = TextStyle(
+    var bodyMedium = const TextStyle(
       fontFamily: 'ReadexPro',
       fontWeight: FontWeight.w500,
-      fontSize: 12,
+      fontSize: 14,
       height: 1,
-      color: Colors.black.withOpacity(0.7),
       fontStyle: FontStyle.normal,
       letterSpacing: 0,
-    );
+    ); // Done
 
     var bodySmall = const TextStyle(
       fontSize: 16,
@@ -85,7 +84,7 @@ class AppTheme {
       letterSpacing: 0,
       height: 1,
       color: Colors.black,
-    );
+    ); // Done
 
     var headlineMedium = const TextStyle(
       fontFamily: 'Poppins',
@@ -98,14 +97,14 @@ class AppTheme {
     ); // Done
 
     var headlineSmall = const TextStyle(
-      fontSize: 30,
-      fontFamily: 'Poppins',
-      fontWeight: FontWeight.w600,
-      height: 38 / 30,
+      fontSize: 12,
+      fontFamily: 'ReadexPro',
+      fontWeight: FontWeight.w400,
+      height: 1,
       color: Colors.black,
       letterSpacing: 0,
       fontStyle: FontStyle.normal,
-    );
+    ); // Done
 
     textTheme = textTheme.copyWith(
       headlineMedium: headlineMedium,
@@ -154,7 +153,7 @@ class AppTheme {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: false,
-        titleTextStyle: titleLarge.copyWith(color: Colors.black, fontSize: 18),
+        titleTextStyle: titleLarge.copyWith(fontSize: 18),
       ),
       dialogTheme: DialogTheme(
         shape: RoundedRectangleBorder(
@@ -187,13 +186,13 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: MyColors.primaryColor,
+          foregroundColor: Colors.black,
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 2,
               color: MyColors.border.withOpacity(0.35),
             ),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(5),
           ),
           side: BorderSide(width: 2, color: MyColors.border.withOpacity(0.35)),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),

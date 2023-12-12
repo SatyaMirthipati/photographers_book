@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/ui/widgets/avatar.dart';
+import '../../../widgets/avatar.dart';
 
-class ProfileWidget extends StatelessWidget {
+class ProfileAvatar extends StatelessWidget {
   final VoidCallback onTap;
 
-  const ProfileWidget({super.key, required this.onTap});
+  const ProfileAvatar({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
