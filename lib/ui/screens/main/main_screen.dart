@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../bloc/main_bloc.dart';
 import '../../../resources/images.dart';
 import '../home/home_screen.dart';
+import '../sheets/sheets_screen.dart';
 import 'widgets/bottom_bar.dart';
 import 'widgets/icon_widget.dart';
 import 'widgets/profile_widget.dart';
@@ -49,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
               case 0:
                 return const HomeScreen();
               case 1:
-                return Container();
+                return const SheetsScreen();
               default:
                 return Container();
             }
