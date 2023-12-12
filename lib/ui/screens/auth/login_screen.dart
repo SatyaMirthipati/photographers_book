@@ -83,7 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  Navigator.pushNamed(context, Routes.mobile);
+                },
                 child: Text(
                   'Forgot Password?',
                   style: textTheme.titleSmall!.copyWith(

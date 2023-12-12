@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
+import 'package:photographers_book/ui/screens/auth/mobile_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
@@ -25,6 +26,7 @@ class Routes {
   static String root = '/';
   static String login = '/login';
   static String register = '/register';
+  static String mobile = '/mobile';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -46,6 +48,12 @@ class Routes {
       handler: registerHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      mobile,
+      handler: mobileHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -62,5 +70,7 @@ var rootHandler = Handler(handlerFunc: (c, p) => const SplashScreen());
 var loginHandler = Handler(handlerFunc: (c, p) => const LoginScreen());
 
 var registerHandler = Handler(handlerFunc: (c, p) => const RegisterScreen());
+
+var mobileHandler = Handler(handlerFunc: (c, p) => const MobileScreen());
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

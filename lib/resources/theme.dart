@@ -20,7 +20,7 @@ class AppTheme {
       color: Colors.black,
       height: 34 / 24,
       letterSpacing: 0,
-    );
+    ); // Done
 
     var titleMedium = const TextStyle(
       fontSize: 14,
@@ -29,7 +29,7 @@ class AppTheme {
       height: 20 / 14,
       color: Colors.black,
       letterSpacing: 0,
-    );
+    ); // Done
 
     var titleSmall = const TextStyle(
       fontSize: 12,
@@ -38,7 +38,7 @@ class AppTheme {
       height: 17 / 14,
       color: Colors.black,
       letterSpacing: 0,
-    );
+    ); // Done
 
     var labelLarge = const TextStyle(
       fontSize: 16,
@@ -47,14 +47,14 @@ class AppTheme {
       height: 1,
       color: Colors.black,
       letterSpacing: 0,
-    );
+    ); // Done
 
-    var labelSmall = const TextStyle(
+    var labelSmall = TextStyle(
       fontSize: 12,
       fontFamily: 'Poppins',
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w400,
       height: 15 / 12,
-      color: MyColors.primaryColor,
+      color:  Colors.black.withOpacity(0.7),
       letterSpacing: 0,
     );
 
