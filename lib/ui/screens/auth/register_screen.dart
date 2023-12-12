@@ -154,8 +154,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     showPassword
-                        ? Icons.visibility_off_rounded
-                        : Icons.visibility_rounded,
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
                     size: 20,
                   ),
                   onPressed: () => setState(() => showPassword = !showPassword),
@@ -181,8 +181,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     reShowPassword
-                        ? Icons.visibility_off_rounded
-                        : Icons.visibility_rounded,
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
                     size: 20,
                   ),
                   onPressed: () =>

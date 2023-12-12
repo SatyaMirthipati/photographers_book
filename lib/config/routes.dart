@@ -1,9 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
-import 'package:photographers_book/ui/screens/auth/mobile_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
+import '../ui/screens/auth/mobile_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
+import '../ui/screens/auth/reset_password_screen.dart';
 import '../ui/screens/splash/splash_screen.dart';
 
 extension MaterialFluro on FluroRouter {
@@ -27,6 +28,7 @@ class Routes {
   static String login = '/login';
   static String register = '/register';
   static String mobile = '/mobile';
+  static String resetPassword = '/resetPassword';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -54,6 +56,12 @@ class Routes {
       handler: mobileHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      resetPassword,
+      handler: resetPasswordHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -72,5 +80,9 @@ var loginHandler = Handler(handlerFunc: (c, p) => const LoginScreen());
 var registerHandler = Handler(handlerFunc: (c, p) => const RegisterScreen());
 
 var mobileHandler = Handler(handlerFunc: (c, p) => const MobileScreen());
+
+var resetPasswordHandler = Handler(
+  handlerFunc: (context, params) => const ResetPasswordScreen(),
+);
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

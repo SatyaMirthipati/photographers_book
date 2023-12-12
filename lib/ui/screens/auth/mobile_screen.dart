@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:photographers_book/config/routes.dart';
 import 'package:photographers_book/resources/colors.dart';
 import 'package:photographers_book/ui/widgets/error_snackbar.dart';
 import 'package:photographers_book/ui/widgets/progress_button.dart';
@@ -53,10 +55,15 @@ class _MobileScreenState extends State<MobileScreen> {
           ),
           const SizedBox(height: 40),
           TextFormField(
-            cursorWidth: 1,
             controller: mobileCtrl,
-            style: textTheme.titleMedium,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
+            style: textTheme.bodyLarge,
+            textInputAction: TextInputAction.done,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              LengthLimitingTextInputFormatter(10),
+            ],
             decoration: const InputDecoration(
               labelText: 'Mobile Number',
             ),
@@ -78,7 +85,7 @@ class _MobileScreenState extends State<MobileScreen> {
                       'Please enter a mobile number',
                     );
                   }
-                  if(mobileCtrl.text.length != 10){
+                  if (mobileCtrl.text.length != 10) {
                     return ErrorSnackBar.show(
                       context,
                       'Please enter a valid mobile number',
@@ -99,7 +106,7 @@ class _MobileScreenState extends State<MobileScreen> {
           TextFormField(
             cursorWidth: 1,
             controller: otpCtrl,
-            style: textTheme.titleMedium,
+            style: textTheme.bodyLarge,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               labelText: 'Enter OTP',
@@ -114,24 +121,27 @@ class _MobileScreenState extends State<MobileScreen> {
               return null;
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                'Did not receive OTP ? ',
-                style: textTheme.labelSmall!.copyWith(fontSize: 13),
-              ),
-              Column(
-                children: [
-                  const SizedBox(height: 2),
-                  ResendOtpButton(mobile: mobileCtrl.text),
-                ],
-              ),
-            ],
-          ),
+          if (otp)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Did not receive OTP ? ',
+                  style: textTheme.labelSmall!.copyWith(fontSize: 13),
+                ),
+                Column(
+                  children: [
+                    const SizedBox(height: 2),
+                    ResendOtpButton(mobile: mobileCtrl.text),
+                  ],
+                ),
+              ],
+            ),
           const SizedBox(height: 30),
           ProgressButton(
-            onPressed: () async {},
+            onPressed: () async {
+              Navigator.pushNamed(context, Routes.resetPassword);
+            },
             child: const Text('Submit'),
           )
         ],
