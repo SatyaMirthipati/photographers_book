@@ -15,10 +15,10 @@ class AppTheme {
 
     var titleLarge = const TextStyle(
       fontSize: 16,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w800,
       fontFamily: 'Poppins',
       color: Colors.black,
-      height: 34 / 24,
+      height: 25 / 16,
       letterSpacing: 0,
     ); // Done
 

@@ -5,6 +5,7 @@ import '../../../bloc/main_bloc.dart';
 import '../../../resources/images.dart';
 import 'widgets/bottom_bar.dart';
 import 'widgets/icon_widget.dart';
+import 'widgets/profile_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,14 +15,33 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  String getTitle(int index) {
+    switch (index) {
+      case 0:
+        return 'Home';
+      case 1:
+        return 'Sheets';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
     var mainBloc = Provider.of<MainBloc>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         extendBody: true,
         resizeToAvoidBottomInset: false,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        appBar: AppBar(
+          titleSpacing: 20,
+          title: Text(getTitle(mainBloc.index), style: textTheme.titleLarge),
+          actions: [
+            ProfileWidget(onTap: () {}),
+            const SizedBox(width: 20),
+          ],
+        ),
         body: Builder(
           builder: (context) {
             switch (mainBloc.index) {

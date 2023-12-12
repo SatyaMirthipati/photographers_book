@@ -72,7 +72,7 @@ class Avatar extends StatelessWidget {
   }
 
   String getInitials(String? name) {
-    if (name?.trim().isEmpty ?? true) return 'Care';
+    if (name?.trim().isEmpty ?? true) return 'PB';
     var list = name!.split('\\s');
     if (list.isEmpty) {
       return 'K';
