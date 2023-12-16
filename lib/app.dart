@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:photographers_book/bloc/sheet_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/main_bloc.dart';
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ProgressBloc()),
           ChangeNotifierProvider(create: (_) => MainBloc()),
           ChangeNotifierProvider(create: (_) => UserBloc()),
+          ChangeNotifierProvider(create: (_) => SheetBloc()),
         ],
         child: ProgressBlockWidget(
           child: MaterialApp(
