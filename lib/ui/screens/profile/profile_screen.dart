@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../bloc/user_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../widgets/avatar.dart';
+import '../../widgets/dialog_confirm.dart';
 import 'widgets/profile_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Profile')),
       body: ListView(
@@ -120,7 +125,21 @@ class ProfileScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () async {
+                final navigator = Navigator.of(context);
+                var res = await ConfirmDialog.show(
+                  context,
+                  message: 'Are you sure you want to Logout',
+                  title: 'Logout ?',
+                );
+                if (res != true) return;
+
+                userBloc.logout();
+                navigator.pushNamedAndRemoveUntil(
+                  Routes.root,
+                  (route) => false,
+                );
+              },
               icon: Image.asset(Images.logout),
               label: const Text('Logout'),
             ),

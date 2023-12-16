@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'bloc/main_bloc.dart';
 import 'bloc/progress_bloc.dart';
+import 'bloc/user_bloc.dart';
 import 'config/application.dart';
 import 'config/routes.dart';
 import 'resources/theme.dart';
@@ -26,6 +27,7 @@ class App extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => ProgressBloc()),
           ChangeNotifierProvider(create: (_) => MainBloc()),
+          ChangeNotifierProvider(create: (_) => UserBloc()),
         ],
         child: ProgressBlockWidget(
           child: MaterialApp(

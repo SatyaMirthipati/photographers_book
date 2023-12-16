@@ -8,14 +8,16 @@ import 'pretty_dio_logger.dart';
 class DioClient implements ApiClient {
   String store = 'default';
   late Dio dio;
+  String accessToken = "Bearer fiakb9318uishfsksn5oibbynn86gb3w";
   String baseUrl = 'http://test.matha.co.in/api';
 
   DioClient() {
     dio = Dio();
     dio.options = BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(milliseconds: 10000),
-      receiveTimeout: const Duration(milliseconds: 10000),
+      receiveDataWhenStatusError: true,
+      connectTimeout: const Duration(milliseconds: 1000000),
+      receiveTimeout: const Duration(milliseconds: 1000000),
     );
 
     dio.interceptors
@@ -32,7 +34,7 @@ class DioClient implements ApiClient {
   }
 
   Future<Options> getOptions({String? t}) async {
-    Map<String, dynamic> headers = {'Accept': 'application/json'};
+    Map<String, dynamic> headers = {'Accept': '*/*'};
     var token = t ?? await Prefs.getToken();
     if (token != null) {
       headers['Authorization'] = token;

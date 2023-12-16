@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:photographers_book/bloc/user_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config/routes.dart';
 import '../../../resources/colors.dart';
@@ -23,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     return Scaffold(
       body: Form(
         key: formKey,
@@ -98,8 +101,17 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 15),
             ProgressButton(
               onPressed: () async {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
+                if (!(formKey.currentState?.validate() ?? true)) return;
+                formKey.currentState?.save();
+                final navigator = Navigator.of(context);
+
+                Map<String, String> body = {
+                  'mobile': loginIdCtrl.text,
+                  'password': passwordCtrl.text,
+                };
+                await userBloc.login(body: body);
+
+                navigator.pushNamedAndRemoveUntil(
                   Routes.main,
                   (route) => false,
                 );
