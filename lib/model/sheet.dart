@@ -1,27 +1,39 @@
 class Sheet {
-  num? sheetId;
-  num? clientId;
-  String? sheetType;
+  String? id;
+  String? userId;
+  String? type;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
   num? price;
 
   Sheet({
-    this.sheetId,
-    this.clientId,
-    this.sheetType,
+    this.id,
+    this.userId,
+    this.type,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
     this.price,
   });
 
   factory Sheet.fromMap(Map<String, dynamic> json) => Sheet(
-    sheetId: json["SheetId"],
-    clientId: json["ClientId"],
-    sheetType: json["SheetType"],
-    price: json["Price"],
+    id: json["_id"],
+    userId: json["userId"],
+    type: json["type"],
+    createdAt: json["createdAt"],
+    updatedAt: json["updatedAt"],
+    v: json["__v"],
+    price: json["price"],
   );
 
   Map<String, dynamic> toMap() => {
-    "SheetId": sheetId,
-    "ClientId": clientId,
-    "SheetType": sheetType,
-    "Price": price,
+    "_id": id,
+    "userId": userId,
+    "type": type,
+    "createdAt": createdAt,
+    "updatedAt": updatedAt,
+    "__v": v,
+    "price": price,
   };
 }

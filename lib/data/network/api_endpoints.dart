@@ -1,6 +1,6 @@
 class Api {
-  static const login = '/Clients/ClientLogin';
-  static const profile = '/Client/ClientProfile';
+  static const login = '/auth/user-login';
+  static const profile = '/users/profile';
 
-  static const sheets = '/Sheets/Sheets';
+  static const sheets = '/sheets';
 }

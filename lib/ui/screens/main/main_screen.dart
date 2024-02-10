@@ -63,7 +63,23 @@ class _MainScreenState extends State<MainScreen> {
           borderRadius: BorderRadius.circular(50),
           child: FloatingActionButton(
             elevation: 0,
-            onPressed: () async {},
+            onPressed: () async {
+              final navigator = Navigator.of(context);
+
+              if (mainBloc.index == 0) {
+              } else if (mainBloc.index == 1) {
+                var res = await Navigator.pushNamed(
+                  context,
+                  Routes.createSheet,
+                );
+                if (res == null) return;
+                navigator.pushNamedAndRemoveUntil(
+                  Routes.main,
+                  (route) => false,
+                );
+                mainBloc.updateIndex(1);
+              }
+            },
             child: Image.asset(Images.add, width: 50),
           ),
         ),

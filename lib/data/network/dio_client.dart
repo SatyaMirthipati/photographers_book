@@ -9,7 +9,7 @@ class DioClient implements ApiClient {
   String store = 'default';
   late Dio dio;
   String accessToken = "Bearer fiakb9318uishfsksn5oibbynn86gb3w";
-  String baseUrl = 'http://test.matha.co.in/api';
+  String baseUrl = 'http://192.168.1.6:9990';
 
   DioClient() {
     dio = Dio();
@@ -34,7 +34,7 @@ class DioClient implements ApiClient {
   }
 
   Future<Options> getOptions({String? t}) async {
-    Map<String, dynamic> headers = {'Accept': '*/*'};
+    Map<String, dynamic> headers = {'Accept': 'application/json'};
     var token = t ?? await Prefs.getToken();
     if (token != null) {
       headers['Authorization'] = token;

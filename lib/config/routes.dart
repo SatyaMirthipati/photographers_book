@@ -1,5 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
+import 'package:photographers_book/ui/screens/create/create_sheet_screen.dart';
+import 'package:photographers_book/ui/screens/sheets/edit_sheet_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
@@ -35,6 +37,9 @@ class Routes {
   static String main = '/main';
 
   static String profile = '/profile';
+
+  static String createSheet = '/createSheet';
+  static String editSheet = '/editSheet/:id';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -80,6 +85,18 @@ class Routes {
       handler: profileHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      createSheet,
+      handler: createSheetHandler,
+      transitionType: TransitionType.material,
+    );
+
+    router.define(
+      editSheet,
+      handler: editSheetHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -106,5 +123,13 @@ var resetPasswordHandler = Handler(
 var mainHandler = Handler(handlerFunc: (context, params) => const MainScreen());
 
 var profileHandler = Handler(handlerFunc: (c, p) => const ProfileScreen());
+
+var createSheetHandler = Handler(
+  handlerFunc: (context, params) => const CreateSheetScreen(),
+);
+
+var editSheetHandler = Handler(
+  handlerFunc: (context, params) => EditSheetScreen(id: params['id']![0]),
+);
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());
