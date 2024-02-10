@@ -1,5 +1,6 @@
 import '../data/network/api_client.dart';
 import '../data/network/api_endpoints.dart';
+import '../model/profile.dart';
 
 class UserRepo {
   Future login({required Map<String, String> body}) async {
@@ -7,8 +8,8 @@ class UserRepo {
     return response;
   }
 
-  Future getProfile() async {
+  Future<Profile> getProfile() async {
     var response = await apiClient.get(Api.profile);
-    return response;
+    return Profile.fromMap(response);
   }
 }

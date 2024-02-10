@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/config/routes.dart';
-import 'package:photographers_book/data/local/shared_prefs.dart';
+import 'package:provider/provider.dart';
 
+import '../../../bloc/user_bloc.dart';
+import '../../../config/routes.dart';
+import '../../../data/local/shared_prefs.dart';
 import '../../../resources/images.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void checks() async {
     final navigator = Navigator.of(context);
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
 
     await Future.delayed(
       const Duration(seconds: 1),
@@ -27,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (token == null) {
       navigator.pushNamedAndRemoveUntil(Routes.login, (route) => false);
     } else {
+      await userBloc.getProfile();
       navigator.pushNamedAndRemoveUntil(Routes.main, (route) => false);
     }
   }
