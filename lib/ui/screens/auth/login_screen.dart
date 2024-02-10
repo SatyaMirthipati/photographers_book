@@ -4,6 +4,7 @@ import 'package:photographers_book/bloc/user_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/routes.dart';
+import '../../../data/local/shared_prefs.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../widgets/progress_button.dart';
@@ -106,15 +107,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 final navigator = Navigator.of(context);
 
                 Map<String, String> body = {
-                  'mobile': loginIdCtrl.text,
+                  'username': loginIdCtrl.text,
                   'password': passwordCtrl.text,
                 };
-                await userBloc.login(body: body);
+                var response = await userBloc.login(body: body);
 
-                navigator.pushNamedAndRemoveUntil(
-                  Routes.main,
-                  (route) => false,
-                );
+                if (response['userExists'] == true) {
+                  var token = response['access_token'];
+                  await Prefs.setToken(token);
+                  await userBloc.getProfile();
+                  navigator.pushNamedAndRemoveUntil(
+                    Routes.main,
+                    (route) => false,
+                  );
+                } else {
+                  navigator.pushNamedAndRemoveUntil(
+                    Routes.register,
+                    (route) => false,
+                  );
+                }
               },
               child: const Text('Login'),
             ),
