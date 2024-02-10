@@ -8,7 +8,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../../bloc/sheet_bloc.dart';
 import '../../../model/sheet.dart';
 import '../../../resources/images.dart';
-import '../../../utils/helper.dart';
 import '../../widgets/dialog_confirm.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
@@ -93,14 +92,14 @@ class _SheetsScreenState extends State<SheetsScreen> {
                     padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
                     child: TextFormField(
                       onChanged: onSearch,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         filled: false,
                         hintText: 'Search for sheet',
-                        suffixIcon: const Icon(Icons.search,
-                            size: 20, color: Colors.black),
-                        border: Helper.border,
-                        enabledBorder: Helper.border,
-                        focusedBorder: Helper.border,
+                        suffixIcon: Icon(
+                          Icons.search,
+                          size: 20,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
