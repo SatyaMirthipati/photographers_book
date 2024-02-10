@@ -18,6 +18,11 @@ class Images {
   static const my_duelist = 'assets/icons/my_duelist.png';
   static const delete_account = 'assets/icons/delete_account.png';
   static const logout = 'assets/icons/logout.png';
+  static const name = 'assets/icons/name.png';
+  static const mail = 'assets/icons/mail.png';
+  static const call = 'assets/icons/call.png';
+  static const cam = 'assets/icons/cam.png';
+  static const address = 'assets/icons/address.png';
 
   // Main Screen
   static const home = 'assets/icons/home.png';

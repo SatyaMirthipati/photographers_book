@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photographers_book/utils/helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/user_bloc.dart';
@@ -48,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Satya',
+                            (userBloc.profile.name ?? 'NA').toCapitalized(),
                             style: textTheme.titleMedium!.copyWith(
                               color: MyColors.accentColor1,
                               fontSize: 18,
@@ -69,14 +70,14 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 7),
                       Text(
-                        'satya@gmail.com',
+                        userBloc.profile.email ?? 'NA',
                         style: textTheme.titleSmall!.copyWith(
                           color: MyColors.accentColor1,
                         ),
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        '9848562555',
+                        userBloc.profile.mobile ?? 'NA',
                         style: textTheme.titleSmall!.copyWith(
                           color: MyColors.accentColor1,
                         ),
@@ -89,7 +90,9 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           ProfileWidget(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, Routes.profileDetails);
+            },
             title: 'My Profile',
             image: Images.my_profile,
           ),

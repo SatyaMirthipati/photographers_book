@@ -121,7 +121,7 @@ class AppTheme {
 
     var border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: MyColors.border, width: 1),
+      borderSide: BorderSide(color: Colors.black.withOpacity(0.1), width: 1),
     );
 
     return ThemeData(

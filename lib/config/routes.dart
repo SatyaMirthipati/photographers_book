@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
 import 'package:photographers_book/ui/screens/create/create_sheet_screen.dart';
+import 'package:photographers_book/ui/screens/profile/profile_details_screen.dart';
 import 'package:photographers_book/ui/screens/sheets/edit_sheet_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
@@ -37,6 +38,7 @@ class Routes {
   static String main = '/main';
 
   static String profile = '/profile';
+  static String profileDetails = '/profileDetails';
 
   static String createSheet = '/createSheet';
   static String editSheet = '/editSheet/:id';
@@ -97,6 +99,12 @@ class Routes {
       handler: editSheetHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      profileDetails,
+      handler: profileDetailsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -130,6 +138,10 @@ var createSheetHandler = Handler(
 
 var editSheetHandler = Handler(
   handlerFunc: (context, params) => EditSheetScreen(id: params['id']![0]),
+);
+
+var profileDetailsHandler = Handler(
+  handlerFunc: (context, params) => const ProfileDetailsScreen(),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());
