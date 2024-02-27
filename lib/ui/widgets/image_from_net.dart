@@ -31,7 +31,7 @@ class ImageFromNet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('imageUrl: ${imageUrl}');
+    print('imageUrl: $imageUrl');
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     return Card(
       elevation: 0,
@@ -50,10 +50,10 @@ class ImageFromNet extends StatelessWidget {
             return child;
           }
           return AnimatedOpacity(
-            child: child,
             opacity: frame == null ? 0 : 1,
             duration: const Duration(seconds: 1),
             curve: Curves.easeOut,
+            child: child,
           );
         },
         loadingBuilder: (context, child, loadingProgress) {
@@ -62,10 +62,10 @@ class ImageFromNet extends StatelessWidget {
             width: width,
             height: height,
             child: AnimatedOpacity(
-              child: child,
               opacity: loadingProgress == null ? 1 : 0,
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeOut,
+              child: child,
             ),
           );
         },

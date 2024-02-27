@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../resources/colors.dart';
 import '../../resources/images.dart';
-import 'three_size_dot.dart';
 
 class LoadingWidget extends StatelessWidget {
   final bool _scaffold;

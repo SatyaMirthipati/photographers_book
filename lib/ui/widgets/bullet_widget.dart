@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BulletWidget extends StatelessWidget {
+  const BulletWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     var accentColor = Theme.of(context).colorScheme.secondary;

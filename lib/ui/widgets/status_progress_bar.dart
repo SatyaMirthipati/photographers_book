@@ -24,7 +24,7 @@ class StatusProgressBar extends StatelessWidget {
                   : null,
               color: i > index ? null : accentColor,
             ),
-            padding: EdgeInsets.all(2),
+            padding: const EdgeInsets.all(2),
             child: i > index
                 ? CircleAvatar(
                     backgroundColor: accentColor.withOpacity(0.5),

@@ -221,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
               child: const Text('Sign Up'),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Center(
               child: Text.rich(
                 TextSpan(

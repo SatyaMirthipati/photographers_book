@@ -107,7 +107,7 @@ class Dot extends StatelessWidget {
   final double size;
   final Color color;
 
-  Dot({
+  const Dot({
     Key? key,
     required this.shape,
     required this.size,

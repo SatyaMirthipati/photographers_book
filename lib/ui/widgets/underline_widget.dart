@@ -20,7 +20,7 @@ class UnderlineWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        BulletWidget(),
+        const BulletWidget(),
       ],
     );
   }
