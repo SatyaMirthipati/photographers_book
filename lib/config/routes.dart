@@ -1,15 +1,15 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
-import 'package:photographers_book/ui/screens/create/create_sheet_screen.dart';
-import 'package:photographers_book/ui/screens/profile/profile_details_screen.dart';
-import 'package:photographers_book/ui/screens/sheets/edit_sheet_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
 import '../ui/screens/auth/reset_password_screen.dart';
 import '../ui/screens/main/main_screen.dart';
+import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
+import '../ui/screens/sheets/create_sheet_screen.dart';
+import '../ui/screens/sheets/edit_sheet_screen.dart';
 import '../ui/screens/splash/splash_screen.dart';
 
 extension MaterialFluro on FluroRouter {
