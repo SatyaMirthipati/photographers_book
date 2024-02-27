@@ -3,7 +3,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../resources/theme.dart';
 
-
 class WebViewScreen extends StatefulWidget {
   final String url;
   final String title;

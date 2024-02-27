@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../resources/images.dart';
 
-
 class EmptyWidget extends StatelessWidget {
   final String? image;
   final String message;

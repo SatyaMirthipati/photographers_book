@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../resources/colors.dart';
 
-
 class ConfirmDialog {
   static Future<bool?> show(
     BuildContext context, {

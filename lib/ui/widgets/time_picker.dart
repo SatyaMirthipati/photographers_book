@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../resources/colors.dart';
 
-
 class TimePicker extends StatelessWidget {
   final TextEditingController timeCtrl;
   final Function onTimeChange;

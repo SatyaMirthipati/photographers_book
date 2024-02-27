@@ -11,7 +11,6 @@ class UserBloc with ChangeNotifier {
 
   Profile get profile => _profile!;
 
-
   Future login({required Map<String, String> body}) async {
     var response = await _userRepo.login(body: body);
     return response;

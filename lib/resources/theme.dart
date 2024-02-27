@@ -54,7 +54,7 @@ class AppTheme {
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w400,
       height: 15 / 12,
-      color:  Colors.black.withOpacity(0.7),
+      color: Colors.black.withOpacity(0.7),
       letterSpacing: 0,
     ); // Done
 
@@ -227,12 +227,11 @@ class AppTheme {
           fontSize: 14,
         ),
         errorStyle: bodyLarge.copyWith(
-          fontSize: 11,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 0.8,
-          color: const Color(0xFFcf6679),
-          fontFamily: 'Poppins'
-        ),
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.8,
+            color: const Color(0xFFcf6679),
+            fontFamily: 'Poppins'),
         border: border,
         enabledBorder: border,
         focusedBorder: border,

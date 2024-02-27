@@ -29,9 +29,8 @@ class ProfileWidget extends StatelessWidget {
             height: 25,
             width: 25,
             decoration: BoxDecoration(
-              color: MyColors.accentColor2.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(4)
-            ),
+                color: MyColors.accentColor2.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(4)),
             child: const Center(
               child: Icon(Icons.chevron_right, color: Colors.black, size: 20),
             ),

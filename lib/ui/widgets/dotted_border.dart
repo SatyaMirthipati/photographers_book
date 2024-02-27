@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../resources/colors.dart';
 
-
 class DottedBorder extends CustomPainter {
   final double strokeWidth;
   final Color color;

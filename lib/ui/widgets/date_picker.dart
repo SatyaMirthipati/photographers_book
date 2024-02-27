@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 
-
 class DatePicker extends StatelessWidget {
   DateTime? date;
   TextEditingController dateCtrl;
