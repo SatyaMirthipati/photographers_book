@@ -67,6 +67,16 @@ class _MainScreenState extends State<MainScreen> {
               final navigator = Navigator.of(context);
 
               if (mainBloc.index == 0) {
+                var res = await Navigator.pushNamed(
+                  context,
+                  Routes.addBasicDetails,
+                );
+                if (res == null) return;
+                navigator.pushNamedAndRemoveUntil(
+                  Routes.main,
+                  (route) => false,
+                );
+                mainBloc.updateIndex(0);
               } else if (mainBloc.index == 1) {
                 var res = await Navigator.pushNamed(
                   context,

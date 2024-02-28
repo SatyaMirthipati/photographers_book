@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../resources/colors.dart';
+import '../../resources/theme.dart';
 
 class TimePicker extends StatelessWidget {
   final TextEditingController timeCtrl;
@@ -34,32 +34,14 @@ class TimePicker extends StatelessWidget {
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                textTheme: TextTheme(
-                  titleLarge: textTheme.titleLarge,
-                  titleMedium: textTheme.titleMedium,
-                  titleSmall: textTheme.titleSmall,
-                  bodyLarge: textTheme.bodyLarge!.copyWith(fontSize: 20),
-                  bodyMedium: textTheme.bodyMedium,
-                  bodySmall: textTheme.bodySmall,
-                  labelLarge: textTheme.labelLarge,
-                  labelSmall: textTheme.labelSmall,
-                ),
-                colorScheme: Theme.of(context).colorScheme.copyWith(
-                      primary: MyColors.primaryColor,
-                      secondary: MyColors.primaryColor,
-                      onSecondary: Colors.white,
-                      brightness: Brightness.light,
-                      background: Colors.white,
-                    ),
+                textTheme: AppTheme.theme.textTheme,
+                colorScheme: AppTheme.theme.colorScheme,
               ),
               child: child!,
             );
           },
         );
-        timeCtrl.text = time == null
-            ? ''
-            : '${time?.hourOfPeriod.toString() ?? ''}:${time?.minute.toString() ?? ''} ${time?.period.name.toUpperCase() ?? ''}';
-
+        timeCtrl.text = (time == null ? '' : time?.format(context))!;
         onTimeChange(time);
       },
       validator: (value) {

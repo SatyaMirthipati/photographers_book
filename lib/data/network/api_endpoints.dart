@@ -3,4 +3,6 @@ class Api {
   static const profile = '/users/profile';
 
   static const sheets = '/sheets';
+
+  static const categories = '/categories';
 }

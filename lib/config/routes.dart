@@ -5,6 +5,7 @@ import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
 import '../ui/screens/auth/reset_password_screen.dart';
+import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
 import '../ui/screens/main/main_screen.dart';
 import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
@@ -42,6 +43,8 @@ class Routes {
 
   static String createSheet = '/createSheet';
   static String editSheet = '/editSheet/:id';
+
+  static String addBasicDetails = '/addBasicDetails/:id';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -105,6 +108,12 @@ class Routes {
       handler: profileDetailsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      addBasicDetails,
+      handler: addBasicDetailsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -142,6 +151,10 @@ var editSheetHandler = Handler(
 
 var profileDetailsHandler = Handler(
   handlerFunc: (context, params) => const ProfileDetailsScreen(),
+);
+
+var addBasicDetailsHandler = Handler(
+  handlerFunc: (context, params) => const AddBasicDetailsScreen(),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

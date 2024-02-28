@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
+import '../../resources/theme.dart';
 
 class DatePicker extends StatelessWidget {
   DateTime? date;
@@ -34,7 +34,7 @@ class DatePicker extends StatelessWidget {
     return TextFormField(
       readOnly: true,
       controller: dateCtrl,
-      style: textTheme.titleMedium,
+      style: textTheme.bodyLarge,
       onTap: () async {
         FocusScope.of(context).requestFocus(FocusNode());
         date = await showDatePicker(
@@ -45,23 +45,8 @@ class DatePicker extends StatelessWidget {
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                textTheme: TextTheme(
-                  titleLarge: textTheme.titleLarge,
-                  titleMedium: textTheme.titleMedium,
-                  titleSmall: textTheme.titleSmall,
-                  bodyLarge: textTheme.bodyLarge!.copyWith(fontSize: 20),
-                  bodyMedium: textTheme.bodyMedium,
-                  bodySmall: textTheme.bodySmall,
-                  labelLarge: textTheme.labelLarge,
-                  labelSmall: textTheme.labelSmall,
-                ),
-                colorScheme: Theme.of(context).colorScheme.copyWith(
-                      primary: MyColors.primaryColor,
-                      secondary: MyColors.primaryColor,
-                      onSecondary: Colors.white,
-                      brightness: Brightness.light,
-                      background: Colors.white,
-                    ),
+                textTheme: AppTheme.theme.textTheme,
+                colorScheme: AppTheme.theme.colorScheme,
               ),
               child: child!,
             );
