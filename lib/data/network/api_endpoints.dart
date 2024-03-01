@@ -5,4 +5,6 @@ class Api {
   static const sheets = '/sheets';
 
   static const categories = '/categories';
+
+  static const bookings = '/bookings';
 }

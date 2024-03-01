@@ -9,4 +9,9 @@ class BookingRepo {
     var list = response['data'] as List;
     return list.map((e) => Category.fromMap(e)).toList();
   }
+
+  Future createBooking({required body}) async {
+    var response = await apiClient.post(Api.bookings, body);
+    return response;
+  }
 }

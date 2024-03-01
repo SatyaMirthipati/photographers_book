@@ -9,7 +9,7 @@ class DioClient implements ApiClient {
   String store = 'default';
   late Dio dio;
   String accessToken = "Bearer fiakb9318uishfsksn5oibbynn86gb3w";
-  String baseUrl = 'http://192.168.1.5:9990';
+  String baseUrl = 'http://192.168.1.7:9990';
 
   DioClient() {
     dio = Dio();

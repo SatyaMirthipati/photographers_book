@@ -42,6 +42,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
       body: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Spacer(),
             FractionallySizedBox(

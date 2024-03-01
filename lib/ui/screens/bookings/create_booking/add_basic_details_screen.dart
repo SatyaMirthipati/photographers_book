@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
 
 import '../../../../utils/helper.dart';
 import '../../../widgets/error_snackbar.dart';
@@ -20,7 +19,6 @@ class _AddBasicDetailsScreenState extends State<AddBasicDetailsScreen> {
   final nameCtrl = TextEditingController();
   final mobileCtrl = TextEditingController();
   final addressCtrl = TextEditingController();
-  final MultiSelectController<User> _controller = MultiSelectController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,46 +86,6 @@ class _AddBasicDetailsScreenState extends State<AddBasicDetailsScreen> {
                 return null;
               },
             ),
-            SizedBox(height: 25),
-            MultiSelectDropDown<User>(
-              controller: _controller,
-              clearIcon: const Icon(Icons.reddit),
-              onOptionSelected: (options) {},
-              options: <ValueItem<User>>[
-                ValueItem(
-                    label: 'Option 1',
-                    value: User(name: 'User 1', id: 1)),
-                ValueItem(
-                    label: 'Option 2',
-                    value: User(name: 'User 2', id: 2)),
-                ValueItem(
-                    label: 'Option 3',
-                    value: User(name: 'User 3', id: 3)),
-                ValueItem(
-                    label: 'Option 4',
-                    value: User(name: 'User 4', id: 4)),
-                ValueItem(
-                    label: 'Option 5',
-                    value: User(name: 'User 5', id: 5)),
-              ],
-              maxItems: 4,
-              singleSelectItemStyle: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold),
-              chipConfig: const ChipConfig(
-                  wrapType: WrapType.wrap, backgroundColor: Colors.red),
-              optionTextStyle: const TextStyle(fontSize: 16),
-              selectedOptionIcon: const Icon(
-                Icons.check_circle,
-                color: Colors.pink,
-              ),
-              searchEnabled: true,
-              dropdownBorderRadius: 10,
-              dropdownBackgroundColor: Colors.white,
-              selectedOptionBackgroundColor: Colors.orange,
-              selectedOptionTextColor: Colors.blue,
-              dropdownMargin: 2,
-              onOptionRemoved: (index, option) {},
-            ),
           ],
         ),
       ),
@@ -155,17 +113,5 @@ class _AddBasicDetailsScreenState extends State<AddBasicDetailsScreen> {
         child: const Text('Proceed'),
       ),
     );
-  }
-}
-
-class User {
-  final String name;
-  final int id;
-
-  User({required this.name, required this.id});
-
-  @override
-  String toString() {
-    return 'User(name: $name, id: $id)';
   }
 }
