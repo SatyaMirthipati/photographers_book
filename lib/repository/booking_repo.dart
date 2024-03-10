@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:photographers_book/data/network/api_client.dart';
+import 'package:photographers_book/model/booking.dart';
 import 'package:photographers_book/model/event.dart';
 
 import '../data/network/api_endpoints.dart';
@@ -17,6 +18,12 @@ class BookingRepo {
     return response;
   }
 
+  Future<List<Booking>> getAllBookings({query}) async {
+    var response = await apiClient.get(Api.bookings, query: query);
+    var list = response['data'] as List;
+    return list.map((e) => Booking.fromMap(e)).toList();
+  }
+
   Future<List<Event>> getEvents({query}) async {
     var response = await apiClient.get(
       '${Api.bookings}/${Api.events}',
@@ -32,7 +39,6 @@ class BookingRepo {
       query: {'month': DateFormat('yyyy-MM').format(DateTime.now())},
     );
     var list = response['data'] as List;
-    print('Data34$list');
     return list.map((e) => Event.fromMap(e)).toList();
   }
 }

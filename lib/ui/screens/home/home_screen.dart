@@ -107,7 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeWidget(
                       image: Images.my_bookings,
                       title: 'My\nBookings',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.myBookings);
+                      },
                     )
                   ],
                 )
@@ -144,7 +146,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeWidget(
                       image: Images.my_bookings,
                       title: 'My\nBookings',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.myBookings);
+                      },
                     )
                   ],
                 ),

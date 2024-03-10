@@ -1,6 +1,3 @@
-import 'event.dart';
-import 'sheet.dart';
-
 class Booking {
   String? id;
   String? userId;
@@ -13,11 +10,11 @@ class Booking {
   int? payable;
   int? paid;
   int? due;
-  String? dueDate;
+  DateTime? dueDate;
   String? description;
-  bool? status;
-  List<Event>? events;
-  List<Sheet>? sheets;
+  String? status;
+  List<BookingEvent>? events;
+  List<BookingSheets>? sheets;
   String? createdAt;
   String? updatedAt;
   int? v;
@@ -56,11 +53,11 @@ class Booking {
     payable: json["payable"],
     paid: json["paid"],
     due: json["due"],
-    dueDate: json["dueDate"],
+    dueDate: json["dueDate"] == null ? null : DateTime.parse(json["dueDate"]),
     description: json["description"],
     status: json["status"],
-    events: json["events"] == null ? [] : List<Event>.from(json["events"]!.map((x) => Event.fromMap(x))),
-    sheets: json["sheets"] == null ? [] : List<Sheet>.from(json["sheets"]!.map((x) => Sheet.fromMap(x))),
+    events: json["events"] == null ? [] : List<BookingEvent>.from(json["events"]!.map((x) => BookingEvent.fromMap(x))),
+    sheets: json["sheets"] == null ? [] : List<BookingSheets>.from(json["sheets"]!.map((x) => BookingSheets.fromMap(x))),
     createdAt: json["createdAt"],
     updatedAt: json["updatedAt"],
     v: json["__v"],
@@ -78,7 +75,7 @@ class Booking {
     "payable": payable,
     "paid": paid,
     "due": due,
-    "dueDate": dueDate,
+    "dueDate": "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}",
     "description": description,
     "status": status,
     "events": events == null ? [] : List<dynamic>.from(events!.map((x) => x.toMap())),
@@ -86,5 +83,89 @@ class Booking {
     "createdAt": createdAt,
     "updatedAt": updatedAt,
     "__v": v,
+  };
+}
+
+class BookingEvent {
+  String? event;
+  DateTime? date;
+  String? video;
+  String? camera;
+  String? drone;
+  String? status;
+  String? id;
+  String? createdAt;
+  String? updatedAt;
+  String? address;
+
+  BookingEvent({
+    this.event,
+    this.date,
+    this.video,
+    this.camera,
+    this.drone,
+    this.status,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.address,
+  });
+
+  factory BookingEvent.fromMap(Map<String, dynamic> json) => BookingEvent(
+    event: json["event"],
+    date: json["date"] == null ? null : DateTime.parse(json["date"]),
+    video: json["video"],
+    camera: json["camera"],
+    drone: json["drone"],
+    status: json["status"],
+    id: json["_id"],
+    createdAt: json["createdAt"],
+    updatedAt: json["updatedAt"],
+    address: json["address"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "event": event,
+    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+    "video": video,
+    "camera": camera,
+    "drone": drone,
+    "status": status,
+    "_id": id,
+    "createdAt": createdAt,
+    "updatedAt": updatedAt,
+    "address": address,
+  };
+}
+
+class BookingSheets {
+  String? sheet;
+  String? quantity;
+  String? id;
+  String? createdAt;
+  String? updatedAt;
+
+  BookingSheets({
+    this.sheet,
+    this.quantity,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory BookingSheets.fromMap(Map<String, dynamic> json) => BookingSheets(
+    sheet: json["sheet"],
+    quantity: json["quantity"],
+    id: json["_id"],
+    createdAt: json["createdAt"],
+    updatedAt: json["updatedAt"],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "sheet": sheet,
+    "quantity": quantity,
+    "_id": id,
+    "createdAt": createdAt,
+    "updatedAt": updatedAt,
   };
 }

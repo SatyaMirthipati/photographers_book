@@ -32,7 +32,7 @@ class _EventStripState extends State<EventStrip> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ExpandablePageView.builder(
             controller: _controller,
             scrollDirection: Axis.horizontal,
