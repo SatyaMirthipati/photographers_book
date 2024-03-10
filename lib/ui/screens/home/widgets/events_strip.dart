@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../model/event.dart';
 import '../../../../resources/colors.dart';
-import 'event_card.dart';
+import '../../events/widgets/event_card.dart';
 
 class EventStrip extends StatefulWidget {
   final List<Event> events;

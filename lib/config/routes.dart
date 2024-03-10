@@ -1,13 +1,13 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
-import 'package:photographers_book/ui/screens/bookings/my_booking_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
 import '../ui/screens/auth/reset_password_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
-import '../ui/screens/home/my_events_screen.dart';
+import '../ui/screens/bookings/my_booking_screen.dart';
+import '../ui/screens/events/my_events_screen.dart';
 import '../ui/screens/main/main_screen.dart';
 import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
