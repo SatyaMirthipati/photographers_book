@@ -10,5 +10,7 @@ class MyColors {
   static const border = Color(0xFF707070);
   static const background = Colors.white;
   static const card = Colors.white;
+  static const pending = Color(0xFFFFCF64);
+  static const completed = Color(0xFF1AAA55);
   static const dark = Color(0xFF00063A);
 }

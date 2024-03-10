@@ -1,80 +1,152 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../bloc/booking_bloc.dart';
+import '../../../model/event.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../widgets/custom_card.dart';
 import '../../widgets/dynamic_grid_view.dart';
+import '../../widgets/error_widget.dart';
+import '../../widgets/loading_widget.dart';
+import 'widgets/events_strip.dart';
 import 'widgets/home_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  PageController controller = PageController();
+  int selectedPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController(initialPage: 0);
+    setState(() {});
+    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
+    future = Future.wait([bookingBloc.getMonthlyEvents()]);
+  }
+
+  Future<List>? future;
 
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
-            'Events in this month',
-            style: textTheme.titleSmall!.copyWith(
-              color: Colors.black.withOpacity(0.5),
-            ),
-          ),
-          const SizedBox(height: 10),
-          CustomCard(
-            radius: 10,
-            margin: EdgeInsets.zero,
-            child: Padding(
+      body: FutureBuilder<List>(
+        future: future,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return CustomErrorWidget(error: snapshot.error);
+          }
+          if (!snapshot.hasData) return const LoadingWidget();
+          var list = snapshot.data?[0] ?? [] as List<Event>;
+          if (list.isEmpty) {
+            return ListView(
               padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 30),
-                  Image.asset(Images.no_events, width: 100),
-                  const SizedBox(height: 20),
-                  Text(
-                    'There are no Events in this month.\nClick + to add Event',
-                    style: textTheme.titleMedium,
-                    textAlign: TextAlign.center,
+              children: [
+                Text(
+                  'Events in this month',
+                  style: textTheme.titleSmall!.copyWith(
+                    color: Colors.black.withOpacity(0.5),
                   ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                const SizedBox(height: 10),
+                CustomCard(
+                  radius: 10,
+                  margin: EdgeInsets.zero,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 30),
+                        Image.asset(Images.no_events, width: 100),
+                        const SizedBox(height: 20),
+                        Text(
+                          'There are no Events in this month.\nClick + to add Event',
+                          style: textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Card(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      elevation: 0,
+                      shape: StadiumBorder(),
+                      color: MyColors.accentColor,
+                      child: SizedBox(height: 6, width: 6),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                DynamicGridView(
+                  spacing: 16,
+                  count: 2,
+                  children: [
+                    HomeWidget(
+                      image: Images.events_mine,
+                      title: 'My\nEvents',
+                      onTap: () {},
+                    ),
+                    HomeWidget(
+                      image: Images.my_bookings,
+                      title: 'My\nBookings',
+                      onTap: () {},
+                    )
+                  ],
+                )
+              ],
+            );
+          }
+          return ListView(
             children: [
-              Card(
-                margin: EdgeInsets.symmetric(horizontal: 4),
-                elevation: 0,
-                shape: StadiumBorder(),
-                color: MyColors.accentColor,
-                child: SizedBox(height: 6, width: 6),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Events in this month',
+                  style: textTheme.titleSmall!.copyWith(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
               ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          DynamicGridView(
-            spacing: 16,
-            count: 2,
-            children: [
-              HomeWidget(
-                image: Images.upcoming_events,
-                title: 'Upcoming\nEvents',
-                onTap: () {},
-              ),
-              HomeWidget(
-                image: Images.completed_events,
-                title: 'Completed\nEvents',
-                onTap: () {},
+              EventStrip(events: list),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: DynamicGridView(
+                  spacing: 16,
+                  count: 2,
+                  children: [
+                    HomeWidget(
+                      image: Images.events_mine,
+                      title: 'My\nEvents',
+                      onTap: () {},
+                    ),
+                    HomeWidget(
+                      image: Images.my_bookings,
+                      title: 'My\nBookings',
+                      onTap: () {},
+                    )
+                  ],
+                ),
               )
             ],
-          )
-        ],
+          );
+        },
       ),
     );
   }

@@ -7,4 +7,6 @@ class Api {
   static const categories = '/categories';
 
   static const bookings = '/bookings';
+  static const events = '/events';
+  static const monthlyEvents = '/monthly-events';
 }

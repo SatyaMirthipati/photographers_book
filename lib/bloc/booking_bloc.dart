@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photographers_book/repository/booking_repo.dart';
 
 import '../model/category.dart';
+import '../model/event.dart';
 
 class BookingBloc with ChangeNotifier {
   final _bookingRepo = BookingRepo();
@@ -15,5 +16,13 @@ class BookingBloc with ChangeNotifier {
 
   Future createBooking({required body}) async {
     return await _bookingRepo.createBooking(body: body);
+  }
+
+  Future<List<Event>> getEvents({query}) async {
+    return await _bookingRepo.getEvents(query: query);
+  }
+
+  Future<List<Event>> getMonthlyEvents() async {
+    return await _bookingRepo.getMonthlyEvents();
   }
 }
