@@ -42,7 +42,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
   Widget build(BuildContext context) {
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text('My Events')),
       body: StreamBuilder<String>(
         stream: searchStream,
         builder: (context, snapshot) {
@@ -64,7 +64,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                       onChanged: onSearch,
                       decoration: const InputDecoration(
                         filled: false,
-                        hintText: 'Search for sheet',
+                        hintText: 'Search for event',
                         suffixIcon: Icon(
                           Icons.search,
                           size: 20,
