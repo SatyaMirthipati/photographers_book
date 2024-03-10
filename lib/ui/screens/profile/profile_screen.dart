@@ -96,21 +96,21 @@ class ProfileScreen extends StatelessWidget {
             title: 'My Profile',
             image: Images.my_profile,
           ),
-          ProfileWidget(
-            onTap: () {},
-            title: 'My Dashboard',
-            image: Images.my_dashboard,
-          ),
-          ProfileWidget(
-            onTap: () {},
-            title: 'My Events',
-            image: Images.my_events,
-          ),
-          ProfileWidget(
-            onTap: () {},
-            title: 'My Payments',
-            image: Images.my_payments,
-          ),
+          // ProfileWidget(
+          //   onTap: () {},
+          //   title: 'My Dashboard',
+          //   image: Images.my_dashboard,
+          // ),
+          // ProfileWidget(
+          //   onTap: () {},
+          //   title: 'My Events',
+          //   image: Images.my_events,
+          // ),
+          // ProfileWidget(
+          //   onTap: () {},
+          //   title: 'My Payments',
+          //   image: Images.my_payments,
+          // ),
           ProfileWidget(
             onTap: () {},
             title: 'My Duelist',

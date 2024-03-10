@@ -28,7 +28,7 @@ class HomeWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(image, width: 40, height: 40),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Text(title, style: textTheme.titleMedium),

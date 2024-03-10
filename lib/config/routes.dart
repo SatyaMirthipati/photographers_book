@@ -6,6 +6,7 @@ import '../ui/screens/auth/mobile_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
 import '../ui/screens/auth/reset_password_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
+import '../ui/screens/home/my_events_screen.dart';
 import '../ui/screens/main/main_screen.dart';
 import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
@@ -30,21 +31,29 @@ extension RouteString on String {
 }
 
 class Routes {
+  //Auth flow
   static String root = '/';
   static String login = '/login';
   static String register = '/register';
   static String mobile = '/mobile';
   static String resetPassword = '/resetPassword';
 
+  //Main Screen
   static String main = '/main';
 
+  //Profile flow
   static String profile = '/profile';
   static String profileDetails = '/profileDetails';
 
+  //Sheets flow
   static String createSheet = '/createSheet';
   static String editSheet = '/editSheet/:id';
 
+  //Booking flow
   static String addBasicDetails = '/addBasicDetails/:id';
+
+  //Events flow
+  static String myEvents = '/myEvents';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -114,6 +123,12 @@ class Routes {
       handler: addBasicDetailsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      myEvents,
+      handler: myEventsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -156,5 +171,7 @@ var profileDetailsHandler = Handler(
 var addBasicDetailsHandler = Handler(
   handlerFunc: (context, params) => const AddBasicDetailsScreen(),
 );
+
+var myEventsHandler = Handler(handlerFunc: (c, p) => const MyEventsScreen());
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

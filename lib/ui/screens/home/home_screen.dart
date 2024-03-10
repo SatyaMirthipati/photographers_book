@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photographers_book/config/routes.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/booking_bloc.dart';
@@ -99,7 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeWidget(
                       image: Images.events_mine,
                       title: 'My\nEvents',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.myEvents);
+                      },
                     ),
                     HomeWidget(
                       image: Images.my_bookings,
@@ -134,7 +137,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     HomeWidget(
                       image: Images.events_mine,
                       title: 'My\nEvents',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.myEvents);
+                      },
                     ),
                     HomeWidget(
                       image: Images.my_bookings,
