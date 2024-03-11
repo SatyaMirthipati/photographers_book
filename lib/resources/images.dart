@@ -8,6 +8,9 @@ class Images {
   static const delete = 'assets/icons/delete.png';
   static const edit = 'assets/icons/edit.png';
   static const left_arrow = 'assets/icons/left_arrow.png';
+  static const event_details = 'assets/icons/event_details.png';
+  static const album_details = 'assets/icons/album_details.png';
+  static const payments = 'assets/icons/payments.png';
 
   static const calendar = 'assets/icons/calendar.png';
 

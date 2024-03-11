@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:photographers_book/bloc/booking_bloc.dart';
-import 'package:photographers_book/model/booking.dart';
-import 'package:photographers_book/ui/screens/bookings/widgets/booking_card.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../bloc/booking_bloc.dart';
+import '../../../bloc/user_bloc.dart';
+import '../../../model/booking.dart';
 import '../../widgets/empty_widget.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
+import 'widgets/booking_card.dart';
 
 class MyBookingScreen extends StatefulWidget {
   const MyBookingScreen({super.key});
@@ -42,6 +43,7 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('My Bookings')),
@@ -50,7 +52,9 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
         builder: (context, snapshot) {
           var search = snapshot.data ?? '';
           return FutureBuilder<List<Booking>>(
-            future: bookingBloc.getAllBookings(query: {'search': search}),
+            future: bookingBloc.getAllBookings(
+              query: {'search': search, 'userId': userBloc.profile.id},
+            ),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return CustomErrorWidget(error: snapshot.error);

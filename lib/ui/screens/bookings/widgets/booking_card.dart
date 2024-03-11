@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:photographers_book/resources/images.dart';
-import 'package:photographers_book/ui/widgets/custom_card.dart';
 
+import '../../../../config/routes.dart';
 import '../../../../model/booking.dart';
 import '../../../../resources/colors.dart';
+import '../../../../resources/images.dart';
+import '../../../widgets/custom_card.dart';
 import '../../../widgets/details_tile.dart';
 
 class BookingCard extends StatelessWidget {
@@ -21,7 +22,12 @@ class BookingCard extends StatelessWidget {
         radius: 10,
         margin: EdgeInsets.zero,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              Routes.bookingDetails.setId(booking.id.toString()),
+            );
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

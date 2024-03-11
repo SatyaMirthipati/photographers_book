@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
-import 'package:photographers_book/data/network/api_client.dart';
-import 'package:photographers_book/model/booking.dart';
-import 'package:photographers_book/model/event.dart';
 
+import '../data/network/api_client.dart';
 import '../data/network/api_endpoints.dart';
+import '../model/booking.dart';
 import '../model/category.dart';
+import '../model/event.dart';
 
 class BookingRepo {
   Future<List<Category>> getCategories({query}) async {
@@ -24,6 +24,12 @@ class BookingRepo {
     return list.map((e) => Booking.fromMap(e)).toList();
   }
 
+  Future<Booking> getOneBooking({required String id}) async {
+    var response = await apiClient.get('${Api.bookings}/$id');
+    return Booking.fromMap(response);
+  }
+
+  // Events
   Future<List<Event>> getEvents({query}) async {
     var response = await apiClient.get(
       '${Api.bookings}/${Api.events}',

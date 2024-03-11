@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
+import 'package:photographers_book/ui/screens/bookings/booking_details_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
@@ -53,6 +54,7 @@ class Routes {
   //Booking flow
   static String addBasicDetails = '/addBasicDetails/:id';
   static String myBookings = '/myBookings';
+  static String bookingDetails = '/bookingDetails/:id';
 
   //Events flow
   static String myEvents = '/myEvents';
@@ -137,6 +139,12 @@ class Routes {
       handler: myBookingsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      bookingDetails,
+      handler: bookingDetailsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -183,5 +191,9 @@ var addBasicDetailsHandler = Handler(
 var myEventsHandler = Handler(handlerFunc: (c, p) => const MyEventsScreen());
 
 var myBookingsHandler = Handler(handlerFunc: (c, p) => const MyBookingScreen());
+
+var bookingDetailsHandler = Handler(
+  handlerFunc: (context, params) => BookingDetailsScreen(id: params['id']![0]),
+);
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());
