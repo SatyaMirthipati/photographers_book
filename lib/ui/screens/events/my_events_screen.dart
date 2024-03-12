@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/bloc/booking_bloc.dart';
-import 'package:photographers_book/model/event.dart';
-import 'package:photographers_book/ui/widgets/empty_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../bloc/event_bloc.dart';
+import '../../../model/event.dart';
+import '../../widgets/empty_widget.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
 import 'widgets/event_card.dart';
@@ -40,7 +40,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
+    var eventBloc = Provider.of<EventBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('My Events')),
       body: StreamBuilder<String>(
@@ -48,7 +48,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
         builder: (context, snapshot) {
           var search = snapshot.data ?? '';
           return FutureBuilder<List<Event>>(
-            future: bookingBloc.getEvents(query: {'search': search}),
+            future: eventBloc.getEvents(query: {'search': search}),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return CustomErrorWidget(error: snapshot.error);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/config/routes.dart';
 import 'package:provider/provider.dart';
 
-import '../../../bloc/booking_bloc.dart';
+import '../../../bloc/event_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../model/event.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
@@ -29,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     controller = PageController(initialPage: 0);
     setState(() {});
-    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
-    future = Future.wait([bookingBloc.getMonthlyEvents()]);
+    var eventBloc = Provider.of<EventBloc>(context, listen: false);
+    future = Future.wait([eventBloc.getMonthlyEvents()]);
   }
 
   Future<List>? future;

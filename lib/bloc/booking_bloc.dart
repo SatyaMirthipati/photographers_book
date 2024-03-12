@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../model/booking.dart';
 import '../model/category.dart';
-import '../model/event.dart';
 import '../repository/booking_repo.dart';
 
 class BookingBloc with ChangeNotifier {
@@ -25,14 +24,5 @@ class BookingBloc with ChangeNotifier {
 
   Future<Booking> getOneBooking({required String id}) async {
     return await _bookingRepo.getOneBooking(id: id);
-  }
-
-  // Events
-  Future<List<Event>> getEvents({query}) async {
-    return await _bookingRepo.getEvents(query: query);
-  }
-
-  Future<List<Event>> getMonthlyEvents() async {
-    return await _bookingRepo.getMonthlyEvents();
   }
 }

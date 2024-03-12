@@ -4,6 +4,7 @@ import 'package:flutter_portal/flutter_portal.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/booking_bloc.dart';
+import 'bloc/event_bloc.dart';
 import 'bloc/main_bloc.dart';
 import 'bloc/progress_bloc.dart';
 import 'bloc/sheet_bloc.dart';
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => UserBloc()),
           ChangeNotifierProvider(create: (_) => SheetBloc()),
           ChangeNotifierProvider(create: (_) => BookingBloc()),
+          ChangeNotifierProvider(create: (_) => EventBloc()),
         ],
         child: ProgressBlockWidget(
           child: MaterialApp(
