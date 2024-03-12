@@ -11,6 +11,7 @@ class Images {
   static const event_details = 'assets/icons/event_details.png';
   static const album_details = 'assets/icons/album_details.png';
   static const payments = 'assets/icons/payments.png';
+  static const eye = 'assets/icons/eye.png';
 
   static const calendar = 'assets/icons/calendar.png';
 

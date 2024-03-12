@@ -307,7 +307,7 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: MyColors.card,
-        disabledColor: Colors.grey,
+        disabledColor: Color(0xFF2F2F2),
         selectedColor: primaryColor,
         secondarySelectedColor: primaryColor,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:photographers_book/config/routes.dart';
 
 import '../../../../model/event.dart';
 import '../../../../resources/colors.dart';
@@ -22,7 +23,12 @@ class EventCard extends StatelessWidget {
         radius: 10,
         margin: EdgeInsets.zero,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              Routes.eventDetails.setId(event.id.toString()),
+            );
+          },
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
