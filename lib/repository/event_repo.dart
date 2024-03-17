@@ -28,10 +28,9 @@ class EventRepo {
     return Event.fromMap(response);
   }
 
-  Future<List<Event>> getBookingEvents({query}) async {
+  Future<List<Event>> getBookingEvents({required String id}) async {
     var response = await apiClient.get(
-      '${Api.bookings}/${Api.bookingEvents}',
-      query: query,
+      '${Api.bookings}/${Api.bookingEvents}/$id',
     );
     var list = response['data'] as List;
     return list.map((e) => Event.fromMap(e)).toList();

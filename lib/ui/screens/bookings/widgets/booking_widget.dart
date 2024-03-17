@@ -6,8 +6,14 @@ import '../../../widgets/custom_card.dart';
 class BookingWidget extends StatelessWidget {
   final String image;
   final String title;
+  final VoidCallback onTap;
 
-  const BookingWidget({super.key, required this.image, required this.title});
+  const BookingWidget({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class BookingWidget extends StatelessWidget {
       radius: 10,
       margin: EdgeInsets.zero,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: ListTile(
