@@ -277,6 +277,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                         'drone': drone?.type,
                         'date': DateFormat('yyyy-MM-dd').format(dateTime!),
                         'resource': resourceCtrl.text,
+                        'address': 'NA',
                       },
                     );
                     setState(() {});
