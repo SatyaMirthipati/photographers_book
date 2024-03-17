@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:photographers_book/bloc/booking_bloc.dart';
-import 'package:photographers_book/config/routes.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../bloc/booking_bloc.dart';
+import '../../../../config/routes.dart';
 import '../../../widgets/date_picker.dart';
 import '../../../widgets/navbar_button.dart';
 import '../../../widgets/success_screen.dart';
@@ -202,6 +202,8 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
             context,
             text: 'Booking Added Successfully',
             onProcess: () {
+              bookingBloc.albumData.clear();
+              bookingBloc.eventsData.clear();
               navigator.pushNamedAndRemoveUntil(Routes.main, (route) => false);
             },
           );
