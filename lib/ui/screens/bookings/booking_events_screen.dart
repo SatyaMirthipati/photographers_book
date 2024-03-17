@@ -19,22 +19,23 @@ class BookingEventsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Event Details')),
       body: FutureBuilder<List<Event>>(
-          future: eventBloc.getBookingEvents(id: bookingId),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return CustomErrorWidget(error: snapshot.error);
-            }
-            if (!snapshot.hasData) return const LoadingWidget();
-            var list = snapshot.data ?? [];
-            if (list.isEmpty) return const EmptyWidget();
-            return ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                return EventCard(event: list[index]);
-              },
-            );
-          }),
+        future: eventBloc.getBookingEvents(id: bookingId),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return CustomErrorWidget(error: snapshot.error);
+          }
+          if (!snapshot.hasData) return const LoadingWidget();
+          var list = snapshot.data ?? [];
+          if (list.isEmpty) return const EmptyWidget();
+          return ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return EventCard(event: list[index]);
+            },
+          );
+        },
+      ),
     );
   }
 }
