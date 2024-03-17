@@ -5,6 +5,7 @@ import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
 import '../ui/screens/auth/register_screen.dart';
 import '../ui/screens/auth/reset_password_screen.dart';
+import '../ui/screens/bookings/album_details_screen.dart';
 import '../ui/screens/bookings/booking_details_screen.dart';
 import '../ui/screens/bookings/booking_events_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
@@ -58,6 +59,7 @@ class Routes {
   static String myBookings = '/myBookings';
   static String bookingDetails = '/bookingDetails/:id';
   static String bookingEvents = '/bookingEvents';
+  static String bookingSheets = '/bookingSheets';
 
   //Events flow
   static String myEvents = '/myEvents';
@@ -161,6 +163,12 @@ class Routes {
       handler: bookingEventsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      '$bookingSheets/:bookingId',
+      handler: bookingSheetsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -218,6 +226,10 @@ var eventDetailsHandler = Handler(
 
 var bookingEventsHandler = Handler(
   handlerFunc: (c, p) => BookingEventsScreen(bookingId: p['bookingId']![0]),
+);
+
+var bookingSheetsHandler = Handler(
+  handlerFunc: (c, p) => AlbumDetailsScreen(bookingId: p['bookingId']![0]),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

@@ -13,8 +13,8 @@ class Booking {
   DateTime? dueDate;
   String? description;
   String? status;
-  List<BookingEvent>? events;
-  List<BookingSheets>? sheets;
+  List<BookingsEvents>? events;
+  List<BookingsSheets>? sheets;
   String? createdAt;
   String? updatedAt;
   int? v;
@@ -56,8 +56,8 @@ class Booking {
     dueDate: json["dueDate"] == null ? null : DateTime.parse(json["dueDate"]),
     description: json["description"],
     status: json["status"],
-    events: json["events"] == null ? [] : List<BookingEvent>.from(json["events"]!.map((x) => BookingEvent.fromMap(x))),
-    sheets: json["sheets"] == null ? [] : List<BookingSheets>.from(json["sheets"]!.map((x) => BookingSheets.fromMap(x))),
+    events: json["events"] == null ? [] : List<BookingsEvents>.from(json["events"]!.map((x) => BookingsEvents.fromMap(x))),
+    sheets: json["sheets"] == null ? [] : List<BookingsSheets>.from(json["sheets"]!.map((x) => BookingsSheets.fromMap(x))),
     createdAt: json["createdAt"],
     updatedAt: json["updatedAt"],
     v: json["__v"],
@@ -86,7 +86,7 @@ class Booking {
   };
 }
 
-class BookingEvent {
+class BookingsEvents {
   String? event;
   DateTime? date;
   String? video;
@@ -98,7 +98,7 @@ class BookingEvent {
   String? updatedAt;
   String? address;
 
-  BookingEvent({
+  BookingsEvents({
     this.event,
     this.date,
     this.video,
@@ -111,7 +111,7 @@ class BookingEvent {
     this.address,
   });
 
-  factory BookingEvent.fromMap(Map<String, dynamic> json) => BookingEvent(
+  factory BookingsEvents.fromMap(Map<String, dynamic> json) => BookingsEvents(
     event: json["event"],
     date: json["date"] == null ? null : DateTime.parse(json["date"]),
     video: json["video"],
@@ -138,14 +138,14 @@ class BookingEvent {
   };
 }
 
-class BookingSheets {
+class BookingsSheets {
   String? sheet;
   String? quantity;
   String? id;
   String? createdAt;
   String? updatedAt;
 
-  BookingSheets({
+  BookingsSheets({
     this.sheet,
     this.quantity,
     this.id,
@@ -153,7 +153,7 @@ class BookingSheets {
     this.updatedAt,
   });
 
-  factory BookingSheets.fromMap(Map<String, dynamic> json) => BookingSheets(
+  factory BookingsSheets.fromMap(Map<String, dynamic> json) => BookingsSheets(
     sheet: json["sheet"],
     quantity: json["quantity"],
     id: json["_id"],

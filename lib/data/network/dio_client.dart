@@ -11,7 +11,7 @@ class DioClient implements ApiClient {
   late Dio dio;
   String accessToken = "Bearer fiakb9318uishfsksn5oibbynn86gb3w";
   String baseUrl =
-      kReleaseMode ? 'http://78.142.47.247:9990' : 'http://192.168.1.6:9990';
+      kReleaseMode ? 'http://78.142.47.247:9990' : 'http://192.168.1.7:9990';
 
   DioClient() {
     dio = Dio();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:photographers_book/config/routes.dart';
 import 'package:photographers_book/resources/images.dart';
 import 'package:photographers_book/ui/widgets/details_tile.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +71,7 @@ class BookingDetailsScreen extends StatelessWidget {
                       title: const Text('Total Amount'),
                       value: Text('${booking.total ?? 'NA'}'),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 15),
@@ -105,19 +106,32 @@ class BookingDetailsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 25),
-              const BookingWidget(
+              BookingWidget(
                 title: 'Event Details',
                 image: Images.event_details,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '${Routes.bookingEvents}/${booking.id}',
+                  );
+                },
               ),
               const SizedBox(height: 15),
-              const BookingWidget(
+              BookingWidget(
                 title: 'Album Details',
                 image: Images.album_details,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '${Routes.bookingSheets}/${booking.id}',
+                  );
+                },
               ),
               const SizedBox(height: 15),
-              const BookingWidget(
+              BookingWidget(
                 title: 'Payment Details',
                 image: Images.payments,
+                onTap: () {},
               ),
               const SizedBox(height: 15),
             ],

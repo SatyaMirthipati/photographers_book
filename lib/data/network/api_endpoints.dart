@@ -4,10 +4,15 @@ class Api {
 
   static const sheets = '/sheets';
 
+  //Create Booking
   static const categories = '/categories';
 
+  //Bookings
   static const bookings = '/bookings';
-  static const events = '/events';
   static const bookingEvents = '/booking-events';
+  static const bookingSheets = '/booking-sheets';
   static const monthlyEvents = '/monthly-events';
+
+  //Events
+  static const events = '/events';
 }
