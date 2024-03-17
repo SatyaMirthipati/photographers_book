@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:photographers_book/config/routes.dart';
-import 'package:photographers_book/resources/images.dart';
-import 'package:photographers_book/ui/widgets/details_tile.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/booking_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../model/booking.dart';
+import '../../../resources/images.dart';
+import '../../widgets/details_tile.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
 import 'widgets/booking_widget.dart';
@@ -131,7 +131,12 @@ class BookingDetailsScreen extends StatelessWidget {
               BookingWidget(
                 title: 'Payment Details',
                 image: Images.payments,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '${Routes.bookingPayments}/${booking.id}',
+                  );
+                },
               ),
               const SizedBox(height: 15),
             ],

@@ -1,8 +1,8 @@
-import 'package:photographers_book/model/booking_sheets.dart';
-
 import '../data/network/api_client.dart';
 import '../data/network/api_endpoints.dart';
 import '../model/booking.dart';
+import '../model/booking_payments.dart';
+import '../model/booking_sheets.dart';
 import '../model/category.dart';
 
 class BookingRepo {
@@ -34,5 +34,11 @@ class BookingRepo {
     );
     var list = response['data'] as List;
     return list.map((e) => BookingSheets.fromMap(e)).toList();
+  }
+
+  Future<List<BookingPayments>> getBookingPayments({query}) async {
+    var response = await apiClient.get(Api.bookingPayments, query: query);
+    var list = response['data'] as List;
+    return list.map((e) => BookingPayments.fromMap(e)).toList();
   }
 }

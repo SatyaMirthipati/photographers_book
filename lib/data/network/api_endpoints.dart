@@ -13,6 +13,9 @@ class Api {
   static const bookingSheets = '/booking-sheets';
   static const monthlyEvents = '/monthly-events';
 
+  //Booking Payments
+  static const bookingPayments = '/booking-payments';
+
   //Events
   static const events = '/events';
 }

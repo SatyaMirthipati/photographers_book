@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/booking.dart';
+import '../model/booking_payments.dart';
 import '../model/booking_sheets.dart';
 import '../model/category.dart';
 import '../repository/booking_repo.dart';
@@ -29,5 +30,9 @@ class BookingBloc with ChangeNotifier {
 
   Future<List<BookingSheets>> getBookingAlbums({required String id}) async {
     return await _bookingRepo.getBookingAlbums(id: id);
+  }
+
+  Future<List<BookingPayments>> getBookingPayments({query}) async {
+    return await _bookingRepo.getBookingPayments(query: query);
   }
 }

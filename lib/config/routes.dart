@@ -8,6 +8,7 @@ import '../ui/screens/auth/reset_password_screen.dart';
 import '../ui/screens/bookings/album_details_screen.dart';
 import '../ui/screens/bookings/booking_details_screen.dart';
 import '../ui/screens/bookings/booking_events_screen.dart';
+import '../ui/screens/bookings/booking_payments_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
 import '../ui/screens/bookings/my_booking_screen.dart';
 import '../ui/screens/events/event_details_screen.dart';
@@ -60,6 +61,7 @@ class Routes {
   static String bookingDetails = '/bookingDetails/:id';
   static String bookingEvents = '/bookingEvents';
   static String bookingSheets = '/bookingSheets';
+  static String bookingPayments = '/bookingPayments';
 
   //Events flow
   static String myEvents = '/myEvents';
@@ -169,6 +171,12 @@ class Routes {
       handler: bookingSheetsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      '$bookingPayments/:bookingId',
+      handler: bookingPaymentsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -230,6 +238,10 @@ var bookingEventsHandler = Handler(
 
 var bookingSheetsHandler = Handler(
   handlerFunc: (c, p) => AlbumDetailsScreen(bookingId: p['bookingId']![0]),
+);
+
+var bookingPaymentsHandler = Handler(
+  handlerFunc: (c, p) => BookingPaymentsScreen(bookingId: p['bookingId']![0]),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());
