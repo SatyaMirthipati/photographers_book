@@ -51,7 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
               style: textTheme.titleMedium,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
-                labelText: 'User Id',
+                labelText: 'Username',
+                hintText: 'Enter your Mobile number or Email id',
               ),
               validator: (text) {
                 if (text?.trim().isEmpty ?? true) {
@@ -65,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: passwordCtrl,
               decoration: InputDecoration(
                 labelText: 'Password',
+                hintText: 'Enter your password',
                 suffixIcon: IconButton(
                   icon: Icon(
                     showPassword
