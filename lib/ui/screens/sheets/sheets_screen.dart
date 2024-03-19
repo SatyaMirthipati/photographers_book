@@ -5,6 +5,7 @@ import 'package:photographers_book/ui/widgets/error_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../bloc/main_bloc.dart';
 import '../../../bloc/sheet_bloc.dart';
 import '../../../model/sheet.dart';
 import '../../../resources/images.dart';
@@ -47,63 +48,76 @@ class _SheetsScreenState extends State<SheetsScreen> {
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var userBloc = Provider.of<UserBloc>(context, listen: false);
+    var mainBloc = Provider.of<MainBloc>(context, listen: false);
     var sheetBloc = Provider.of<SheetBloc>(context, listen: false);
     return Scaffold(
-      body: StreamBuilder<String>(
-        stream: searchStream,
-        builder: (context, snapshot) {
-          var search = snapshot.data ?? '';
-          return FutureBuilder<List<Sheet>>(
-            future: sheetBloc.getAllSheets(
-              query: {'userId': userBloc.profile.id, 'search': search},
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+            child: TextFormField(
+              onChanged: onSearch,
+              decoration: const InputDecoration(
+                filled: false,
+                hintText: 'Search for sheet',
+                suffixIcon: Icon(
+                  Icons.search,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
             ),
+          ),
+          StreamBuilder<String>(
+            stream: searchStream,
             builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return CustomErrorWidget(error: snapshot.error);
-              }
-              if (!snapshot.hasData) return const LoadingWidget();
-              var list = snapshot.data ?? [];
-              if (list.isEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(Images.no_sheets, width: 150, height: 120),
-                      const SizedBox(height: 40),
-                      Text(
-                        'There are no sheets added',
-                        style: textTheme.titleMedium!.copyWith(fontSize: 16),
-                        textAlign: TextAlign.center,
+              var search = snapshot.data ?? '';
+              return FutureBuilder<List<Sheet>>(
+                future: sheetBloc.getAllSheets(
+                  query: {'userId': userBloc.profile.id, 'search': search},
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return CustomErrorWidget(error: snapshot.error);
+                  }
+                  if (!snapshot.hasData) return const LoadingWidget();
+                  var list = snapshot.data ?? [];
+                  if (list.isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(Images.no_sheets, width: 150, height: 120),
+                          const SizedBox(height: 40),
+                          Text(
+                            'There are no sheets added',
+                            style: textTheme.titleMedium!.copyWith(fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final navigator = Navigator.of(context);
+
+                              var res = await navigator.pushNamed(
+                                Routes.createSheet,
+                              );
+                              if (res == null) return;
+                              navigator.pushNamedAndRemoveUntil(
+                                Routes.main,
+                                (route) => false,
+                              );
+                              mainBloc.updateIndex(1);
+                            },
+                            child: const Text('Add new sheet'),
+                          )
+                        ],
                       ),
-                      const SizedBox(height: 20),
-                      ProgressButton(
-                        onPressed: () async {},
-                        child: const Text('Add new sheet'),
-                      )
-                    ],
-                  ),
-                );
-              }
-              return ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
-                    child: TextFormField(
-                      onChanged: onSearch,
-                      decoration: const InputDecoration(
-                        filled: false,
-                        hintText: 'Search for sheet',
-                        suffixIcon: Icon(
-                          Icons.search,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
+                    );
+                  }
+                  return                       ListView.builder(
                     shrinkWrap: true,
                     itemCount: list.length,
                     physics: const NeverScrollableScrollPhysics(),
@@ -136,13 +150,13 @@ class _SheetsScreenState extends State<SheetsScreen> {
                         },
                       );
                     },
-                  ),
-                  const SizedBox(height: 100),
-                ],
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+          const SizedBox(height: 100),
+        ],
       ),
     );
   }
