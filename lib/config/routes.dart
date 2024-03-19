@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
+import 'package:photographers_book/ui/screens/events/edit_event_details_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
@@ -66,6 +67,7 @@ class Routes {
   //Events flow
   static String myEvents = '/myEvents';
   static String eventDetails = '/eventDetails/:id';
+  static String editEvent = '/editEvent/:id';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -177,6 +179,12 @@ class Routes {
       handler: bookingPaymentsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      editEvent,
+      handler: editEventHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -242,6 +250,10 @@ var bookingSheetsHandler = Handler(
 
 var bookingPaymentsHandler = Handler(
   handlerFunc: (c, p) => BookingPaymentsScreen(bookingId: p['bookingId']![0]),
+);
+
+var editEventHandler = Handler(
+  handlerFunc: (context, params) => EditEventDetails(id: params['id']![0]),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

@@ -21,4 +21,8 @@ class EventBloc with ChangeNotifier {
   Future<List<Event>> getBookingEvents({required String id}) async {
     return await _eventRepo.getBookingEvents(id: id);
   }
+
+  Future updateEvent({required String id, required body}) async {
+    return await _eventRepo.updateEvent(id: id, body: body);
+  }
 }

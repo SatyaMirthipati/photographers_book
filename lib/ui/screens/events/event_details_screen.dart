@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/event_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../model/event.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
@@ -10,11 +11,16 @@ import '../../widgets/details_tile.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
 
-class EventDetailsScreen extends StatelessWidget {
+class EventDetailsScreen extends StatefulWidget {
   final String id;
 
   const EventDetailsScreen({super.key, required this.id});
 
+  @override
+  State<EventDetailsScreen> createState() => _EventDetailsScreenState();
+}
+
+class _EventDetailsScreenState extends State<EventDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -25,15 +31,22 @@ class EventDetailsScreen extends StatelessWidget {
     var eventBloc = Provider.of<EventBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Details'),
+        title: const Text('Event Details'),
         actions: [
           PopupMenuButton<String>(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
               side: BorderSide(color: Colors.black.withOpacity(0.2)),
             ),
-            onSelected: (item) {
-              if (item == 'edit') {}
+            onSelected: (item) async {
+              if (item == 'edit') {
+                var res = await Navigator.pushNamed(
+                  context,
+                  Routes.editEvent.setId(widget.id),
+                );
+                if (res == null) return;
+                setState(() {});
+              }
             },
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -62,7 +75,7 @@ class EventDetailsScreen extends StatelessWidget {
         ],
       ),
       body: FutureBuilder<Event>(
-        future: eventBloc.getOneEvent(id: id),
+        future: eventBloc.getOneEvent(id: widget.id),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return CustomErrorWidget(error: snapshot.error);
@@ -124,22 +137,9 @@ class EventDetailsScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: DetailsTile(
-                      title: const Text('Mobile Number'),
-                      value: Text(event.bookingDetails?.mobile ?? 'NA'),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: DetailsTile(
-                      title: const Text('Event type'),
-                      value: Text(event.event ?? 'NA'),
-                    ),
-                  ),
-                ],
+              DetailsTile(
+                title: const Text('Mobile Number'),
+                value: Text(event.bookingDetails?.mobile ?? 'NA'),
               ),
               const SizedBox(height: 20),
               DetailsTile(

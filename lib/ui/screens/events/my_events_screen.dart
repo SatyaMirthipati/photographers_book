@@ -79,7 +79,10 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(10),
                     itemBuilder: (context, index) {
-                      return EventCard(event: list[index]);
+                      return EventCard(
+                        event: list[index],
+                        onRefresh: () => setState(() {}),
+                      );
                     },
                   ),
                   const SizedBox(height: 100),

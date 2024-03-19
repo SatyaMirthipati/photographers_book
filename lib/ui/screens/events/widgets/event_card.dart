@@ -10,8 +10,9 @@ import '../../../widgets/details_tile.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final Function onRefresh;
 
-  const EventCard({super.key, required this.event});
+  const EventCard({super.key, required this.event, required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +22,13 @@ class EventCard extends StatelessWidget {
       radius: 10,
       margin: const EdgeInsets.all(7.5),
       child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(
+        onTap: () async {
+          var res = await Navigator.pushNamed(
             context,
             Routes.eventDetails.setId(event.id.toString()),
           );
+          if (res == null) true;
+          onRefresh();
         },
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -84,22 +87,9 @@ class EventCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 15),
-              Row(
-                children: [
-                  Expanded(
-                    child: DetailsTile(
-                      title: const Text('Mobile Number'),
-                      value: Text(event.bookingDetails?.mobile ?? 'NA'),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: DetailsTile(
-                      title: const Text('Event type'),
-                      value: Text(event.event ?? 'NA'),
-                    ),
-                  ),
-                ],
+              DetailsTile(
+                title: const Text('Mobile Number'),
+                value: Text(event.bookingDetails?.mobile ?? 'NA'),
               ),
               const SizedBox(height: 15),
               DetailsTile(

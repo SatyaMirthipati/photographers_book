@@ -8,18 +8,23 @@ import '../../widgets/empty_widget.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
 
-class BookingEventsScreen extends StatelessWidget {
+class BookingEventsScreen extends StatefulWidget {
   final String bookingId;
 
   const BookingEventsScreen({super.key, required this.bookingId});
 
+  @override
+  State<BookingEventsScreen> createState() => _BookingEventsScreenState();
+}
+
+class _BookingEventsScreenState extends State<BookingEventsScreen> {
   @override
   Widget build(BuildContext context) {
     var eventBloc = Provider.of<EventBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Event Details')),
       body: FutureBuilder<List<Event>>(
-        future: eventBloc.getBookingEvents(id: bookingId),
+        future: eventBloc.getBookingEvents(id: widget.bookingId),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return CustomErrorWidget(error: snapshot.error);
@@ -31,7 +36,10 @@ class BookingEventsScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
-              return EventCard(event: list[index]);
+              return EventCard(
+                event: list[index],
+                onRefresh: () => setState(() {}),
+              );
             },
           );
         },

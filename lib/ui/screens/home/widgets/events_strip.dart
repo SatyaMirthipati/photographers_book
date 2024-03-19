@@ -7,8 +7,9 @@ import '../../events/widgets/event_card.dart';
 
 class EventStrip extends StatefulWidget {
   final List<Event> events;
+  final Function onRefresh;
 
-  const EventStrip({super.key, required this.events});
+  const EventStrip({super.key, required this.events, required this.onRefresh});
 
   @override
   State<EventStrip> createState() => _EventStripState();
@@ -50,7 +51,10 @@ class _EventStripState extends State<EventStrip> {
                   return Transform.scale(
                     scale: value,
                     child: IntrinsicHeight(
-                      child: EventCard(event: widget.events[index]),
+                      child: EventCard(
+                        event: widget.events[index],
+                        onRefresh: widget.onRefresh,
+                      ),
                     ),
                   );
                 },

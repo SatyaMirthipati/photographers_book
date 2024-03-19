@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              EventStrip(events: list),
+              EventStrip(events: list, onRefresh: () => setState(() {})),
               const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

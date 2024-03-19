@@ -25,7 +25,8 @@ class EventRepo {
 
   Future<Event> getOneEvent({required String id}) async {
     var response = await apiClient.get('${Api.bookings}/${Api.events}/$id');
-    return Event.fromMap(response);
+    var data = response['data'][0];
+    return Event.fromMap(data);
   }
 
   Future<List<Event>> getBookingEvents({required String id}) async {
@@ -34,5 +35,13 @@ class EventRepo {
     );
     var list = response['data'] as List;
     return list.map((e) => Event.fromMap(e)).toList();
+  }
+
+  Future updateEvent({required String id, required body}) async {
+    var response = await apiClient.patch(
+      '${Api.bookings}/${Api.events}/$id',
+      body,
+    );
+    return response;
   }
 }
