@@ -37,7 +37,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
 
   int textFieldCount = 1;
 
-  final resourceCtrl = TextEditingController();
+  final addressCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   DateTime? dateTime;
 
@@ -76,7 +76,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
     drone = null;
     dateTime = null;
     dateCtrl.text = '';
-    resourceCtrl.text = '';
+    addressCtrl.text = '';
   }
 
   @override
@@ -139,7 +139,8 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
               ),
               const SizedBox(height: 25),
               TextFormField(
-                controller: resourceCtrl,
+                controller: addressCtrl,
+                maxLines: 4,
                 keyboardType: TextInputType.number,
                 style: textTheme.bodyLarge,
                 textInputAction: TextInputAction.done,
@@ -147,7 +148,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                   FilteringTextInputFormatter.digitsOnly,
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 ],
-                decoration: const InputDecoration(labelText: 'No of Resources'),
+                decoration: const InputDecoration(labelText: 'Address'),
                 validator: (text) {
                   if (text?.trim().isEmpty ?? true) {
                     return 'This field cannot be empty';
@@ -276,8 +277,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                         'camera': camera?.type,
                         'drone': drone?.type,
                         'date': DateFormat('yyyy-MM-dd').format(dateTime!),
-                        'resource': resourceCtrl.text,
-                        'address': 'NA',
+                        'address': addressCtrl.text,
                       },
                     );
                     setState(() {});
