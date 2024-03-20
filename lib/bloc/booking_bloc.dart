@@ -4,6 +4,7 @@ import '../model/booking.dart';
 import '../model/booking_payments.dart';
 import '../model/booking_sheets.dart';
 import '../model/category.dart';
+import '../model/due_list.dart';
 import '../repository/booking_repo.dart';
 
 class BookingBloc with ChangeNotifier {
@@ -34,5 +35,9 @@ class BookingBloc with ChangeNotifier {
 
   Future<List<BookingPayments>> getBookingPayments({query}) async {
     return await _bookingRepo.getBookingPayments(query: query);
+  }
+
+  Future<List<DueList>> getDueList({required query}) async {
+    return await _bookingRepo.getDueList(query: query);
   }
 }

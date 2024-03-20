@@ -112,7 +112,9 @@ class ProfileScreen extends StatelessWidget {
           //   image: Images.my_payments,
           // ),
           ProfileWidget(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, Routes.dueList);
+            },
             title: 'My Duelist',
             image: Images.my_duelist,
           ),

@@ -12,6 +12,7 @@ class Api {
   static const bookingEvents = '/booking-events';
   static const bookingSheets = '/booking-sheets';
   static const monthlyEvents = '/monthly-events';
+  static const duelist = '/duelist';
 
   //Booking Payments
   static const bookingPayments = '/booking-payments';

@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart' as f;
-import 'package:photographers_book/ui/screens/events/edit_event_details_screen.dart';
 
 import '../ui/screens/auth/login_screen.dart';
 import '../ui/screens/auth/mobile_screen.dart';
@@ -12,9 +11,11 @@ import '../ui/screens/bookings/booking_events_screen.dart';
 import '../ui/screens/bookings/booking_payments_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
 import '../ui/screens/bookings/my_booking_screen.dart';
+import '../ui/screens/events/edit_event_details_screen.dart';
 import '../ui/screens/events/event_details_screen.dart';
 import '../ui/screens/events/my_events_screen.dart';
 import '../ui/screens/main/main_screen.dart';
+import '../ui/screens/profile/due_list_screen.dart';
 import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
 import '../ui/screens/sheets/create_sheet_screen.dart';
@@ -51,6 +52,7 @@ class Routes {
   //Profile flow
   static String profile = '/profile';
   static String profileDetails = '/profileDetails';
+  static String dueList = '/dueList';
 
   //Sheets flow
   static String createSheet = '/createSheet';
@@ -185,6 +187,12 @@ class Routes {
       handler: editEventHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      dueList,
+      handler: dueListHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -255,5 +263,7 @@ var bookingPaymentsHandler = Handler(
 var editEventHandler = Handler(
   handlerFunc: (context, params) => EditEventDetails(id: params['id']![0]),
 );
+
+var dueListHandler = Handler(handlerFunc: (c, p) => const DueListScreen());
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

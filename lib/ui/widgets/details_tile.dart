@@ -4,12 +4,13 @@ class DetailsTile extends StatelessWidget {
   final Widget? title;
   final Widget? value;
   final EdgeInsets padding;
+  final double? gap;
 
   const DetailsTile({
     Key? key,
     this.title,
     this.value,
-    this.padding = const EdgeInsets.all(0),
+    this.padding = const EdgeInsets.all(0), this.gap,
   }) : super(key: key);
 
   @override
@@ -28,7 +29,7 @@ class DetailsTile extends StatelessWidget {
             ),
             child: title!,
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: gap ?? 5),
           DefaultTextStyle(
             style: textTheme.titleSmall!.copyWith(fontSize: 14),
             child: value!,

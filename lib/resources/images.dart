@@ -12,6 +12,7 @@ class Images {
   static const album_details = 'assets/icons/album_details.png';
   static const payments = 'assets/icons/payments.png';
   static const eye = 'assets/icons/eye.png';
+  static const phone = 'assets/icons/phone.png';
 
   static const calendar = 'assets/icons/calendar.png';
 

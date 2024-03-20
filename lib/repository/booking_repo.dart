@@ -1,3 +1,5 @@
+import 'package:photographers_book/model/due_list.dart';
+
 import '../data/network/api_client.dart';
 import '../data/network/api_endpoints.dart';
 import '../model/booking.dart';
@@ -40,5 +42,14 @@ class BookingRepo {
     var response = await apiClient.get(Api.bookingPayments, query: query);
     var list = response['data'] as List;
     return list.map((e) => BookingPayments.fromMap(e)).toList();
+  }
+
+  Future<List<DueList>> getDueList({required query}) async {
+    var response = await apiClient.get(
+      '${Api.bookings}/${Api.duelist}',
+      query: query,
+    );
+    var list = response['data'] as List;
+    return list.map((e) => DueList.fromMap(e)).toList();
   }
 }
