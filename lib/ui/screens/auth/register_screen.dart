@@ -1,7 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:photographers_book/bloc/user_bloc.dart';
+import 'package:photographers_book/config/routes.dart';
 import 'package:photographers_book/ui/widgets/progress_button.dart';
+import 'package:photographers_book/ui/widgets/success_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
@@ -151,6 +155,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                 labelText: 'Password',
+                filled: true,
+                fillColor: const Color(0xFFFAFAFA),
                 suffixIcon: IconButton(
                   icon: Icon(
                     showPassword
@@ -202,6 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ProgressButton(
               onPressed: () async {
                 final navigator = Navigator.of(context);
+                var userBloc = Provider.of<UserBloc>(context, listen: false);
 
                 if (!(formKey.currentState?.validate() ?? true)) return;
                 formKey.currentState?.save();
@@ -216,6 +223,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return ErrorSnackBar.show(
                     context,
                     'Password you entered should be same in both fields',
+                  );
+                }
+
+                Map<String, dynamic> body = {
+                  'name': nameCtrl.text,
+                  'mobile': mobileCtrl.text,
+                  'email': emailCtrl.text,
+                  'password': newPassCtrl.text,
+                  'studio': studioCtrl.text,
+                  'address': addressCtrl.text,
+                  'role': 'USER',
+                  'status': true
+                };
+                await userBloc.registerUser(body: body);
+                if (mounted) {
+                  SuccessScreen.open(
+                    context,
+                    text: 'Your account has been\nSuccessfully Created',
+                    onProcess: () {
+                      navigator.pushNamedAndRemoveUntil(
+                        Routes.login,
+                        (route) => false,
+                      );
+                    },
                   );
                 }
               },

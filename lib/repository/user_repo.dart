@@ -12,7 +12,12 @@ class UserRepo {
   }
 
   Future<Profile> getProfile() async {
-    var response = await apiClient.get(Api.profile);
+    var response = await apiClient.get('${Api.users}/${Api.profile}');
     return Profile.fromMap(response);
+  }
+
+  Future registerUser({required body}) async {
+    var response = await apiClient.post(Api.users, body);
+    return response;
   }
 }

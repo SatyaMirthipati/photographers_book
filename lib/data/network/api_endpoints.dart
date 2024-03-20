@@ -1,7 +1,10 @@
 class Api {
+  //Auth
   static const login = '/auth/user-login';
-  static const profile = '/users/profile';
+  static const users = '/users';
+  static const profile = 'profile';
 
+  //Sheets
   static const sheets = '/sheets';
 
   //Create Booking

@@ -26,4 +26,8 @@ class UserBloc with ChangeNotifier {
     notifyListeners();
     return _profile!;
   }
+
+  Future registerUser({ required body}) async {
+    return await _userRepo.registerUser(body: body);
+  }
 }
