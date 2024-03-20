@@ -12,7 +12,6 @@ import '../../../resources/images.dart';
 import '../../widgets/dialog_confirm.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
-import '../../widgets/progress_button.dart';
 import 'widgets/sheet_card.dart';
 
 class SheetsScreen extends StatefulWidget {
@@ -89,11 +88,13 @@ class _SheetsScreenState extends State<SheetsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(Images.no_sheets, width: 150, height: 120),
+                          Image.asset(Images.no_sheets,
+                              width: 150, height: 120),
                           const SizedBox(height: 40),
                           Text(
                             'There are no sheets added',
-                            style: textTheme.titleMedium!.copyWith(fontSize: 16),
+                            style:
+                                textTheme.titleMedium!.copyWith(fontSize: 16),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 20),
@@ -117,7 +118,7 @@ class _SheetsScreenState extends State<SheetsScreen> {
                       ),
                     );
                   }
-                  return                       ListView.builder(
+                  return ListView.builder(
                     shrinkWrap: true,
                     itemCount: list.length,
                     physics: const NeverScrollableScrollPhysics(),

@@ -53,7 +53,7 @@ class _DueListScreenState extends State<DueListScreen> {
               onChanged: onSearch,
               decoration: const InputDecoration(
                 filled: false,
-                hintText: 'Search for sheet',
+                hintText: 'Search with name',
                 suffixIcon: Icon(
                   Icons.search,
                   size: 20,
