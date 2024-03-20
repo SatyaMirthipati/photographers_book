@@ -10,7 +10,8 @@ class DetailsTile extends StatelessWidget {
     Key? key,
     this.title,
     this.value,
-    this.padding = const EdgeInsets.all(0), this.gap,
+    this.padding = const EdgeInsets.all(0),
+    this.gap,
   }) : super(key: key);
 
   @override
