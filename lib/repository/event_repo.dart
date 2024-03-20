@@ -16,7 +16,7 @@ class EventRepo {
 
   Future<List<Event>> getMonthlyEvents() async {
     var response = await apiClient.get(
-      '${Api.bookings}/${Api.monthlyEvents}',
+      '${Api.bookings}/${Api.events}',
       query: {'month': DateFormat('yyyy-MM').format(DateTime.now())},
     );
     var list = response['data'] as List;
