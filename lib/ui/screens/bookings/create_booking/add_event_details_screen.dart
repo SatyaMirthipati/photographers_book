@@ -113,12 +113,6 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                   setState(() => event = value);
                 },
                 onSaved: (value) => event = value,
-                validator: (value) {
-                  if (value == null) {
-                    return 'This field can\'t be empty';
-                  }
-                  return null;
-                },
                 items: [
                   for (var item in events)
                     DropdownMenuItem<Category>(
@@ -136,6 +130,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                 onDateChange: (dateTime) {
                   setState(() => this.dateTime = dateTime);
                 },
+                validator: true,
               ),
               const SizedBox(height: 25),
               TextFormField(
@@ -149,12 +144,6 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                 ],
                 decoration: const InputDecoration(labelText: 'Address'),
-                validator: (text) {
-                  if (text?.trim().isEmpty ?? true) {
-                    return 'This field cannot be empty';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 15),
               Text(
@@ -181,12 +170,6 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                   setState(() => video = value);
                 },
                 onSaved: (value) => video = value,
-                validator: (value) {
-                  if (value == null) {
-                    return 'This field can\'t be empty';
-                  }
-                  return null;
-                },
                 items: [
                   for (var item in videos)
                     DropdownMenuItem<Category>(
@@ -212,12 +195,6 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                   setState(() => camera = value);
                 },
                 onSaved: (value) => camera = value,
-                validator: (value) {
-                  if (value == null) {
-                    return 'This field can\'t be empty';
-                  }
-                  return null;
-                },
                 items: [
                   for (var item in cameras)
                     DropdownMenuItem<Category>(
@@ -243,12 +220,6 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                   setState(() => drone = value);
                 },
                 onSaved: (value) => drone = value,
-                validator: (value) {
-                  if (value == null) {
-                    return 'This field can\'t be empty';
-                  }
-                  return null;
-                },
                 items: [
                   for (var item in drones)
                     DropdownMenuItem<Category>(
@@ -270,12 +241,13 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                         'Please date to continue',
                       );
                     }
+
                     bookingBloc.eventsData.add(
                       {
-                        'event': event?.type,
-                        'video': video?.type,
-                        'camera': camera?.type,
-                        'drone': drone?.type,
+                        'event': event?.type ?? '',
+                        'video': video?.type ?? '',
+                        'camera': camera?.type ?? '',
+                        'drone': drone?.type ?? '',
                         'date': DateFormat('yyyy-MM-dd').format(dateTime!),
                         'address': addressCtrl.text,
                       },
@@ -310,13 +282,13 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                                   Expanded(
                                     child: DetailsTile(
                                       title: const Text('Event'),
-                                      value: Text('${i['event']}'),
+                                      value: Text('${i['event'] ?? 'NA'}'),
                                     ),
                                   ),
                                   Expanded(
                                     child: DetailsTile(
                                       title: const Text('Date'),
-                                      value: Text('${i['date']}'),
+                                      value: Text('${i['date'] ?? 'NA'}'),
                                     ),
                                   ),
                                 ],
@@ -324,7 +296,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                               const SizedBox(height: 15),
                               DetailsTile(
                                 title: const Text('No Of Resource'),
-                                value: Text('${i['resource']}'),
+                                value: Text('${i['resource'] ?? 'NA'}'),
                               ),
                               const SizedBox(height: 15),
                               Row(
@@ -332,13 +304,13 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                                   Expanded(
                                     child: DetailsTile(
                                       title: const Text('Camera'),
-                                      value: Text('${i['camera']}'),
+                                      value: Text('${i['camera'] ?? 'NA'}'),
                                     ),
                                   ),
                                   Expanded(
                                     child: DetailsTile(
                                       title: const Text('Drone'),
-                                      value: Text('${i['drone']}'),
+                                      value: Text('${i['drone'] ?? 'NA'}'),
                                     ),
                                   ),
                                 ],
@@ -346,7 +318,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                               const SizedBox(height: 15),
                               DetailsTile(
                                 title: const Text('Video'),
-                                value: Text('${i['video']}'),
+                                value: Text('${i['video'] ?? 'NA'}'),
                               ),
                             ],
                           ),
@@ -355,8 +327,9 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                             right: -15,
                             child: IconButton(
                               onPressed: () async {
-                                setState(
-                                    () => bookingBloc.eventsData.remove(i));
+                                setState(() {
+                                  bookingBloc.eventsData.remove(i);
+                                });
                               },
                               icon: Icon(
                                 Icons.remove_circle,
@@ -379,13 +352,21 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
       ),
       extendBody: true,
       bottomNavigationBar: NavbarButton(
-        onPressed: () async {
-          var response = widget.response;
+        onPressed: bookingBloc.eventsData.isNotEmpty
+            ? () async {
+                if (bookingBloc.eventsData.isEmpty) {
+                  return ErrorSnackBar.show(
+                    context,
+                    'Please fill the above fields to proceed',
+                  );
+                }
+                var response = widget.response;
 
-          response['events'] = bookingBloc.eventsData.toList();
+                response['events'] = bookingBloc.eventsData.toList();
 
-          AddAlbumDetailsScreen.open(context, response: response);
-        },
+                AddAlbumDetailsScreen.open(context, response: response);
+              }
+            : null,
         child: const Text('Proceed'),
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../config/routes.dart';
 import '../../../../model/booking.dart';
@@ -58,36 +57,27 @@ class BookingCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (booking.dueDate != null) ...[
-                        Expanded(
-                          child: DetailsTile(
-                            title: const Text('Date'),
-                            value: Text(
-                              DateFormat('dd MMMM, yyyy')
-                                  .format(booking.dueDate!),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                      ],
                       Expanded(
                         child: DetailsTile(
                           title: const Text('Mobile Number'),
                           value: Text(booking.mobile ?? 'NA'),
                         ),
                       ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: DetailsTile(
+                          title: const Text('Address'),
+                          value: Text(
+                            booking.address ?? 'NA',
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 15),
-                  DetailsTile(
-                    title: const Text('Address'),
-                    value: Text(
-                      booking.address ?? 'NA',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                    ),
-                  ),
                   const SizedBox(height: 20),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(

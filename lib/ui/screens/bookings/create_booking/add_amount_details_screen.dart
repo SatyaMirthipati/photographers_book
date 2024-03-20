@@ -139,7 +139,7 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
               dateTime,
               dateCtrl: dateCtrl,
               startDate: DateTime.now(),
-              labelText: 'Payment Date',
+              labelText: 'Payment Due Date',
               onDateChange: (dateTime) {
                 setState(() => this.dateTime = dateTime);
               },
