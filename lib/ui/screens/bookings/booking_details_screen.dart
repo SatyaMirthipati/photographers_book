@@ -21,17 +21,17 @@ class BookingDetailsScreen extends StatelessWidget {
     var textTheme = Theme.of(context).textTheme;
     var primaryColor = Theme.of(context).primaryColor;
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(title: const Text('Booking Details')),
-      body: FutureBuilder<Booking>(
-        future: bookingBloc.getOneBooking(id: id),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return CustomErrorWidget(error: snapshot.error);
-          }
-          if (!snapshot.hasData) return const LoadingWidget();
-          var booking = snapshot.data!;
-          return ListView(
+    return FutureBuilder<Booking>(
+      future: bookingBloc.getOneBooking(id: id),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return CustomErrorWidget.scaffold(error: snapshot.error);
+        }
+        if (!snapshot.hasData) return const LoadingWidget.scaffold();
+        var booking = snapshot.data!;
+        return Scaffold(
+          appBar: AppBar(title: const Text('Booking Details')),
+          body: ListView(
             padding: const EdgeInsets.all(20),
             children: [
               Text(
@@ -140,44 +140,49 @@ class BookingDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
             ],
-          );
-        },
-      ),
-      extendBody: true,
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(20),
-        color: Colors.transparent,
-        child: Row(
-          children: [
-            Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  side: BorderSide(width: 1, color: primaryColor),
-                  textStyle: textTheme.titleMedium,
-                ),
-                onPressed: () async {},
-                child: const Text('Edit'),
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+          ),
+          extendBody: true,
+          bottomNavigationBar: Container(
+            padding: const EdgeInsets.all(20),
+            color: Colors.transparent,
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      side: BorderSide(width: 1, color: primaryColor),
+                      textStyle: textTheme.titleMedium,
+                    ),
+                    onPressed: () async {},
+                    child: const Text('Edit'),
                   ),
                 ),
-                onPressed: () async {},
-                child: const Text('Receive Payment'),
-              ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '${Routes.receivePayment}/$id/${booking.due}',
+                      );
+                    },
+                    child: const Text('Receive Payment'),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

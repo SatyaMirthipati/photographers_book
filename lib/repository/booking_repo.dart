@@ -38,12 +38,6 @@ class BookingRepo {
     return list.map((e) => BookingSheets.fromMap(e)).toList();
   }
 
-  Future<List<BookingPayments>> getBookingPayments({query}) async {
-    var response = await apiClient.get(Api.bookingPayments, query: query);
-    var list = response['data'] as List;
-    return list.map((e) => BookingPayments.fromMap(e)).toList();
-  }
-
   Future<List<DueList>> getDueList({required query}) async {
     var response = await apiClient.get(
       '${Api.bookings}/${Api.duelist}',
@@ -51,5 +45,17 @@ class BookingRepo {
     );
     var list = response['data'] as List;
     return list.map((e) => DueList.fromMap(e)).toList();
+  }
+
+  //Payments
+  Future<List<BookingPayments>> getBookingPayments({query}) async {
+    var response = await apiClient.get(Api.bookingPayments, query: query);
+    var list = response['data'] as List;
+    return list.map((e) => BookingPayments.fromMap(e)).toList();
+  }
+
+  Future makePayment({body}) async {
+    var response = await apiClient.post(Api.bookingPayments, body);
+    return response;
   }
 }

@@ -11,6 +11,7 @@ import '../ui/screens/bookings/booking_events_screen.dart';
 import '../ui/screens/bookings/booking_payments_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
 import '../ui/screens/bookings/my_booking_screen.dart';
+import '../ui/screens/bookings/receive_payment_screen.dart';
 import '../ui/screens/events/edit_event_details_screen.dart';
 import '../ui/screens/events/event_details_screen.dart';
 import '../ui/screens/events/my_events_screen.dart';
@@ -65,6 +66,7 @@ class Routes {
   static String bookingEvents = '/bookingEvents';
   static String bookingSheets = '/bookingSheets';
   static String bookingPayments = '/bookingPayments';
+  static String receivePayment = '/receivePayment';
 
   //Events flow
   static String myEvents = '/myEvents';
@@ -193,6 +195,12 @@ class Routes {
       handler: dueListHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      '$receivePayment/:id/:amount',
+      handler: receivePaymentHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -265,5 +273,12 @@ var editEventHandler = Handler(
 );
 
 var dueListHandler = Handler(handlerFunc: (c, p) => const DueListScreen());
+
+var receivePaymentHandler = Handler(
+  handlerFunc: (context, params) => ReceivePaymentScreen(
+    id: params['id']![0],
+    amount: params['amount']![0],
+  ),
+);
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

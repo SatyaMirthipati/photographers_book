@@ -101,7 +101,12 @@ class BookingCard extends StatelessWidget {
                       ),
                       textStyle: textTheme.titleMedium,
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      Navigator.pushNamed(
+                        context,
+                        '${Routes.receivePayment}/${booking.id}/${booking.due}',
+                      );
+                    },
                     child: const Text('Make Payment'),
                   )
                 ],

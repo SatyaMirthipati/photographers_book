@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'progress_button.dart';
 
 class NavbarButton extends StatelessWidget {
-  final Function onPressed;
+  final Function? onPressed;
   final Widget child;
   final Color? color;
 
