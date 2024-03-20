@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/event_bloc.dart';
@@ -30,7 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
     controller = PageController(initialPage: 0);
     setState(() {});
     var eventBloc = Provider.of<EventBloc>(context, listen: false);
-    future = Future.wait([eventBloc.getMonthlyEvents()]);
+    future = Future.wait(
+      [
+        eventBloc.getEvents(
+          query: {'month': DateFormat('yyyy-MM').format(DateTime.now())},
+        ),
+      ],
+    );
   }
 
   Future<List>? future;

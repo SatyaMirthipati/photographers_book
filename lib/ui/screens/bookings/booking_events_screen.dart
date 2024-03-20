@@ -24,7 +24,7 @@ class _BookingEventsScreenState extends State<BookingEventsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Event Details')),
       body: FutureBuilder<List<Event>>(
-        future: eventBloc.getBookingEvents(id: widget.bookingId),
+        future: eventBloc.getEvents(query: {'bookingId': widget.bookingId}),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return CustomErrorWidget(error: snapshot.error);

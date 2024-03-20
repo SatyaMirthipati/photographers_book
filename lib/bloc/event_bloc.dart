@@ -10,16 +10,8 @@ class EventBloc with ChangeNotifier {
     return await _eventRepo.getEvents(query: query);
   }
 
-  Future<List<Event>> getMonthlyEvents() async {
-    return await _eventRepo.getMonthlyEvents();
-  }
-
   Future<Event> getOneEvent({required String id}) async {
     return await _eventRepo.getOneEvent(id: id);
-  }
-
-  Future<List<Event>> getBookingEvents({required String id}) async {
-    return await _eventRepo.getBookingEvents(id: id);
   }
 
   Future updateEvent({required String id, required body}) async {
