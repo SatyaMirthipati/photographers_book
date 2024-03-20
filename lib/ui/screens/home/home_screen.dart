@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:photographers_book/bloc/user_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/event_bloc.dart';
@@ -30,11 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     controller = PageController(initialPage: 0);
     setState(() {});
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     var eventBloc = Provider.of<EventBloc>(context, listen: false);
     future = Future.wait(
       [
         eventBloc.getEvents(
-          query: {'month': DateFormat('yyyy-MM').format(DateTime.now())},
+          query: {
+            'month': DateFormat('yyyy-MM').format(DateTime.now()),
+            'userId': userBloc.profile.id,
+          },
         ),
       ],
     );

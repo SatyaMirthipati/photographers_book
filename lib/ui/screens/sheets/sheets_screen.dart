@@ -88,13 +88,20 @@ class _SheetsScreenState extends State<SheetsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(Images.no_sheets,
-                              width: 150, height: 120),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 4,
+                          ),
+                          Image.asset(
+                            Images.no_sheets,
+                            width: 150,
+                            height: 120,
+                          ),
                           const SizedBox(height: 40),
                           Text(
                             'There are no sheets added',
-                            style:
-                                textTheme.titleMedium!.copyWith(fontSize: 16),
+                            style: textTheme.titleMedium!.copyWith(
+                              fontSize: 16,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 20),

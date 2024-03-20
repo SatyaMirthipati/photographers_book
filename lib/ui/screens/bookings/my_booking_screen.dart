@@ -47,44 +47,56 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('My Bookings')),
-      body: StreamBuilder<String>(
-        stream: searchStream,
-        builder: (context, snapshot) {
-          var search = snapshot.data ?? '';
-          return FutureBuilder<List<Booking>>(
-            future: bookingBloc.getAllBookings(
-              query: {'search': search, 'userId': userBloc.profile.id},
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+            child: TextFormField(
+              onChanged: onSearch,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp('[0-9a-zA-Z]'),
+                ),
+              ],
+              decoration: const InputDecoration(
+                filled: false,
+                hintText: 'Search for booking',
+                suffixIcon: Icon(
+                  Icons.search,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
             ),
+          ),
+          StreamBuilder<String>(
+            stream: searchStream,
             builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return CustomErrorWidget(error: snapshot.error);
-              }
-              if (!snapshot.hasData) return const LoadingWidget();
-              var list = snapshot.data ?? [];
-              if (list.isEmpty) const EmptyWidget();
-              return ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
-                    child: TextFormField(
-                      onChanged: onSearch,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp('[0-9a-zA-Z]'),
+              var search = snapshot.data ?? '';
+              return FutureBuilder<List<Booking>>(
+                future: bookingBloc.getAllBookings(
+                  query: {'search': search, 'userId': userBloc.profile.id},
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return CustomErrorWidget(error: snapshot.error);
+                  }
+                  if (!snapshot.hasData) return const LoadingWidget();
+                  var list = snapshot.data ?? [];
+                  if (list.isEmpty) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 3 - 50,
+                        ),
+                        const EmptyWidget(
+                          message: 'There are no bookings to show',
+                          size: 150,
                         ),
                       ],
-                      decoration: const InputDecoration(
-                        filled: false,
-                        hintText: 'Search for booking',
-                        suffixIcon: Icon(
-                          Icons.search,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
+                    );
+                  }
+                  return ListView.builder(
                     shrinkWrap: true,
                     itemCount: list.length,
                     physics: const NeverScrollableScrollPhysics(),
@@ -92,13 +104,13 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
                     itemBuilder: (context, index) {
                       return BookingCard(booking: list[index]);
                     },
-                  ),
-                  const SizedBox(height: 100),
-                ],
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+          const SizedBox(height: 100),
+        ],
       ),
     );
   }

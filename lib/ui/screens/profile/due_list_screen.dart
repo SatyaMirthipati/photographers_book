@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../bloc/booking_bloc.dart';
+import '../../../bloc/user_bloc.dart';
 import '../../../model/due_list.dart';
 import '../../../resources/images.dart';
 import '../../../utils/helper.dart';
@@ -43,6 +44,7 @@ class _DueListScreenState extends State<DueListScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Due List')),
@@ -68,14 +70,28 @@ class _DueListScreenState extends State<DueListScreen> {
             builder: (context, snapshot) {
               var search = snapshot.data ?? '';
               return FutureBuilder<List<DueList>>(
-                future: bookingBloc.getDueList(query: {'search': search}),
+                future: bookingBloc.getDueList(
+                  query: {'search': search,'userId': userBloc.profile.id,},
+                ),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return CustomErrorWidget(error: snapshot.error);
                   }
                   if (!snapshot.hasData) return const LoadingWidget();
                   var list = snapshot.data ?? [];
-                  if (list.isEmpty) return const EmptyWidget();
+                  if (list.isEmpty) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 3 - 50,
+                        ),
+                        const EmptyWidget(
+                          message: 'No due list to show',
+                          size: 150,
+                        ),
+                      ],
+                    );
+                  }
                   return ListView.separated(
                     shrinkWrap: true,
                     itemCount: list.length,
