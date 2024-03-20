@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../bloc/booking_bloc.dart';
 import '../../../model/due_list.dart';
 import '../../../resources/images.dart';
+import '../../../utils/helper.dart';
 import '../../widgets/details_tile.dart';
 import '../../widgets/empty_widget.dart';
 import '../../widgets/error_widget.dart';
@@ -112,7 +113,11 @@ class _DueListScreenState extends State<DueListScreen> {
                               ),
                               gap: 10,
                               value: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Helper.launchCall(
+                                    phone: '${list[index].mobile}',
+                                  );
+                                },
                                 child: Image.asset(Images.phone, height: 15),
                               ),
                             )
