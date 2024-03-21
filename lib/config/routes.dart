@@ -101,7 +101,7 @@ class Routes {
     );
 
     router.define(
-      resetPassword,
+      '$resetPassword/:token',
       handler: resetPasswordHandler,
       transitionType: TransitionType.material,
     );
@@ -221,7 +221,7 @@ var registerHandler = Handler(handlerFunc: (c, p) => const RegisterScreen());
 var mobileHandler = Handler(handlerFunc: (c, p) => const MobileScreen());
 
 var resetPasswordHandler = Handler(
-  handlerFunc: (context, params) => const ResetPasswordScreen(),
+  handlerFunc: (c, p) => ResetPasswordScreen(token: p['token']![0]),
 );
 
 var mainHandler = Handler(handlerFunc: (context, params) => const MainScreen());

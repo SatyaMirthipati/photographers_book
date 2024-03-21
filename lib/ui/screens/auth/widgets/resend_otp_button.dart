@@ -1,13 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../bloc/user_bloc.dart';
 import '../../../widgets/error_snackbar.dart';
 
 class ResendOtpButton extends StatefulWidget {
   final String mobile;
+  final ValueChanged<String> onUpdate;
 
-  const ResendOtpButton({Key? key, required this.mobile}) : super(key: key);
+  const ResendOtpButton({
+    Key? key,
+    required this.mobile,
+    required this.onUpdate,
+  }) : super(key: key);
 
   @override
   State<ResendOtpButton> createState() => _ResendOtpButtonState();
@@ -48,6 +55,7 @@ class _ResendOtpButtonState extends State<ResendOtpButton> {
 
   @override
   Widget build(BuildContext context) {
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     if (times > 2) {
       return const TextButton(
         onPressed: null,
@@ -61,14 +69,19 @@ class _ResendOtpButtonState extends State<ResendOtpButton> {
               if (widget.mobile.isEmpty || widget.mobile == '') {
                 return ErrorSnackBar.show(
                   context,
-                  'Please enter a mobile number',
+                  'Please enter a valid email-id or mobile number',
                 );
               }
-              if (widget.mobile.length != 10) {
-                return ErrorSnackBar.show(
-                  context,
-                  'Please enter a valid mobile number',
-                );
+
+              var body = {'username': widget.mobile};
+
+              var res = await userBloc.requestOtp(body: body);
+              if (res['userExists'] == false) {
+                if (mounted) {
+                  return ErrorSnackBar.show(context, 'User doesn\'t exist');
+                }
+              } else {
+                widget.onUpdate(res['access_token']);
               }
 
               ErrorSnackBar.show(

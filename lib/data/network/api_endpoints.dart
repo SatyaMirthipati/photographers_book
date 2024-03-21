@@ -3,6 +3,9 @@ class Api {
   static const login = '/auth/user-login';
   static const users = '/users';
   static const profile = 'profile';
+  static const requestOtp = '/auth/request-otp';
+  static const verifyOtp = '/auth/verify-otp';
+  static const changePassword = '/auth/change-password';
 
   //Sheets
   static const sheets = '/sheets';

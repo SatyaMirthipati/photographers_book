@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/config/routes.dart';
+import 'package:provider/provider.dart';
 
+import '../../../bloc/user_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../resources/images.dart';
 import '../../widgets/error_snackbar.dart';
 import '../../widgets/progress_button.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final String token;
+
+  const ResetPasswordScreen({super.key, required this.token});
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -23,6 +27,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     var width = MediaQuery.of(context).size.width / 2;
     return Scaffold(
       body: ListView(
@@ -108,6 +113,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   'Password you entered should be same in both fields',
                 );
               }
+
+              var body = {'token': widget.token, 'password': newPassCtrl.text};
+              await userBloc.passwordChange(body: body);
+
               navigator.pushNamedAndRemoveUntil(Routes.login, (route) => false);
             },
             child: const Text('Submit'),

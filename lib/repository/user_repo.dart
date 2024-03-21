@@ -20,4 +20,19 @@ class UserRepo {
     var response = await apiClient.post(Api.users, body);
     return response;
   }
+
+  Future requestOtp({required body}) async {
+    var response = await apiClient.post(Api.requestOtp, body);
+    return response;
+  }
+
+  Future verifyOtp({required body}) async {
+    var response = await apiClient.post(Api.verifyOtp, body);
+    return response;
+  }
+
+  Future passwordChange({required body}) async {
+    var response = await apiClient.post(Api.changePassword, body);
+    return response;
+  }
 }

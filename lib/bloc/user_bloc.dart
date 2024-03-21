@@ -27,7 +27,19 @@ class UserBloc with ChangeNotifier {
     return _profile!;
   }
 
-  Future registerUser({ required body}) async {
+  Future registerUser({required body}) async {
     return await _userRepo.registerUser(body: body);
+  }
+
+  Future requestOtp({required body}) async {
+    return await _userRepo.requestOtp(body: body);
+  }
+
+  Future verifyOtp({required body}) async {
+    return await _userRepo.verifyOtp(body: body);
+  }
+
+  Future passwordChange({required body}) async {
+    return await _userRepo.passwordChange(body: body);
   }
 }

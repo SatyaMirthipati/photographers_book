@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:photographers_book/config/routes.dart';
-import 'package:photographers_book/resources/colors.dart';
-import 'package:photographers_book/ui/widgets/error_snackbar.dart';
-import 'package:photographers_book/ui/widgets/progress_button.dart';
+import 'package:provider/provider.dart';
 
+import '../../../bloc/user_bloc.dart';
+import '../../../config/routes.dart';
+import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
+import '../../widgets/error_snackbar.dart';
 import 'widgets/resend_otp_button.dart';
 
 class MobileScreen extends StatefulWidget {
@@ -16,9 +16,10 @@ class MobileScreen extends StatefulWidget {
 }
 
 class _MobileScreenState extends State<MobileScreen> {
-  final mobileCtrl = TextEditingController();
+  final usernameCtrl = TextEditingController();
   final otpCtrl = TextEditingController();
   bool otp = false;
+  String? token;
 
   var border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
@@ -32,6 +33,7 @@ class _MobileScreenState extends State<MobileScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -55,15 +57,9 @@ class _MobileScreenState extends State<MobileScreen> {
           ),
           const SizedBox(height: 40),
           TextFormField(
-            controller: mobileCtrl,
-            keyboardType: TextInputType.number,
+            controller: usernameCtrl,
             style: textTheme.bodyLarge,
             textInputAction: TextInputAction.done,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly,
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              LengthLimitingTextInputFormatter(10),
-            ],
             decoration: const InputDecoration(
               labelText: 'Username',
               hintText: 'Enter your Mobile number or Email id',
@@ -80,17 +76,22 @@ class _MobileScreenState extends State<MobileScreen> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () async {
-                  if (mobileCtrl.text.isEmpty || mobileCtrl.text == '') {
+                  if (usernameCtrl.text.isEmpty || usernameCtrl.text == '') {
                     return ErrorSnackBar.show(
                       context,
-                      'Please enter a mobile number',
+                      'Please enter a valid email-id or mobile number',
                     );
                   }
-                  if (mobileCtrl.text.length != 10) {
-                    return ErrorSnackBar.show(
-                      context,
-                      'Please enter a valid mobile number',
-                    );
+
+                  var body = {'username': usernameCtrl.text};
+
+                  var res = await userBloc.requestOtp(body: body);
+                  if (res['userExists'] == false) {
+                    if (mounted) {
+                      return ErrorSnackBar.show(context, 'User doesn\'t exist');
+                    }
+                  } else {
+                    token = res['access_token'];
                   }
                   setState(() => otp = true);
                 },
@@ -133,15 +134,33 @@ class _MobileScreenState extends State<MobileScreen> {
                 Column(
                   children: [
                     const SizedBox(height: 2),
-                    ResendOtpButton(mobile: mobileCtrl.text),
+                    ResendOtpButton(
+                      mobile: usernameCtrl.text,
+                      onUpdate: (String token) => this.token = token,
+                    ),
                   ],
                 ),
               ],
             ),
           const SizedBox(height: 30),
-          ProgressButton(
+          ElevatedButton(
             onPressed: () async {
-              Navigator.pushNamed(context, Routes.resetPassword);
+              try {
+                final navigator = Navigator.of(context);
+
+                var body = {'token': token, 'otp': otpCtrl.text};
+                var res = await userBloc.verifyOtp(body: body);
+
+                if (res['success'] == true) {
+                  navigator.pushNamed(
+                    '${Routes.resetPassword}/${res['access_token']}',
+                  );
+                } else {
+                  if (mounted) ErrorSnackBar.show(context, 'Error occurred');
+                }
+              } on Exception catch (e) {
+                if (mounted) ErrorSnackBar.show(context, e);
+              }
             },
             child: const Text('Submit'),
           )
