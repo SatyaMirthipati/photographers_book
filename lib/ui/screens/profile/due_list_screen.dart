@@ -71,7 +71,10 @@ class _DueListScreenState extends State<DueListScreen> {
               var search = snapshot.data ?? '';
               return FutureBuilder<List<DueList>>(
                 future: bookingBloc.getDueList(
-                  query: {'search': search,'userId': userBloc.profile.id,},
+                  query: {
+                    'search': search,
+                    'userId': userBloc.profile.id,
+                  },
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
