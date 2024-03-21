@@ -221,7 +221,10 @@ class AppTheme {
           vertical: 15,
         ),
         filled: false,
-        hintStyle: bodySmall.copyWith(color: Colors.black.withOpacity(0.7)),
+        hintStyle: bodySmall.copyWith(
+          color: Colors.black.withOpacity(0.7),
+          fontSize: 14,
+        ),
         labelStyle: titleSmall.copyWith(
           color: Colors.black.withOpacity(0.5),
           fontSize: 14,

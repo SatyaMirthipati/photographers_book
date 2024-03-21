@@ -65,7 +65,8 @@ class _MobileScreenState extends State<MobileScreen> {
               LengthLimitingTextInputFormatter(10),
             ],
             decoration: const InputDecoration(
-              labelText: 'Mobile Number',
+              labelText: 'Username',
+              hintText: 'Enter your Mobile number or Email id',
             ),
             validator: (text) {
               if (text?.trim().isEmpty ?? true) {
