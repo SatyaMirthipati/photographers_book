@@ -154,15 +154,18 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               const SizedBox(height: 20),
               Text('Video', style: style),
               const SizedBox(height: 5),
-              ContainerWidget(title: event.video ?? 'NA'),
+              for (var i in event.video ?? [])
+                ContainerWidget(title: i ?? 'NA'),
               const SizedBox(height: 20),
               Text('Camera', style: style),
               const SizedBox(height: 5),
-              ContainerWidget(title: event.camera ?? 'NA'),
+              for (var i in event.camera ?? [])
+                ContainerWidget(title: i ?? 'NA'),
               const SizedBox(height: 20),
               Text('Drone', style: style),
               const SizedBox(height: 5),
-              ContainerWidget(title: event.drone ?? 'NA')
+              for (var i in event.drone ?? [])
+                ContainerWidget(title: i ?? 'NA'),
             ],
           );
         },

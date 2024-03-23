@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:photographers_book/bloc/booking_bloc.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../model/category.dart';
 import '../../../../utils/helper.dart';
 import '../../../widgets/error_snackbar.dart';
 import '../../../widgets/navbar_button.dart';
@@ -92,6 +95,8 @@ class _AddBasicDetailsScreenState extends State<AddBasicDetailsScreen> {
       extendBody: true,
       bottomNavigationBar: NavbarButton(
         onPressed: () async {
+          var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
+
           if (!(formKey.currentState?.validate() ?? true)) return;
           formKey.currentState?.save();
 
@@ -108,7 +113,13 @@ class _AddBasicDetailsScreenState extends State<AddBasicDetailsScreen> {
             'address': addressCtrl.text,
           };
 
-          AddEventDetailsScreen.open(context, response: basicDetails);
+          List<Category> data = await bookingBloc.getCategories();
+
+          AddEventDetailsScreen.open(
+            context,
+            response: basicDetails,
+            categories: data,
+          );
         },
         child: const Text('Proceed'),
       ),

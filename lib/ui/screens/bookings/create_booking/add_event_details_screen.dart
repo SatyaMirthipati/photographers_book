@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../bloc/booking_bloc.dart';
@@ -14,16 +14,22 @@ import 'add_album_details_screen.dart';
 
 class AddEventDetailsScreen extends StatefulWidget {
   final Map<String, dynamic> response;
+  final List<Category> categories;
 
-  const AddEventDetailsScreen({super.key, required this.response});
+  const AddEventDetailsScreen(
+      {super.key, required this.response, required this.categories});
 
   static Future open(
     BuildContext context, {
     required Map<String, dynamic> response,
+    required List<Category> categories,
   }) {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => AddEventDetailsScreen(response: response),
+        builder: (context) => AddEventDetailsScreen(
+          response: response,
+          categories: categories,
+        ),
       ),
     );
   }
@@ -35,48 +41,51 @@ class AddEventDetailsScreen extends StatefulWidget {
 class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  late MultiSelectController<Category?> videoController;
+  late MultiSelectController<Category?> cameraController;
+  late MultiSelectController<Category?> droneController;
+
   int textFieldCount = 1;
 
   final addressCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   DateTime? dateTime;
 
-  List<Category> videos = [];
-  List<Category> drones = [];
-  List<Category> cameras = [];
+  List<Category> videosData = [];
+  List<Category> dronesData = [];
+  List<Category> camerasData = [];
   List<Category> events = [];
 
   Category? event;
-  Category? video;
-  Category? camera;
-  Category? drone;
-
-  fetchCategories() async {
-    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
-    var data = await bookingBloc.getCategories();
-    events = data.where((e) => e.category == 'EVENT').toList();
-    cameras = data.where((e) => e.category == 'CAMERA').toList();
-    videos = data.where((e) => e.category == 'VIDEO').toList();
-    drones = data.where((e) => e.category == 'DRONE').toList();
-    print('$events');
-    setState(() {});
-  }
+  Set<Category?> video = {};
+  Set<Category?> camera = {};
+  Set<Category?> drone = {};
 
   @override
   void initState() {
     super.initState();
-    fetchCategories();
+    videoController = MultiSelectController();
+    cameraController = MultiSelectController();
+    droneController = MultiSelectController();
+    events = widget.categories.where((e) => e.category == 'EVENT').toList();
+    camerasData =
+        widget.categories.where((e) => e.category == 'CAMERA').toList();
+    videosData = widget.categories.where((e) => e.category == 'VIDEO').toList();
+    dronesData = widget.categories.where((e) => e.category == 'DRONE').toList();
     print('basic ${widget.response}');
   }
 
   reset() {
     event = null;
-    video = null;
-    camera = null;
-    drone = null;
+    video.clear();
+    camera.clear();
+    drone.clear();
     dateTime = null;
     dateCtrl.text = '';
     addressCtrl.text = '';
+    videoController.clearAllSelection();
+    cameraController.clearAllSelection();
+    droneController.clearAllSelection();
   }
 
   @override
@@ -136,13 +145,9 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
               TextFormField(
                 controller: addressCtrl,
                 maxLines: 4,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 style: textTheme.bodyLarge,
                 textInputAction: TextInputAction.done,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                ],
                 decoration: const InputDecoration(labelText: 'Address'),
               ),
               const SizedBox(height: 15),
@@ -154,79 +159,49 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              DropdownButtonFormField<Category>(
-                value: video,
-                style: textTheme.bodyLarge,
-                isDense: true,
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Video',
-                  hintStyle: textTheme.titleMedium!.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                  ),
-                ),
-                icon: const Icon(Icons.arrow_drop_down, size: 16),
-                onChanged: (value) {
-                  setState(() => video = value);
+              MultiSelectDropDown(
+                controller: videoController,
+                onOptionSelected: (options) {
+                  video = options.map((e) => e.value).toSet();
                 },
-                onSaved: (value) => video = value,
-                items: [
-                  for (var item in videos)
-                    DropdownMenuItem<Category>(
-                      value: item,
-                      child: Text(item.type ?? 'NA'),
-                    )
-                ],
+                options: videosData.map((e) {
+                  return ValueItem(label: '${e.type}', value: e);
+                }).toList(),
+                hint: 'Select videos',
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                optionTextStyle: textTheme.bodyLarge,
+                selectedOptionIcon: const Icon(Icons.check_circle),
               ),
               const SizedBox(height: 25),
-              DropdownButtonFormField<Category>(
-                value: camera,
-                style: textTheme.bodyLarge,
-                isDense: true,
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Camera',
-                  hintStyle: textTheme.titleMedium!.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                  ),
-                ),
-                icon: const Icon(Icons.arrow_drop_down, size: 16),
-                onChanged: (value) {
-                  setState(() => camera = value);
+              MultiSelectDropDown(
+                controller: cameraController,
+                onOptionSelected: (options) {
+                  camera = options.map((e) => e.value).toSet();
                 },
-                onSaved: (value) => camera = value,
-                items: [
-                  for (var item in cameras)
-                    DropdownMenuItem<Category>(
-                      value: item,
-                      child: Text(item.type ?? 'NA'),
-                    )
-                ],
+                options: camerasData.map((e) {
+                  return ValueItem(label: '${e.type}', value: e);
+                }).toList(),
+                hint: 'Select cameras',
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                optionTextStyle: textTheme.bodyLarge,
+                selectedOptionIcon: const Icon(Icons.check_circle),
               ),
               const SizedBox(height: 25),
-              DropdownButtonFormField<Category>(
-                value: drone,
-                style: textTheme.bodyLarge,
-                isDense: true,
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Drone',
-                  hintStyle: textTheme.titleMedium!.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                  ),
-                ),
-                icon: const Icon(Icons.arrow_drop_down, size: 16),
-                onChanged: (value) {
-                  setState(() => drone = value);
+              MultiSelectDropDown(
+                controller: droneController,
+                onOptionSelected: (options) {
+                  drone = options.map((e) => e.value).toSet();
                 },
-                onSaved: (value) => drone = value,
-                items: [
-                  for (var item in drones)
-                    DropdownMenuItem<Category>(
-                      value: item,
-                      child: Text(item.type ?? 'NA'),
-                    )
-                ],
+                options: dronesData.map((e) {
+                  return ValueItem(label: '${e.type}', value: e);
+                }).toList(),
+                hint: 'Select drones',
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                optionTextStyle: textTheme.bodyLarge,
+                selectedOptionIcon: const Icon(Icons.check_circle),
               ),
               Align(
                 alignment: Alignment.centerRight,
@@ -245,9 +220,9 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                     bookingBloc.eventsData.add(
                       {
                         'event': event?.type ?? '',
-                        'video': video?.type ?? '',
-                        'camera': camera?.type ?? '',
-                        'drone': drone?.type ?? '',
+                        'video': video.map((v) => v?.type).toList(),
+                        'camera': camera.map((c) => c?.type).toList(),
+                        'drone': drone.map((d) => d?.type).toList(),
                         'date': DateFormat('yyyy-MM-dd').format(dateTime!),
                         'address': addressCtrl.text,
                       },
@@ -304,13 +279,27 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                                   Expanded(
                                     child: DetailsTile(
                                       title: const Text('Camera'),
-                                      value: Text('${i['camera'] ?? 'NA'}'),
+                                      value: Wrap(
+                                        spacing: 5,
+                                        runSpacing: 5,
+                                        children: [
+                                          for (var item in i['camera'])
+                                            Text('${item ?? 'NA'},'),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Expanded(
                                     child: DetailsTile(
                                       title: const Text('Drone'),
-                                      value: Text('${i['drone'] ?? 'NA'}'),
+                                      value: Wrap(
+                                        spacing: 5,
+                                        runSpacing: 5,
+                                        children: [
+                                          for (var item in i['drone'])
+                                            Text('${item ?? 'NA'},'),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -318,7 +307,14 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                               const SizedBox(height: 15),
                               DetailsTile(
                                 title: const Text('Video'),
-                                value: Text('${i['video'] ?? 'NA'}'),
+                                value: Wrap(
+                                  spacing: 5,
+                                  runSpacing: 5,
+                                  children: [
+                                    for (var item in i['video'])
+                                      Text('${item ?? 'NA'},'),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

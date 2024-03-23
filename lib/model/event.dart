@@ -2,9 +2,9 @@ class Event {
   String? id;
   String? event;
   DateTime? date;
-  String? video;
-  String? camera;
-  String? drone;
+  List<String>? video;
+  List<String>? camera;
+  List<String>? drone;
   String? address;
   String? status;
   BookingDetails? bookingDetails;
@@ -25,9 +25,9 @@ class Event {
     id: json["_id"],
     event: json["event"],
     date: json["date"] == null ? null : DateTime.parse(json["date"]),
-    video: json["video"],
-    camera: json["camera"],
-    drone: json["drone"],
+    video: json["video"] == null ? [] : List<String>.from(json["video"]!.map((x) => x)),
+    camera: json["camera"] == null ? [] : List<String>.from(json["camera"]!.map((x) => x)),
+    drone: json["drone"] == null ? [] : List<String>.from(json["drone"]!.map((x) => x)),
     address: json["address"],
     status: json["status"],
     bookingDetails: json["bookingDetails"] == null ? null : BookingDetails.fromMap(json["bookingDetails"]),
@@ -37,9 +37,9 @@ class Event {
     "_id": id,
     "event": event,
     "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
-    "video": video,
-    "camera": camera,
-    "drone": drone,
+    "video": video == null ? [] : List<dynamic>.from(video!.map((x) => x)),
+    "camera": camera == null ? [] : List<dynamic>.from(camera!.map((x) => x)),
+    "drone": drone == null ? [] : List<dynamic>.from(drone!.map((x) => x)),
     "address": address,
     "status": status,
     "bookingDetails": bookingDetails?.toMap(),
