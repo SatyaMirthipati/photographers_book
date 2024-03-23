@@ -18,7 +18,10 @@ class BookingBloc with ChangeNotifier {
   }
 
   Future createBooking({required body}) async {
-    return await _bookingRepo.createBooking(body: body);
+    var response = await _bookingRepo.createBooking(body: body);
+    eventsData.clear();
+    albumData.clear();
+    return response;
   }
 
   Future<List<Booking>> getAllBookings({query}) async {

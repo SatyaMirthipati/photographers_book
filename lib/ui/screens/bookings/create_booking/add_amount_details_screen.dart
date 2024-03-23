@@ -197,16 +197,21 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
           bookingResponse['dueDate'] =
               DateFormat('yyyy-MM-dd').format(dateTime!);
           bookingResponse['status'] = true;
+
           await bookingBloc.createBooking(body: bookingResponse);
-          SuccessScreen.open(
-            context,
-            text: 'Booking Added Successfully',
-            onProcess: () {
-              bookingBloc.albumData.clear();
-              bookingBloc.eventsData.clear();
-              navigator.pushNamedAndRemoveUntil(Routes.main, (route) => false);
-            },
-          );
+
+          if (mounted) {
+            SuccessScreen.open(
+              context,
+              text: 'Booking Added Successfully',
+              onProcess: () {
+                navigator.pushNamedAndRemoveUntil(
+                  Routes.main,
+                  (route) => false,
+                );
+              },
+            );
+          }
         },
         child: const Text('Proceed'),
       ),

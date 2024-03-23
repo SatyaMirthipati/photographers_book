@@ -26,102 +26,108 @@ class _AddBasicDetailsScreenState extends State<AddBasicDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(title: const Text('Add Booking')),
-      body: Form(
-        key: formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Text(
-              'Basic Details',
-              style: textTheme.titleLarge!.copyWith(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: nameCtrl,
-              keyboardType: TextInputType.text,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              inputFormatters: <TextInputFormatter>[
-                CapitalizeEachWordFormatter(),
-                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
-              ],
-              decoration: const InputDecoration(labelText: 'Name'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 25),
-            TextFormField(
-              controller: mobileCtrl,
-              keyboardType: TextInputType.number,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                LengthLimitingTextInputFormatter(10),
-              ],
-              decoration: const InputDecoration(labelText: 'Mobile Number'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 25),
-            TextFormField(
-              controller: addressCtrl,
-              maxLines: 4,
-              keyboardType: TextInputType.text,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              decoration: const InputDecoration(labelText: 'Address'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-            ),
-          ],
+    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
+    return WillPopScope(
+      onWillPop: () async {
+        bookingBloc.eventsData.clear();
+        bookingBloc.albumData.clear();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Add Booking')),
+        body: Form(
+          key: formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              Text(
+                'Basic Details',
+                style: textTheme.titleLarge!.copyWith(fontSize: 16),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: nameCtrl,
+                keyboardType: TextInputType.text,
+                style: textTheme.bodyLarge,
+                textInputAction: TextInputAction.done,
+                inputFormatters: <TextInputFormatter>[
+                  CapitalizeEachWordFormatter(),
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                ],
+                decoration: const InputDecoration(labelText: 'Name'),
+                validator: (text) {
+                  if (text?.trim().isEmpty ?? true) {
+                    return 'This field cannot be empty';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 25),
+              TextFormField(
+                controller: mobileCtrl,
+                keyboardType: TextInputType.number,
+                style: textTheme.bodyLarge,
+                textInputAction: TextInputAction.done,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  LengthLimitingTextInputFormatter(10),
+                ],
+                decoration: const InputDecoration(labelText: 'Mobile Number'),
+                validator: (text) {
+                  if (text?.trim().isEmpty ?? true) {
+                    return 'This field cannot be empty';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 25),
+              TextFormField(
+                controller: addressCtrl,
+                maxLines: 4,
+                keyboardType: TextInputType.text,
+                style: textTheme.bodyLarge,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: 'Address'),
+                validator: (text) {
+                  if (text?.trim().isEmpty ?? true) {
+                    return 'This field cannot be empty';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      extendBody: true,
-      bottomNavigationBar: NavbarButton(
-        onPressed: () async {
-          var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
+        extendBody: true,
+        bottomNavigationBar: NavbarButton(
+          onPressed: () async {
+            if (!(formKey.currentState?.validate() ?? true)) return;
+            formKey.currentState?.save();
 
-          if (!(formKey.currentState?.validate() ?? true)) return;
-          formKey.currentState?.save();
+            if (mobileCtrl.text != '' && mobileCtrl.text.length != 10) {
+              return ErrorSnackBar.show(
+                context,
+                'Please enter valid mobile number',
+              );
+            }
 
-          if (mobileCtrl.text != '' && mobileCtrl.text.length != 10) {
-            return ErrorSnackBar.show(
+            Map<String, dynamic> basicDetails = {
+              'name': nameCtrl.text,
+              'mobile': mobileCtrl.text,
+              'address': addressCtrl.text,
+            };
+
+            List<Category> data = await bookingBloc.getCategories();
+
+            AddEventDetailsScreen.open(
               context,
-              'Please enter valid mobile number',
+              response: basicDetails,
+              categories: data,
             );
-          }
-
-          Map<String, dynamic> basicDetails = {
-            'name': nameCtrl.text,
-            'mobile': mobileCtrl.text,
-            'address': addressCtrl.text,
-          };
-
-          List<Category> data = await bookingBloc.getCategories();
-
-          AddEventDetailsScreen.open(
-            context,
-            response: basicDetails,
-            categories: data,
-          );
-        },
-        child: const Text('Proceed'),
+          },
+          child: const Text('Proceed'),
+        ),
       ),
     );
   }
