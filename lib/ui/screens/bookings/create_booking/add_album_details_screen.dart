@@ -84,7 +84,7 @@ class _AddAlbumDetailsScreenState extends State<AddAlbumDetailsScreen> {
                 isDense: true,
                 isExpanded: true,
                 decoration: InputDecoration(
-                  labelText: 'Event',
+                  labelText: 'Album Type',
                   hintStyle: textTheme.titleMedium!.copyWith(
                     color: Colors.black.withOpacity(0.5),
                   ),
@@ -201,12 +201,14 @@ class _AddAlbumDetailsScreenState extends State<AddAlbumDetailsScreen> {
       ),
       extendBody: true,
       bottomNavigationBar: NavbarButton(
-        onPressed: () async {
-          var response = widget.response;
-          print('OKnow${bookingBloc.albumData}');
-          response['sheets'] = bookingBloc.albumData.toList();
-          AddAmountDetailsScreen.open(context, response: response);
-        },
+        onPressed: bookingBloc.albumData.isNotEmpty
+            ? () async {
+                var response = widget.response;
+                print('OKnow${bookingBloc.albumData}');
+                response['sheets'] = bookingBloc.albumData.toList();
+                AddAmountDetailsScreen.open(context, response: response);
+              }
+            : null,
         child: const Text('Proceed'),
       ),
     );
