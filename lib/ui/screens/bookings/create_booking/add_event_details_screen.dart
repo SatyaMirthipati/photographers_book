@@ -89,6 +89,14 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
   }
 
   @override
+  void dispose() {
+    videoController.dispose();
+    cameraController.dispose();
+    droneController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
@@ -224,7 +232,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                         'camera': camera.map((c) => c?.type).toList(),
                         'drone': drone.map((d) => d?.type).toList(),
                         'date': DateFormat('yyyy-MM-dd').format(dateTime!),
-                        'address': addressCtrl.text,
+                        'address': addressCtrl.text ?? '',
                       },
                     );
                     setState(() {});
