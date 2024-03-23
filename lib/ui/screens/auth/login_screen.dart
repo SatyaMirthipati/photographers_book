@@ -109,8 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 final navigator = Navigator.of(context);
 
                 Map<String, String> body = {
-                  'username': loginIdCtrl.text,
-                  'password': passwordCtrl.text,
+                  'username': loginIdCtrl.text.trim(),
+                  'password': passwordCtrl.text.trim(),
                 };
                 var response = await userBloc.login(body: body);
 
