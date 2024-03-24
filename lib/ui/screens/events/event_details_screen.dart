@@ -154,18 +154,51 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               const SizedBox(height: 20),
               Text('Video', style: style),
               const SizedBox(height: 5),
-              for (var i in event.video ?? [])
-                ContainerWidget(title: i ?? 'NA'),
+              Row(
+                children: [
+                  if (event.video != [])
+                    Wrap(
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: [
+                        for (var i in event.video ?? [])
+                          if (i != null) ContainerWidget(title: i ?? 'NA'),
+                      ],
+                    ),
+                ],
+              ),
               const SizedBox(height: 20),
               Text('Camera', style: style),
               const SizedBox(height: 5),
-              for (var i in event.camera ?? [])
-                ContainerWidget(title: i ?? 'NA'),
+              Row(
+                children: [
+                  if (event.camera != [])
+                    Wrap(
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: [
+                        for (var i in event.camera ?? [])
+                          if (i != null) ContainerWidget(title: i ?? 'NA'),
+                      ],
+                    ),
+                ],
+              ),
               const SizedBox(height: 20),
               Text('Drone', style: style),
               const SizedBox(height: 5),
-              for (var i in event.drone ?? [])
-                ContainerWidget(title: i ?? 'NA'),
+              Row(
+                children: [
+                  if (event.drone != [])
+                    Wrap(
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: [
+                        for (var i in event.drone ?? [])
+                          if (i != null) ContainerWidget(title: i ?? 'NA'),
+                      ],
+                    ),
+                ],
+              ),
             ],
           );
         },

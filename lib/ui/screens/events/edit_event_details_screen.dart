@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:photographers_book/ui/widgets/navbar_button.dart';
 import 'package:provider/provider.dart';
 
@@ -65,9 +66,10 @@ class _EditEventBodyState extends State<EditEventBody> {
   List<Category> cameras = [];
   List<Category> drones = [];
   String? event;
-  List<String> video = [];
-  List<String> camera = [];
-  List<String> drone = [];
+
+  List<String?> video = [];
+  List<String?> camera = [];
+  List<String?> drone = [];
 
   @override
   void initState() {
@@ -165,98 +167,47 @@ class _EditEventBodyState extends State<EditEventBody> {
                 ),
               ),
               const SizedBox(height: 15),
-              // DropdownButtonFormField<String>(
-              //   value: video,
-              //   style: textTheme.bodyLarge,
-              //   isDense: true,
-              //   isExpanded: true,
-              //   decoration: InputDecoration(
-              //     labelText: 'Video',
-              //     hintStyle: textTheme.titleMedium!.copyWith(
-              //       color: Colors.black.withOpacity(0.5),
-              //     ),
-              //   ),
-              //   icon: const Icon(Icons.arrow_drop_down, size: 16),
-              //   onChanged: (value) {
-              //     setState(() => video = value);
-              //   },
-              //   onSaved: (value) => video = value,
-              //   validator: (value) {
-              //     if (value == null) {
-              //       return 'This field can\'t be empty';
-              //     }
-              //     return null;
-              //   },
-              //   items: [
-              //     for (var item in videos)
-              //       DropdownMenuItem<String>(
-              //         value: item.type,
-              //         child: Text(item.type ?? 'NA'),
-              //       )
-              //   ],
-              // ),
+              MultiSelectDropDown(
+                onOptionSelected: (options) {
+                  video = options.map((e) => e.value).toList();
+                },
+                options: videos.map((e) {
+                  return ValueItem(label: '${e.type}', value: e.type);
+                }).toList(),
+                hint: 'Select videos',
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                optionTextStyle: textTheme.bodyLarge,
+                selectedOptionIcon: const Icon(Icons.check_circle),
+              ),
               const SizedBox(height: 25),
-              // DropdownButtonFormField<String>(
-              //   value: camera,
-              //   style: textTheme.bodyLarge,
-              //   isDense: true,
-              //   isExpanded: true,
-              //   decoration: InputDecoration(
-              //     labelText: 'Camera',
-              //     hintStyle: textTheme.titleMedium!.copyWith(
-              //       color: Colors.black.withOpacity(0.5),
-              //     ),
-              //   ),
-              //   icon: const Icon(Icons.arrow_drop_down, size: 16),
-              //   onChanged: (value) {
-              //     setState(() => camera = value);
-              //   },
-              //   onSaved: (value) => camera = value,
-              //   validator: (value) {
-              //     if (value == null) {
-              //       return 'This field can\'t be empty';
-              //     }
-              //     return null;
-              //   },
-              //   items: [
-              //     for (var item in cameras)
-              //       DropdownMenuItem<String>(
-              //         value: item.type,
-              //         child: Text(item.type ?? 'NA'),
-              //       )
-              //   ],
-              // ),
+              MultiSelectDropDown(
+                onOptionSelected: (options) {
+                  camera = options.map((e) => e.value).toList();
+                },
+                options: cameras.map((e) {
+                  return ValueItem(label: '${e.type}', value: e.type);
+                }).toList(),
+                hint: 'Select cameras',
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                optionTextStyle: textTheme.bodyLarge,
+                selectedOptionIcon: const Icon(Icons.check_circle),
+              ),
               const SizedBox(height: 25),
-              // DropdownButtonFormField<String>(
-              //   value: drone,
-              //   style: textTheme.bodyLarge,
-              //   isDense: true,
-              //   isExpanded: true,
-              //   decoration: InputDecoration(
-              //     labelText: 'Drone',
-              //     hintStyle: textTheme.titleMedium!.copyWith(
-              //       color: Colors.black.withOpacity(0.5),
-              //     ),
-              //   ),
-              //   icon: const Icon(Icons.arrow_drop_down, size: 16),
-              //   onChanged: (value) {
-              //     setState(() => drone = value);
-              //   },
-              //   onSaved: (value) => drone = value,
-              //   validator: (value) {
-              //     if (value == null) {
-              //       return 'This field can\'t be empty';
-              //     }
-              //     return null;
-              //   },
-              //   items: [
-              //     for (var item in drones)
-              //       DropdownMenuItem<String>(
-              //         value: item.type,
-              //         child: Text(item.type ?? 'NA'),
-              //       )
-              //   ],
-              // ),
+              MultiSelectDropDown(
+                onOptionSelected: (options) {
+                  drone = options.map((e) => e.value).toList();
+                },
+                options: drones.map((e) {
+                  return ValueItem(label: '${e.type}', value: e.type);
+                }).toList(),
+                hint: 'Select drones',
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                optionTextStyle: textTheme.bodyLarge,
+                selectedOptionIcon: const Icon(Icons.check_circle),
+              ),
               const SizedBox(height: 100),
             ],
           ),
