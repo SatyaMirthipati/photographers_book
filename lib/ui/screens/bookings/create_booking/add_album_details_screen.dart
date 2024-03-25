@@ -201,14 +201,12 @@ class _AddAlbumDetailsScreenState extends State<AddAlbumDetailsScreen> {
       ),
       extendBody: true,
       bottomNavigationBar: NavbarButton(
-        onPressed: bookingBloc.albumData.isNotEmpty
-            ? () async {
-                var response = widget.response;
-                print('OKnow${bookingBloc.albumData}');
-                response['sheets'] = bookingBloc.albumData.toList();
-                AddAmountDetailsScreen.open(context, response: response);
-              }
-            : null,
+        onPressed: () async {
+          var response = widget.response;
+          print('OKnow${bookingBloc.albumData}');
+          response['sheets'] = bookingBloc.albumData.toList();
+          AddAmountDetailsScreen.open(context, response: response);
+        },
         child: const Text('Proceed'),
       ),
     );

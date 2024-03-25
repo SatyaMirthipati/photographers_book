@@ -32,15 +32,23 @@ class AddAmountDetailsScreen extends StatefulWidget {
 class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
   final formKey = GlobalKey<FormState>();
 
-  final eventAmountCtrl = TextEditingController();
-  final extraAmountCtrl = TextEditingController();
   final totalAmountCtrl = TextEditingController();
+  final discountAmountCtrl = TextEditingController();
+  final payableAmountCtrl = TextEditingController();
+  final extraAmountCtrl = TextEditingController();
   final advanceAmountCtrl = TextEditingController();
   final dueBalanceCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
 
   final dateCtrl = TextEditingController();
   DateTime? dateTime;
+
+  calculate() {
+    payableAmountCtrl.text =
+        '${(int.parse(totalAmountCtrl.text) - int.parse(discountAmountCtrl.text) + int.parse(extraAmountCtrl.text))}';
+    dueBalanceCtrl.text =
+        '${int.parse(payableAmountCtrl.text) - int.parse(advanceAmountCtrl.text)}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,80 +67,151 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
               style: textTheme.titleLarge!.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              controller: eventAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: totalAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration:
+                        const InputDecoration(labelText: 'Total Amount'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: TextFormField(
+                    controller: discountAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration:
+                        const InputDecoration(labelText: 'Discount Amount'),
+                  ),
+                )
               ],
-              decoration: const InputDecoration(labelText: 'Event Amount'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
             ),
             const SizedBox(height: 25),
-            TextFormField(
-              controller: extraAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: extraAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    decoration: const InputDecoration(
+                      labelText: 'Extra Amount',
+                    ),
+                    onChanged: (v) => calculate(),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: TextFormField(
+                    controller: advanceAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) {
+                      // if (advanceAmountCtrl.text != '') {
+                      //   var total = int.parse(totalAmountCtrl.text);
+                      //   var advance = int.parse(advanceAmountCtrl.text);
+                      //   dueBalanceCtrl.text = '${total - advance}';
+                      // } else {
+                      //   dueBalanceCtrl.text = totalAmountCtrl.text;
+                      // }
+                      calculate();
+                      setState(() {});
+                    },
+                    decoration: const InputDecoration(labelText: 'Advance'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                )
               ],
-              decoration: const InputDecoration(labelText: 'Extra Amount'),
             ),
             const SizedBox(height: 25),
-            TextFormField(
-              controller: totalAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    readOnly: true,
+                    controller: payableAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration:
+                        const InputDecoration(labelText: 'Payable balance'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: TextFormField(
+                    readOnly: true,
+                    controller: dueBalanceCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration: const InputDecoration(labelText: 'Due balance'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
               ],
-              decoration: const InputDecoration(labelText: 'Total Amount'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 25),
-            TextFormField(
-              controller: advanceAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              onChanged: (v) {
-                if (advanceAmountCtrl.text != '') {
-                  var total = int.parse(totalAmountCtrl.text);
-                  var advance = int.parse(advanceAmountCtrl.text);
-                  dueBalanceCtrl.text = '${total - advance}';
-                } else {
-                  dueBalanceCtrl.text = totalAmountCtrl.text;
-                }
-                setState(() {});
-              },
-              decoration: const InputDecoration(labelText: 'Advance'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
             ),
             const SizedBox(height: 25),
             DatePicker(
@@ -142,24 +221,6 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
               labelText: 'Payment Due Date',
               onDateChange: (dateTime) {
                 setState(() => this.dateTime = dateTime);
-              },
-            ),
-            const SizedBox(height: 25),
-            TextFormField(
-              readOnly: true,
-              controller: dueBalanceCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              decoration: const InputDecoration(labelText: 'Due balance'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
               },
             ),
             const SizedBox(height: 25),
@@ -191,7 +252,7 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
 
           bookingResponse['total'] = totalAmountCtrl.text;
           bookingResponse['extra'] = extraAmountCtrl.text;
-          bookingResponse['payable'] = eventAmountCtrl.text;
+          bookingResponse['payable'] = payableAmountCtrl.text;
           bookingResponse['paid'] = advanceAmountCtrl.text;
           bookingResponse['due'] = dueBalanceCtrl.text;
           bookingResponse['dueDate'] =
