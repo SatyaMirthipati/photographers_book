@@ -17,6 +17,7 @@ import '../ui/screens/events/event_details_screen.dart';
 import '../ui/screens/events/my_events_screen.dart';
 import '../ui/screens/main/main_screen.dart';
 import '../ui/screens/profile/due_list_screen.dart';
+import '../ui/screens/profile/my_monthly_events/my_monthly_events_screen.dart';
 import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
 import '../ui/screens/sheets/create_sheet_screen.dart';
@@ -54,6 +55,7 @@ class Routes {
   static String profile = '/profile';
   static String profileDetails = '/profileDetails';
   static String dueList = '/dueList';
+  static String myMonthlyEvents = '/myMonthlyEvents';
 
   //Sheets flow
   static String createSheet = '/createSheet';
@@ -201,6 +203,12 @@ class Routes {
       handler: receivePaymentHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      myMonthlyEvents,
+      handler: myMonthlyEventsHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -279,6 +287,10 @@ var receivePaymentHandler = Handler(
     id: params['id']![0],
     amount: params['amount']![0],
   ),
+);
+
+var myMonthlyEventsHandler = Handler(
+  handlerFunc: (context, params) => const MyMonthlyEventsScreen(),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

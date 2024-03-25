@@ -13,4 +13,8 @@ class MyColors {
   static const pending = Color(0xFFFFCF64);
   static const completed = Color(0xFF1AAA55);
   static const dark = Color(0xFF00063A);
+  static const violet = Color(0xFF9234FF);
+  static const green = Color(0xFF57CA22);
+
+  static const statusColor = {'PENDING': violet, 'COMPLETED': green};
 }

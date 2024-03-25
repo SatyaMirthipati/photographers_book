@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/utils/helper.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/user_bloc.dart';
 import '../../../config/routes.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
+import '../../../utils/helper.dart';
 import '../../widgets/avatar.dart';
 import '../../widgets/dialog_confirm.dart';
 import 'widgets/profile_widget.dart';
@@ -101,11 +101,13 @@ class ProfileScreen extends StatelessWidget {
           //   title: 'My Dashboard',
           //   image: Images.my_dashboard,
           // ),
-          // ProfileWidget(
-          //   onTap: () {},
-          //   title: 'My Events',
-          //   image: Images.my_events,
-          // ),
+          ProfileWidget(
+            onTap: () {
+              Navigator.pushNamed(context, Routes.myMonthlyEvents);
+            },
+            title: 'My Events',
+            image: Images.my_events,
+          ),
           // ProfileWidget(
           //   onTap: () {},
           //   title: 'My Payments',
