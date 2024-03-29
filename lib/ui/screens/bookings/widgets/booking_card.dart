@@ -41,9 +41,14 @@ class BookingCard extends StatelessWidget {
                     style: textTheme.titleMedium!.copyWith(fontSize: 20),
                   ),
                   const Spacer(),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Image.asset(Images.edit, width: 20, height: 20),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.editBooking.setId('${booking.id}'),
+                      );
+                    },
+                    icon: Image.asset(Images.edit, width: 20, height: 20),
                   ),
                 ],
               ),

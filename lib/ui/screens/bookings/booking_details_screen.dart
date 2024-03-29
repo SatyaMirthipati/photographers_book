@@ -157,7 +157,12 @@ class BookingDetailsScreen extends StatelessWidget {
                       side: BorderSide(width: 1, color: primaryColor),
                       textStyle: textTheme.titleMedium,
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.editBooking.setId(id),
+                      );
+                    },
                     child: const Text('Edit'),
                   ),
                 ),

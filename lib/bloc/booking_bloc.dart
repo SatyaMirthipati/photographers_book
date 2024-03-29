@@ -13,8 +13,8 @@ class BookingBloc with ChangeNotifier {
   Set<Map<String, dynamic>> eventsData = {};
   Set<Map<String, dynamic>> albumData = {};
 
-  List<BookingsEvents> updateEventsData = [];
-  List<BookingsSheets> updateSheetsData = [];
+  List<BookingsEvent> updateEventsData = [];
+  List<BookingsSheet> updateSheetsData = [];
 
   Future<List<Category>> getCategories({query}) async {
     return await _bookingRepo.getCategories(query: query);

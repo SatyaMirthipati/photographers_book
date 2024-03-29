@@ -10,6 +10,7 @@ import '../ui/screens/bookings/booking_details_screen.dart';
 import '../ui/screens/bookings/booking_events_screen.dart';
 import '../ui/screens/bookings/booking_payments_screen.dart';
 import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
+import '../ui/screens/bookings/edit_booking/edit_basic_details_screen.dart';
 import '../ui/screens/bookings/my_booking_screen.dart';
 import '../ui/screens/bookings/receive_payment_screen.dart';
 import '../ui/screens/events/edit_event_details_screen.dart';
@@ -69,6 +70,7 @@ class Routes {
   static String bookingSheets = '/bookingSheets';
   static String bookingPayments = '/bookingPayments';
   static String receivePayment = '/receivePayment';
+  static String editBooking = '/editBooking/:id';
 
   //Events flow
   static String myEvents = '/myEvents';
@@ -209,6 +211,12 @@ class Routes {
       handler: myMonthlyEventsHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      editBooking,
+      handler: editBookingHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -291,6 +299,10 @@ var receivePaymentHandler = Handler(
 
 var myMonthlyEventsHandler = Handler(
   handlerFunc: (context, params) => const MyMonthlyEventsScreen(),
+);
+
+var editBookingHandler = Handler(
+  handlerFunc: (c, p) => EditBasicDetailsScreen(id: p['id']![0]),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());
