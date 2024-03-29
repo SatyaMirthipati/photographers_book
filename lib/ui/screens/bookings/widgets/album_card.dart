@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/model/booking_sheets.dart';
 
+import '../../../../model/booking_sheet.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/details_tile.dart';
 
 class AlbumCard extends StatelessWidget {
-  final BookingSheets bookingSheets;
+  final BookingSheet bookingSheet;
 
-  const AlbumCard({super.key, required this.bookingSheets});
+  const AlbumCard({super.key, required this.bookingSheet});
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,12 @@ class AlbumCard extends StatelessWidget {
           children: [
             DetailsTile(
               title: const Text('Sheet Type'),
-              value: Text(bookingSheets.sheet ?? ''),
+              value: Text(bookingSheet.sheet ?? ''),
             ),
             const SizedBox(height: 15),
             DetailsTile(
               title: const Text('Price'),
-              value: Text(bookingSheets.quantity ?? ''),
+              value: Text(bookingSheet.quantity ?? ''),
             ),
           ],
         ),

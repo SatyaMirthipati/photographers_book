@@ -1,19 +1,19 @@
 import 'event.dart';
 
-class BookingSheets {
+class BookingSheet {
   String? id;
   String? sheet;
   String? quantity;
   BookingDetails? bookingDetails;
 
-  BookingSheets({
+  BookingSheet({
     this.id,
     this.sheet,
     this.quantity,
     this.bookingDetails,
   });
 
-  factory BookingSheets.fromMap(Map<String, dynamic> json) => BookingSheets(
+  factory BookingSheet.fromMap(Map<String, dynamic> json) => BookingSheet(
     id: json["_id"],
     sheet: json["sheet"],
     quantity: json["quantity"],

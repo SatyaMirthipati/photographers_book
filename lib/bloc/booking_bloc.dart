@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../model/booking.dart';
 import '../model/booking_payments.dart';
-import '../model/booking_sheets.dart';
+import '../model/booking_sheet.dart';
 import '../model/category.dart';
 import '../model/due_list.dart';
 import '../repository/booking_repo.dart';
@@ -12,6 +12,9 @@ class BookingBloc with ChangeNotifier {
 
   Set<Map<String, dynamic>> eventsData = {};
   Set<Map<String, dynamic>> albumData = {};
+
+  List<BookingsEvents> updateEventsData = [];
+  List<BookingsSheets> updateSheetsData = [];
 
   Future<List<Category>> getCategories({query}) async {
     return await _bookingRepo.getCategories(query: query);
@@ -32,7 +35,7 @@ class BookingBloc with ChangeNotifier {
     return await _bookingRepo.getOneBooking(id: id);
   }
 
-  Future<List<BookingSheets>> getBookingAlbums({required String id}) async {
+  Future<List<BookingSheet>> getBookingAlbums({required String id}) async {
     return await _bookingRepo.getBookingAlbums(id: id);
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/booking_bloc.dart';
-import '../../../model/booking_sheets.dart';
+import '../../../model/booking_sheet.dart';
 import '../../widgets/empty_widget.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
@@ -18,7 +18,7 @@ class AlbumDetailsScreen extends StatelessWidget {
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Album Details')),
-      body: FutureBuilder<List<BookingSheets>>(
+      body: FutureBuilder<List<BookingSheet>>(
         future: bookingBloc.getBookingAlbums(id: bookingId),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -31,7 +31,7 @@ class AlbumDetailsScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
-              return AlbumCard(bookingSheets: list[index]);
+              return AlbumCard(bookingSheet: list[index]);
             },
           );
         },

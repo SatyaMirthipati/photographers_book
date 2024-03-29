@@ -4,7 +4,7 @@ import '../data/network/api_client.dart';
 import '../data/network/api_endpoints.dart';
 import '../model/booking.dart';
 import '../model/booking_payments.dart';
-import '../model/booking_sheets.dart';
+import '../model/booking_sheet.dart';
 import '../model/category.dart';
 
 class BookingRepo {
@@ -30,12 +30,12 @@ class BookingRepo {
     return Booking.fromMap(response);
   }
 
-  Future<List<BookingSheets>> getBookingAlbums({required String id}) async {
+  Future<List<BookingSheet>> getBookingAlbums({required String id}) async {
     var response = await apiClient.get(
       '${Api.bookings}/${Api.bookingSheets}/$id',
     );
     var list = response['data'] as List;
-    return list.map((e) => BookingSheets.fromMap(e)).toList();
+    return list.map((e) => BookingSheet.fromMap(e)).toList();
   }
 
   Future<List<DueList>> getDueList({required query}) async {
