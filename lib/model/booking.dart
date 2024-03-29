@@ -13,8 +13,8 @@ class Booking {
   DateTime? dueDate;
   String? description;
   String? status;
-  List<BookingsEvents>? events;
-  List<BookingsSheets>? sheets;
+  List<BookingsEvent>? events;
+  List<BookingsSheet>? sheets;
   String? createdAt;
   String? updatedAt;
   int? v;
@@ -56,8 +56,8 @@ class Booking {
     dueDate: json["dueDate"] == null ? null : DateTime.parse(json["dueDate"]),
     description: json["description"],
     status: json["status"],
-    events: json["events"] == null ? [] : List<BookingsEvents>.from(json["events"]!.map((x) => BookingsEvents.fromMap(x))),
-    sheets: json["sheets"] == null ? [] : List<BookingsSheets>.from(json["sheets"]!.map((x) => BookingsSheets.fromMap(x))),
+    events: json["events"] == null ? [] : List<BookingsEvent>.from(json["events"]!.map((x) => BookingsEvent.fromMap(x))),
+    sheets: json["sheets"] == null ? [] : List<BookingsSheet>.from(json["sheets"]!.map((x) => BookingsSheet.fromMap(x))),
     createdAt: json["createdAt"],
     updatedAt: json["updatedAt"],
     v: json["__v"],
@@ -86,7 +86,7 @@ class Booking {
   };
 }
 
-class BookingsEvents {
+class BookingsEvent {
   String? event;
   DateTime? date;
   List<String>? video;
@@ -98,7 +98,7 @@ class BookingsEvents {
   String? updatedAt;
   String? address;
 
-  BookingsEvents({
+  BookingsEvent({
     this.event,
     this.date,
     this.video,
@@ -111,7 +111,7 @@ class BookingsEvents {
     this.address,
   });
 
-  factory BookingsEvents.fromMap(Map<String, dynamic> json) => BookingsEvents(
+  factory BookingsEvent.fromMap(Map<String, dynamic> json) => BookingsEvent(
     event: json["event"],
     date: json["date"] == null ? null : DateTime.parse(json["date"]),
     video: json["video"] == null ? [] : List<String>.from(json["video"]!.map((x) => x)),
@@ -138,14 +138,14 @@ class BookingsEvents {
   };
 }
 
-class BookingsSheets {
+class BookingsSheet {
   String? sheet;
   String? quantity;
   String? id;
   String? createdAt;
   String? updatedAt;
 
-  BookingsSheets({
+  BookingsSheet({
     this.sheet,
     this.quantity,
     this.id,
@@ -153,7 +153,7 @@ class BookingsSheets {
     this.updatedAt,
   });
 
-  factory BookingsSheets.fromMap(Map<String, dynamic> json) => BookingsSheets(
+  factory BookingsSheet.fromMap(Map<String, dynamic> json) => BookingsSheet(
     sheet: json["sheet"],
     quantity: json["quantity"],
     id: json["_id"],
