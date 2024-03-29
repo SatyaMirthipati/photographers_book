@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../bloc/event_bloc.dart';
 import '../../../../../bloc/schedule_bloc.dart';
+import '../../../../../bloc/user_bloc.dart';
 import '../../../../../model/event.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/images.dart';
@@ -20,10 +21,12 @@ class ScheduleCard extends StatelessWidget {
     var textTheme = Theme.of(context).textTheme;
     var eventBloc = Provider.of<EventBloc>(context, listen: false);
     var bloc = Provider.of<ScheduleBloc>(context, listen: false);
+    var userBloc = Provider.of<UserBloc>(context, listen: false);
     print(dateTime);
     return FutureBuilder<List<Event>>(
       future: eventBloc.getEvents(
         query: {
+          'userId': userBloc.profile.id,
           'month':
               '2024-${bloc.selectedIndex < 9 ? '0${bloc.selectedIndex + 1}' : bloc.selectedIndex + 1}'
         },
