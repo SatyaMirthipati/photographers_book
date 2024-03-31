@@ -35,7 +35,6 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
   final totalAmountCtrl = TextEditingController();
   final discountAmountCtrl = TextEditingController();
   final payableAmountCtrl = TextEditingController();
-  final extraAmountCtrl = TextEditingController();
   final advanceAmountCtrl = TextEditingController();
   final dueBalanceCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
@@ -45,9 +44,9 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
 
   calculate() {
     payableAmountCtrl.text =
-        '${(int.parse(totalAmountCtrl.text) - int.parse(discountAmountCtrl.text) + int.parse(extraAmountCtrl.text))}';
+        '${((int.tryParse(totalAmountCtrl.text) ?? 0) - (int.tryParse(discountAmountCtrl.text) ?? 0))}';
     dueBalanceCtrl.text =
-        '${int.parse(payableAmountCtrl.text) - int.parse(advanceAmountCtrl.text)}';
+        '${(int.tryParse(payableAmountCtrl.text) ?? -0) - (int.tryParse(advanceAmountCtrl.text) ?? 0)}';
   }
 
   @override
@@ -63,7 +62,7 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
           padding: const EdgeInsets.all(20),
           children: [
             Text(
-              'Basic Details',
+              'Amount Details',
               style: textTheme.titleLarge!.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 10),
@@ -113,29 +112,6 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: extraAmountCtrl,
-                    style: textTheme.bodyLarge,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    ],
-                    decoration: const InputDecoration(
-                      labelText: 'Extra Amount',
-                    ),
-                    onChanged: (v) => calculate(),
-                    validator: (text) {
-                      if (text?.trim().isEmpty ?? true) {
-                        return 'This field cannot be empty';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: TextFormField(
                     controller: advanceAmountCtrl,
                     style: textTheme.bodyLarge,
                     textInputAction: TextInputAction.done,
@@ -144,31 +120,11 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
                       FilteringTextInputFormatter.digitsOnly,
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
-                    onChanged: (v) {
-                      // if (advanceAmountCtrl.text != '') {
-                      //   var total = int.parse(totalAmountCtrl.text);
-                      //   var advance = int.parse(advanceAmountCtrl.text);
-                      //   dueBalanceCtrl.text = '${total - advance}';
-                      // } else {
-                      //   dueBalanceCtrl.text = totalAmountCtrl.text;
-                      // }
-                      calculate();
-                      setState(() {});
-                    },
+                    onChanged: (v) => calculate(),
                     decoration: const InputDecoration(labelText: 'Advance'),
-                    validator: (text) {
-                      if (text?.trim().isEmpty ?? true) {
-                        return 'This field cannot be empty';
-                      }
-                      return null;
-                    },
                   ),
-                )
-              ],
-            ),
-            const SizedBox(height: 25),
-            Row(
-              children: [
+                ),
+                const SizedBox(width: 20),
                 Expanded(
                   child: TextFormField(
                     readOnly: true,
@@ -189,8 +145,12 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
                       return null;
                     },
                   ),
-                ),
-                SizedBox(width: 20),
+                )
+              ],
+            ),
+            const SizedBox(height: 25),
+            Row(
+              children: [
                 Expanded(
                   child: TextFormField(
                     readOnly: true,
@@ -211,17 +171,20 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
                     },
                   ),
                 ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: DatePicker(
+                    dateTime,
+                    dateCtrl: dateCtrl,
+                    startDate: DateTime.now(),
+                    labelText: 'Next Due Date',
+                    validator: false,
+                    onDateChange: (dateTime) {
+                      setState(() => this.dateTime = dateTime);
+                    },
+                  ),
+                ),
               ],
-            ),
-            const SizedBox(height: 25),
-            DatePicker(
-              dateTime,
-              dateCtrl: dateCtrl,
-              startDate: DateTime.now(),
-              labelText: 'Payment Due Date',
-              onDateChange: (dateTime) {
-                setState(() => this.dateTime = dateTime);
-              },
             ),
             const SizedBox(height: 25),
             TextFormField(
@@ -231,12 +194,6 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
               textInputAction: TextInputAction.done,
               decoration: const InputDecoration(labelText: 'Description'),
               keyboardType: TextInputType.text,
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
             ),
           ],
         ),
@@ -251,13 +208,15 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
           Map<String, dynamic> bookingResponse = widget.response;
 
           bookingResponse['total'] = totalAmountCtrl.text;
-          bookingResponse['extra'] = extraAmountCtrl.text;
           bookingResponse['payable'] = payableAmountCtrl.text;
           bookingResponse['paid'] = advanceAmountCtrl.text;
           bookingResponse['due'] = dueBalanceCtrl.text;
-          bookingResponse['dueDate'] =
-              DateFormat('yyyy-MM-dd').format(dateTime!);
           bookingResponse['status'] = true;
+
+          if (dateTime != null) {
+            bookingResponse['dueDate'] =
+                DateFormat('yyyy-MM-dd').format(dateTime!);
+          }
 
           await bookingBloc.createBooking(body: bookingResponse);
 

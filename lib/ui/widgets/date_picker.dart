@@ -56,14 +56,16 @@ class DatePicker extends StatelessWidget {
             date != null ? DateFormat('dd MMMM, yyyy').format(date!) : '';
         onDateChange.call(date);
       },
-      validator: validator != false
+      validator: validator == true
           ? (value) {
               if ((value == null || value.trim().isEmpty && value == '')) {
                 return 'This field can\'t be empty';
               }
               return null;
             }
-          : null,
+          : (v) {
+              return null;
+            },
       onSaved: (v) => dateCtrl.text = v!,
       autocorrect: true,
       decoration: InputDecoration(
