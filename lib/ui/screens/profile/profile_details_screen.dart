@@ -6,7 +6,6 @@ import '../../../config/routes.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../../utils/helper.dart';
-import '../../widgets/avatar.dart';
 import '../../widgets/dialog_confirm.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
@@ -30,17 +29,17 @@ class ProfileDetailsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Center(
-                  child: Avatar(
-                    size: 70,
-                    url: '',
-                    name: '',
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    borderRadius: null,
-                  ),
-                ),
-                const SizedBox(height: 15),
+                // const Center(
+                //   child: Avatar(
+                //     size: 70,
+                //     url: '',
+                //     name: '',
+                //     color: Colors.white,
+                //     shape: BoxShape.circle,
+                //     borderRadius: null,
+                //   ),
+                // ),
+                // const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(

@@ -42,4 +42,11 @@ class UserBloc with ChangeNotifier {
   Future passwordChange({required body}) async {
     return await _userRepo.passwordChange(body: body);
   }
+
+  Future updateUser({required String id, required body}) async {
+    var response = await _userRepo.updateUser(id: id, body: body);
+    await getProfile();
+    notifyListeners();
+    return response;
+  }
 }

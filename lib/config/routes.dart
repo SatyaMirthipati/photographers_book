@@ -18,6 +18,7 @@ import '../ui/screens/events/event_details_screen.dart';
 import '../ui/screens/events/my_events_screen.dart';
 import '../ui/screens/main/main_screen.dart';
 import '../ui/screens/profile/due_list_screen.dart';
+import '../ui/screens/profile/edit_profile_screen.dart';
 import '../ui/screens/profile/my_monthly_events/my_monthly_events_screen.dart';
 import '../ui/screens/profile/profile_details_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
@@ -57,6 +58,7 @@ class Routes {
   static String profileDetails = '/profileDetails';
   static String dueList = '/dueList';
   static String myMonthlyEvents = '/myMonthlyEvents';
+  static String editProfile = '/editProfile/:id';
 
   //Sheets flow
   static String createSheet = '/createSheet';
@@ -217,6 +219,12 @@ class Routes {
       handler: editBookingHandler,
       transitionType: TransitionType.material,
     );
+
+    router.define(
+      editProfile,
+      handler: editProfileHandler,
+      transitionType: TransitionType.material,
+    );
   }
 }
 
@@ -303,6 +311,10 @@ var myMonthlyEventsHandler = Handler(
 
 var editBookingHandler = Handler(
   handlerFunc: (c, p) => EditBasicDetailsScreen(id: p['id']![0]),
+);
+
+var editProfileHandler = Handler(
+  handlerFunc: (context, params) => EditProfileScreen(id: params['id']![0]),
 );
 
 var demoHandler = Handler(handlerFunc: (context, params) => f.Container());

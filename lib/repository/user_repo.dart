@@ -35,4 +35,9 @@ class UserRepo {
     var response = await apiClient.post(Api.changePassword, body);
     return response;
   }
+
+  Future updateUser({required String id, required body}) async {
+    var response = await apiClient.patch('${Api.users}/$id', body);
+    return response;
+  }
 }

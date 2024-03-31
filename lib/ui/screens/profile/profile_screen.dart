@@ -6,7 +6,6 @@ import '../../../config/routes.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../../utils/helper.dart';
-import '../../widgets/avatar.dart';
 import '../../widgets/dialog_confirm.dart';
 import 'widgets/profile_widget.dart';
 
@@ -31,15 +30,15 @@ class ProfileScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Avatar(
-                  size: 70,
-                  url: '',
-                  name: '',
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  borderRadius: null,
-                ),
-                const SizedBox(width: 15),
+                // const Avatar(
+                //   size: 70,
+                //   url: '',
+                //   name: '',
+                //   color: Colors.white,
+                //   shape: BoxShape.circle,
+                //   borderRadius: null,
+                // ),
+                // const SizedBox(width: 15),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +56,14 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.editProfile.setId(
+                                  userBloc.profile.id.toString(),
+                                ),
+                              );
+                            },
                             child: Text(
                               'Edit',
                               style: textTheme.titleSmall!.copyWith(
