@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../bloc/booking_bloc.dart';
 import '../../../bloc/user_bloc.dart';
+import '../../../config/routes.dart';
 import '../../../model/due_list.dart';
 import '../../../resources/images.dart';
 import '../../../utils/helper.dart';
@@ -106,41 +107,49 @@ class _DueListScreenState extends State<DueListScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            DetailsTile(
-                              title: Text(
-                                list[index].name ?? 'NA',
-                                style: textTheme.titleMedium!.copyWith(
-                                  fontSize: 18,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '${Routes.receivePayment}/${list[index].id}/${list[index].due}',
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              DetailsTile(
+                                title: Text(
+                                  list[index].name ?? 'NA',
+                                  style: textTheme.titleMedium!.copyWith(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                gap: 10,
+                                value: Text(
+                                  list[index].mobile ?? 'NA',
+                                  style: textTheme.labelSmall,
                                 ),
                               ),
-                              gap: 10,
-                              value: Text(
-                                list[index].mobile ?? 'NA',
-                                style: textTheme.labelSmall,
-                              ),
-                            ),
-                            const Spacer(),
-                            DetailsTile(
-                              title: Text(
-                                '₹ ${list[index].due ?? '0'}/-',
-                                style: textTheme.titleLarge!.copyWith(
-                                  fontSize: 18,
+                              const Spacer(),
+                              DetailsTile(
+                                title: Text(
+                                  '₹ ${list[index].due ?? '0'}/-',
+                                  style: textTheme.titleLarge!.copyWith(
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              gap: 10,
-                              value: InkWell(
-                                onTap: () {
-                                  Helper.launchCall(
-                                    phone: '${list[index].mobile}',
-                                  );
-                                },
-                                child: Image.asset(Images.phone, height: 15),
-                              ),
-                            )
-                          ],
+                                gap: 10,
+                                value: InkWell(
+                                  onTap: () {
+                                    Helper.launchCall(
+                                      phone: '${list[index].mobile}',
+                                    );
+                                  },
+                                  child: Image.asset(Images.phone, height: 15),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },
