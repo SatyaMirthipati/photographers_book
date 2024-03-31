@@ -5,42 +5,77 @@ import 'package:provider/provider.dart';
 
 import '../../../../bloc/booking_bloc.dart';
 import '../../../../config/routes.dart';
+import '../../../../model/booking.dart';
 import '../../../widgets/date_picker.dart';
 import '../../../widgets/navbar_button.dart';
 import '../../../widgets/success_screen.dart';
 
 class EditAmountDetailsScreen extends StatefulWidget {
   final Map<String, dynamic> response;
+  final Booking booking;
 
-  const EditAmountDetailsScreen({super.key, required this.response});
+  const EditAmountDetailsScreen({
+    super.key,
+    required this.response,
+    required this.booking,
+  });
 
   static Future open(
     BuildContext context, {
     required Map<String, dynamic> response,
+    required Booking booking,
   }) {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditAmountDetailsScreen(response: response),
+        builder: (context) => EditAmountDetailsScreen(
+          response: response,
+          booking: booking,
+        ),
       ),
     );
   }
 
   @override
-  State<EditAmountDetailsScreen> createState() => _EditAmountDetailsScreenState();
+  State<EditAmountDetailsScreen> createState() =>
+      _EditAmountDetailsScreenState();
 }
 
 class _EditAmountDetailsScreenState extends State<EditAmountDetailsScreen> {
   final formKey = GlobalKey<FormState>();
 
-  final eventAmountCtrl = TextEditingController();
-  final extraAmountCtrl = TextEditingController();
   final totalAmountCtrl = TextEditingController();
+  final discountAmountCtrl = TextEditingController();
+  final payableAmountCtrl = TextEditingController();
   final advanceAmountCtrl = TextEditingController();
   final dueBalanceCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
 
   final dateCtrl = TextEditingController();
   DateTime? dateTime;
+
+  @override
+  void initState() {
+    super.initState();
+    totalAmountCtrl.text = '${widget.booking.total ?? '0'}';
+    discountAmountCtrl.text = '${widget.booking.discount ?? '0'}';
+    payableAmountCtrl.text = '${widget.booking.payable ?? '0'}';
+    dueBalanceCtrl.text = '${widget.booking.due ?? '0'}';
+    advanceAmountCtrl.text = '${widget.booking.paid ?? '0'}';
+    descriptionCtrl.text = widget.booking.description ?? 'NA';
+    dateTime = widget.booking.dueDate;
+    if (dateTime != null) {
+      dateCtrl.text = DateFormat('dd MMMM, yyyy').format(dateTime!);
+    } else {
+      dateCtrl.text = 'NA';
+    }
+  }
+
+  calculate() {
+    payableAmountCtrl.text =
+        '${((int.tryParse(totalAmountCtrl.text) ?? 0) - (int.tryParse(discountAmountCtrl.text) ?? 0))}';
+    dueBalanceCtrl.text =
+        '${(int.tryParse(payableAmountCtrl.text) ?? -0) - (int.tryParse(advanceAmountCtrl.text) ?? 0)}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,112 +90,129 @@ class _EditAmountDetailsScreenState extends State<EditAmountDetailsScreen> {
           padding: const EdgeInsets.all(20),
           children: [
             Text(
-              'Basic Details',
+              'Amount Details',
               style: textTheme.titleLarge!.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              controller: eventAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: totalAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration:
+                        const InputDecoration(labelText: 'Total Amount'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: TextFormField(
+                    controller: discountAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration:
+                        const InputDecoration(labelText: 'Discount Amount'),
+                  ),
+                )
               ],
-              decoration: const InputDecoration(labelText: 'Event Amount'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
             ),
             const SizedBox(height: 25),
-            TextFormField(
-              controller: extraAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: advanceAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration: const InputDecoration(labelText: 'Advance'),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: TextFormField(
+                    readOnly: true,
+                    controller: payableAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration:
+                        const InputDecoration(labelText: 'Payable balance'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                )
               ],
-              decoration: const InputDecoration(labelText: 'Extra Amount'),
             ),
             const SizedBox(height: 25),
-            TextFormField(
-              controller: totalAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    readOnly: true,
+                    controller: dueBalanceCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration: const InputDecoration(labelText: 'Due balance'),
+                    validator: (text) {
+                      if (text?.trim().isEmpty ?? true) {
+                        return 'This field cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: DatePicker(
+                    dateTime,
+                    dateCtrl: dateCtrl,
+                    startDate: DateTime.now(),
+                    labelText: 'Next Due Date',
+                    validator: false,
+                    onDateChange: (dateTime) {
+                      setState(() => this.dateTime = dateTime);
+                    },
+                  ),
+                ),
               ],
-              decoration: const InputDecoration(labelText: 'Total Amount'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 25),
-            TextFormField(
-              controller: advanceAmountCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              onChanged: (v) {
-                if (advanceAmountCtrl.text != '') {
-                  var total = int.parse(totalAmountCtrl.text);
-                  var advance = int.parse(advanceAmountCtrl.text);
-                  dueBalanceCtrl.text = '${total - advance}';
-                } else {
-                  dueBalanceCtrl.text = totalAmountCtrl.text;
-                }
-                setState(() {});
-              },
-              decoration: const InputDecoration(labelText: 'Advance'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 25),
-            DatePicker(
-              dateTime,
-              dateCtrl: dateCtrl,
-              startDate: DateTime.now(),
-              labelText: 'Payment Due Date',
-              onDateChange: (dateTime) {
-                setState(() => this.dateTime = dateTime);
-              },
-            ),
-            const SizedBox(height: 25),
-            TextFormField(
-              readOnly: true,
-              controller: dueBalanceCtrl,
-              style: textTheme.bodyLarge,
-              textInputAction: TextInputAction.done,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              decoration: const InputDecoration(labelText: 'Due balance'),
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
             ),
             const SizedBox(height: 25),
             TextFormField(
@@ -170,12 +222,6 @@ class _EditAmountDetailsScreenState extends State<EditAmountDetailsScreen> {
               textInputAction: TextInputAction.done,
               decoration: const InputDecoration(labelText: 'Description'),
               keyboardType: TextInputType.text,
-              validator: (text) {
-                if (text?.trim().isEmpty ?? true) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
             ),
           ],
         ),
@@ -184,26 +230,32 @@ class _EditAmountDetailsScreenState extends State<EditAmountDetailsScreen> {
       bottomNavigationBar: NavbarButton(
         onPressed: () async {
           final navigator = Navigator.of(context);
+
           if (!(formKey.currentState?.validate() ?? true)) return;
           formKey.currentState?.save();
 
           Map<String, dynamic> bookingResponse = widget.response;
 
           bookingResponse['total'] = totalAmountCtrl.text;
-          bookingResponse['extra'] = extraAmountCtrl.text;
-          bookingResponse['payable'] = eventAmountCtrl.text;
+          bookingResponse['payable'] = payableAmountCtrl.text;
           bookingResponse['paid'] = advanceAmountCtrl.text;
           bookingResponse['due'] = dueBalanceCtrl.text;
-          bookingResponse['dueDate'] =
-              DateFormat('yyyy-MM-dd').format(dateTime!);
           bookingResponse['status'] = true;
 
-          await bookingBloc.createBooking(body: bookingResponse);
+          if (dateTime != null) {
+            bookingResponse['dueDate'] =
+                DateFormat('yyyy-MM-dd').format(dateTime!);
+          }
+
+          await bookingBloc.editBooking(
+            id: '${widget.booking.id}',
+            body: bookingResponse,
+          );
 
           if (mounted) {
             SuccessScreen.open(
               context,
-              text: 'Booking Added Successfully',
+              text: 'Booking Updated Successfully',
               onProcess: () {
                 navigator.pushNamedAndRemoveUntil(
                   Routes.main,

@@ -47,6 +47,11 @@ class BookingRepo {
     return list.map((e) => DueList.fromMap(e)).toList();
   }
 
+  Future editBooking({required String id, required body}) async {
+    var response = await apiClient.patch('${Api.bookings}/$id', body);
+    return response;
+  }
+
   //Payments
   Future<List<BookingPayments>> getBookingPayments({query}) async {
     var response = await apiClient.get(Api.bookingPayments, query: query);

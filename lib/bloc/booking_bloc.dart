@@ -43,6 +43,10 @@ class BookingBloc with ChangeNotifier {
     return await _bookingRepo.getDueList(query: query);
   }
 
+  Future editBooking({required String id, required body}) async {
+    return await _bookingRepo.editBooking(id: id, body: body);
+  }
+
   Future<List<BookingPayments>> getBookingPayments({query}) async {
     return await _bookingRepo.getBookingPayments(query: query);
   }

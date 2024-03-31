@@ -4,12 +4,12 @@ class Booking {
   String? name;
   String? mobile;
   String? address;
-  int? total;
-  int? discount;
-  int? extra;
-  int? payable;
-  int? paid;
-  int? due;
+  num? total;
+  num? discount;
+  num? extra;
+  num? payable;
+  num? paid;
+  num? due;
   DateTime? dueDate;
   String? description;
   String? status;

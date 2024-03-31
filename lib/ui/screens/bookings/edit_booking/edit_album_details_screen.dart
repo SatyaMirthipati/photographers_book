@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:photographers_book/model/booking.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../bloc/booking_bloc.dart';
 import '../../../../bloc/sheet_bloc.dart';
 import '../../../../bloc/user_bloc.dart';
 import '../../../../model/sheet.dart';
-import '../../../widgets/custom_card.dart';
-import '../../../widgets/details_tile.dart';
 import '../../../widgets/navbar_button.dart';
 
 class EditAlbumDetailsScreen extends StatefulWidget {
-  final Map<String, dynamic> response;
+  final BookingsSheet response;
+  final int index;
 
-  const EditAlbumDetailsScreen({super.key, required this.response});
+  const EditAlbumDetailsScreen({
+    super.key,
+    required this.response,
+    required this.index,
+  });
 
   static Future open(
     BuildContext context, {
-    required Map<String, dynamic> response,
+    required BookingsSheet response,
+    required int index,
   }) {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditAlbumDetailsScreen(response: response),
+        builder: (context) => EditAlbumDetailsScreen(
+          response: response,
+          index: index,
+        ),
       ),
     );
   }
@@ -48,6 +56,8 @@ class _EditAlbumDetailsScreenState extends State<EditAlbumDetailsScreen> {
     super.initState();
     fetchData();
     print('Res000 ${widget.response}');
+    sheet = widget.response.sheet;
+    quantityCtrl.text = widget.response.quantity ?? 'NA';
   }
 
   fetchData() async {
@@ -125,74 +135,6 @@ class _EditAlbumDetailsScreenState extends State<EditAlbumDetailsScreen> {
                   return null;
                 },
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () async {
-                    if (!(_formKey.currentState?.validate() ?? true)) return;
-                    _formKey.currentState?.save();
-
-                    bookingBloc.albumData.add(
-                      {'sheet': sheet, 'quantity': quantityCtrl.text},
-                    );
-                    setState(() {});
-                    reset();
-                  },
-                  child: const Text('Add more'),
-                ),
-              ),
-              if (bookingBloc.albumData.isNotEmpty) ...[
-                Text(
-                  'Event Details Added',
-                  style: textTheme.titleLarge!.copyWith(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                for (Map<String, dynamic> i
-                    in bookingBloc.albumData.toList()) ...[
-                  CustomCard(
-                    margin: EdgeInsets.zero,
-                    radius: 10,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Stack(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: DetailsTile(
-                                  title: const Text('Sheet'),
-                                  value: Text('${i['sheet']}'),
-                                ),
-                              ),
-                              Expanded(
-                                child: DetailsTile(
-                                  title: const Text('Quantity'),
-                                  value: Text('${i['quantity']}'),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Positioned(
-                            top: -15,
-                            right: -15,
-                            child: IconButton(
-                              onPressed: () async {
-                                setState(() => bookingBloc.albumData.remove(i));
-                              },
-                              icon: Icon(
-                                Icons.remove_circle,
-                                color: Colors.redAccent.shade700,
-                                size: 15,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ]
-              ],
               const SizedBox(height: 100),
             ],
           ),
@@ -200,11 +142,21 @@ class _EditAlbumDetailsScreenState extends State<EditAlbumDetailsScreen> {
       ),
       extendBody: true,
       bottomNavigationBar: NavbarButton(
-        onPressed: bookingBloc.albumData.isNotEmpty
+        onPressed: bookingBloc.updateSheetsData.isNotEmpty
             ? () async {
-                var response = widget.response;
-                print('OKnow${bookingBloc.albumData}');
-                response['sheets'] = bookingBloc.albumData.toList();
+                final navigator = Navigator.of(context);
+                if (!(_formKey.currentState?.validate() ?? true)) return;
+                _formKey.currentState?.save();
+
+                Map<String, dynamic> data = {
+                  'sheet': sheet,
+                  'quantity': quantityCtrl.text
+                };
+                bookingBloc.updateSheetsData[widget.index] =
+                    BookingsSheet.fromMap(data);
+                setState(() {});
+                reset();
+                navigator.pop(true);
               }
             : null,
         child: const Text('Proceed'),

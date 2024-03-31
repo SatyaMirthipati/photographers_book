@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:photographers_book/bloc/booking_bloc.dart';
 import 'package:photographers_book/model/booking.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../model/category.dart';
 import '../../../widgets/date_picker.dart';
 import '../../../widgets/error_snackbar.dart';
+import '../../../widgets/navbar_button.dart';
 
 class EditBookingEventScreen extends StatefulWidget {
   final BookingsEvent bookingsEvents;
@@ -14,13 +18,14 @@ class EditBookingEventScreen extends StatefulWidget {
   const EditBookingEventScreen({
     super.key,
     required this.bookingsEvents,
-    required this.categories, required this.index,
+    required this.categories,
+    required this.index,
   });
 
   static Future open(
     BuildContext context, {
     required BookingsEvent bookingsEvents,
-    required  int index,
+    required int index,
     required List<Category> categories,
   }) {
     return Navigator.of(context).push(
@@ -41,9 +46,9 @@ class EditBookingEventScreen extends StatefulWidget {
 class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  late MultiSelectController<Category?> videoController;
-  late MultiSelectController<Category?> cameraController;
-  late MultiSelectController<Category?> droneController;
+  late MultiSelectController<String> videoController;
+  late MultiSelectController<String> cameraController;
+  late MultiSelectController<String> droneController;
 
   int textFieldCount = 1;
 
@@ -56,10 +61,10 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
   List<Category> camerasData = [];
   List<Category> events = [];
 
-  Category? event;
-  Set<Category?> video = {};
-  Set<Category?> camera = {};
-  Set<Category?> drone = {};
+  String? event;
+  List<String?> video = [];
+  List<String?> camera = [];
+  List<String?> drone = [];
 
   @override
   void initState() {
@@ -72,6 +77,15 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
         widget.categories.where((e) => e.category == 'CAMERA').toList();
     videosData = widget.categories.where((e) => e.category == 'VIDEO').toList();
     dronesData = widget.categories.where((e) => e.category == 'DRONE').toList();
+    event = widget.bookingsEvents.event;
+    video = widget.bookingsEvents.video ?? [];
+    drone = widget.bookingsEvents.drone ?? [];
+    camera = widget.bookingsEvents.camera ?? [];
+    addressCtrl.text = widget.bookingsEvents.address ?? 'NA';
+    dateTime = widget.bookingsEvents.date;
+    if (dateTime != null) {
+      dateCtrl.text = DateFormat('dd MMMM, yyyy').format(dateTime!);
+    }
   }
 
   reset() {
@@ -98,6 +112,7 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
+    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Edit A Booking Event')),
       body: Form(
@@ -112,7 +127,7 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
                 style: textTheme.titleLarge!.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 10),
-              DropdownButtonFormField<Category>(
+              DropdownButtonFormField<String>(
                 value: event,
                 style: textTheme.bodyLarge,
                 isDense: true,
@@ -130,8 +145,8 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
                 onSaved: (value) => event = value,
                 items: [
                   for (var item in events)
-                    DropdownMenuItem<Category>(
-                      value: item,
+                    DropdownMenuItem<String>(
+                      value: item.type,
                       child: Text(item.type ?? 'NA'),
                     )
                 ],
@@ -142,10 +157,10 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
                 dateCtrl: dateCtrl,
                 startDate: DateTime.now(),
                 labelText: 'Event Date',
+                validator: true,
                 onDateChange: (dateTime) {
                   setState(() => this.dateTime = dateTime);
                 },
-                validator: true,
               ),
               const SizedBox(height: 25),
               TextFormField(
@@ -168,10 +183,13 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
               MultiSelectDropDown(
                 controller: videoController,
                 onOptionSelected: (options) {
-                  video = options.map((e) => e.value).toSet();
+                  video = options.map((e) => e.value).toList();
                 },
+                selectedOptions: video.map((e) {
+                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
+                }).toList(),
                 options: videosData.map((e) {
-                  return ValueItem(label: '${e.type}', value: e);
+                  return ValueItem(label: '${e.type}', value: '${e.type}');
                 }).toList(),
                 hint: 'Select videos',
                 selectionType: SelectionType.multi,
@@ -183,10 +201,13 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
               MultiSelectDropDown(
                 controller: cameraController,
                 onOptionSelected: (options) {
-                  camera = options.map((e) => e.value).toSet();
+                  camera = options.map((e) => e.value).toList();
                 },
+                selectedOptions: camera.map((e) {
+                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
+                }).toList(),
                 options: camerasData.map((e) {
-                  return ValueItem(label: '${e.type}', value: e);
+                  return ValueItem(label: '${e.type}', value: '${e.type}');
                 }).toList(),
                 hint: 'Select cameras',
                 selectionType: SelectionType.multi,
@@ -198,10 +219,13 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
               MultiSelectDropDown(
                 controller: droneController,
                 onOptionSelected: (options) {
-                  drone = options.map((e) => e.value).toSet();
+                  drone = options.map((e) => e.value).toList();
                 },
+                selectedOptions: drone.map((e) {
+                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
+                }).toList(),
                 options: dronesData.map((e) {
-                  return ValueItem(label: '${e.type}', value: e);
+                  return ValueItem(label: '${e.type}', value: '${e.type}');
                 }).toList(),
                 hint: 'Select drones',
                 selectionType: SelectionType.multi,
@@ -209,41 +233,43 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
                 optionTextStyle: textTheme.bodyLarge,
                 selectedOptionIcon: const Icon(Icons.check_circle),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () async {
-                    if (!(_formKey.currentState?.validate() ?? true)) return;
-                    _formKey.currentState?.save();
-
-                    if (dateTime == null) {
-                      return ErrorSnackBar.show(
-                        context,
-                        'Please date to continue',
-                      );
-                    }
-
-                    // bookingBloc.eventsData.add(
-                    //   {
-                    //     'event': event?.type ?? '',
-                    //     'video': video.map((v) => v?.type).toList(),
-                    //     'camera': camera.map((c) => c?.type).toList(),
-                    //     'drone': drone.map((d) => d?.type).toList(),
-                    //     'date': DateFormat('yyyy-MM-dd').format(dateTime!),
-                    //     'address': addressCtrl.text ?? '',
-                    //   },
-                    // );
-                    setState(() {});
-                    reset();
-                  },
-                  child: const Text('Add more'),
-                ),
-              ),
-              const SizedBox(height: 20),
               const SizedBox(height: 100),
             ],
           ),
         ),
+      ),
+      extendBody: true,
+      bottomNavigationBar: NavbarButton(
+        onPressed: () async {
+          final navigator = Navigator.of(context);
+          if (!(_formKey.currentState?.validate() ?? true)) return;
+          _formKey.currentState?.save();
+
+          if (dateTime == null) {
+            return ErrorSnackBar.show(
+              context,
+              'Please date to continue',
+            );
+          }
+
+          Map<String, dynamic> data = {
+            'event': event ?? '',
+            'video': video,
+            'camera': camera,
+            'drone': drone,
+            'date': DateFormat('yyyy-MM-dd').format(dateTime!),
+            'address': addressCtrl.text,
+          };
+
+          bookingBloc.updateEventsData[widget.index] =
+              BookingsEvent.fromMap(data);
+
+          print(bookingBloc.updateEventsData[widget.index]);
+          setState(() {});
+          reset();
+          navigator.pop(true);
+        },
+        child: const Text('Proceed'),
       ),
     );
   }

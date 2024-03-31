@@ -169,6 +169,7 @@ class _EditBasicDetailsBodyState extends State<EditBasicDetailsBody> {
                 context,
                 response: basicDetails,
                 categories: data,
+                booking: widget.booking,
               );
             }
           },
