@@ -23,6 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordCtrl = TextEditingController();
   bool showPassword = false;
 
+  final _focusNode1 = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode1.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -60,10 +68,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
                 return null;
               },
+              onFieldSubmitted: (v) async {
+                FocusScope.of(context).requestFocus(_focusNode1);
+              },
             ),
             const SizedBox(height: 25),
             TextFormField(
               controller: passwordCtrl,
+              focusNode: _focusNode1,
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Enter your password',
