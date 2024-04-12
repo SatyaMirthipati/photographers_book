@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "photographers.book.app.photographers_book"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

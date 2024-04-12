@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photographers_book/ui/screens/profile/how_it_works_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/user_bloc.dart';
@@ -125,6 +126,33 @@ class ProfileScreen extends StatelessWidget {
             },
             title: 'My Duelist',
             image: Images.my_duelist,
+          ),
+          const SizedBox(height: 15),
+          GestureDetector(
+            onTap: () {
+              HowItWorksScreen.open(
+                context,
+                url: 'https://www.youtube.com/watch?v=ZBCUegTZF7M',
+              );
+            },
+            child: Text(
+              'How it works',
+              style: textTheme.titleSmall!.copyWith(
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ),
+          ),
+          const SizedBox(height: 15),
+          GestureDetector(
+            onTap: () {
+              Helper.launchCall(phone: '9963867732');
+            },
+            child: Text(
+              'Contact us',
+              style: textTheme.titleSmall!.copyWith(
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ),
           ),
         ],
       ),
