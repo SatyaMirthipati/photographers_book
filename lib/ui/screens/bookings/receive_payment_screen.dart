@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:photographers_book/ui/widgets/error_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/booking_bloc.dart';
 import '../../../config/routes.dart';
 import '../../widgets/date_picker.dart';
+import '../../widgets/error_snackbar.dart';
 import '../../widgets/navbar_button.dart';
 import '../../widgets/success_screen.dart';
 
@@ -30,6 +30,13 @@ class _ReceivePaymentScreenState extends State<ReceivePaymentScreen> {
   final paymentCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   DateTime? dateTime;
+
+  @override
+  void initState() {
+    super.initState();
+    dateCtrl.text = DateFormat('dd MMMM, yyyy').format(DateTime.now());
+    dateTime = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +92,7 @@ class _ReceivePaymentScreenState extends State<ReceivePaymentScreen> {
             DatePicker(
               dateTime,
               dateCtrl: dateCtrl,
-              // startDate: DateTime.now(),
+              endDate: DateTime.now(),
               labelText: 'Payment Date',
               onDateChange: (dateTime) {
                 setState(() => this.dateTime = dateTime);
