@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../../bloc/event_bloc.dart';
 import '../../../../../bloc/schedule_bloc.dart';
 import '../../../../../bloc/user_bloc.dart';
+import '../../../../../config/routes.dart';
 import '../../../../../model/event.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/images.dart';
@@ -46,46 +47,54 @@ class ScheduleCard extends StatelessWidget {
           itemCount: list.length,
           padding: const EdgeInsets.all(10),
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(5),
-              child: Stack(
-                fit: StackFit.passthrough,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: MyColors.border),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      '${list[index].event}',
-                      style: textTheme.titleSmall!.copyWith(fontSize: 16),
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: Container(
+            return InkWell(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.eventDetails.setId(list[index].id.toString()),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Stack(
+                  fit: StackFit.passthrough,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: MyColors.statusColor[list[index].status]
-                            ?.withOpacity(0.1),
+                        border: Border.all(width: 1, color: MyColors.border),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.all(4),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          '${list[index].status}',
-                          style: textTheme.titleSmall!.copyWith(
-                            color: MyColors.statusColor[list[index].status],
-                            fontSize: 11,
+                      child: Text(
+                        '${list[index].event}',
+                        style: textTheme.titleSmall!.copyWith(fontSize: 16),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: MyColors.statusColor[list[index].status]
+                              ?.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: RotatedBox(
+                          quarterTurns: 1,
+                          child: Text(
+                            '${list[index].status}',
+                            style: textTheme.titleSmall!.copyWith(
+                              color: MyColors.statusColor[list[index].status],
+                              fontSize: 11,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             );
           },
