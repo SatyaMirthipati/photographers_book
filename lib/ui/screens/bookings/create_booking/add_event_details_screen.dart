@@ -211,35 +211,44 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                 optionTextStyle: textTheme.bodyLarge,
                 selectedOptionIcon: const Icon(Icons.check_circle),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () async {
-                    if (!(_formKey.currentState?.validate() ?? true)) return;
-                    _formKey.currentState?.save();
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      reset();
+                      setState(() {});
+                    },
+                    child: const Text('Clear'),
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () async {
+                      if (!(_formKey.currentState?.validate() ?? true)) return;
+                      _formKey.currentState?.save();
 
-                    if (dateTime == null) {
-                      return ErrorSnackBar.show(
-                        context,
-                        'Please date to continue',
+                      if (dateTime == null) {
+                        return ErrorSnackBar.show(
+                          context,
+                          'Please date to continue',
+                        );
+                      }
+
+                      bookingBloc.eventsData.add(
+                        {
+                          'event': event?.type ?? '',
+                          'video': video.map((v) => v?.type).toList(),
+                          'camera': camera.map((c) => c?.type).toList(),
+                          'drone': drone.map((d) => d?.type).toList(),
+                          'date': DateFormat('yyyy-MM-dd').format(dateTime!),
+                          'address': addressCtrl.text ?? '',
+                        },
                       );
-                    }
-
-                    bookingBloc.eventsData.add(
-                      {
-                        'event': event?.type ?? '',
-                        'video': video.map((v) => v?.type).toList(),
-                        'camera': camera.map((c) => c?.type).toList(),
-                        'drone': drone.map((d) => d?.type).toList(),
-                        'date': DateFormat('yyyy-MM-dd').format(dateTime!),
-                        'address': addressCtrl.text ?? '',
-                      },
-                    );
-                    setState(() {});
-                    reset();
-                  },
-                  child: const Text('Add'),
-                ),
+                      setState(() {});
+                      reset();
+                    },
+                    child: const Text('Add'),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               if (bookingBloc.eventsData.isNotEmpty) ...[
@@ -358,16 +367,15 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
       bottomNavigationBar: NavbarButton(
         onPressed: bookingBloc.eventsData.isNotEmpty
             ? () async {
-                if (bookingBloc.eventsData.isEmpty) {
+                if (event != null && dateTime != null) {
                   return ErrorSnackBar.show(
                     context,
-                    'Please fill the above fields to proceed',
+                    'Please click on add button to add new event data',
                   );
                 }
+
                 var response = widget.response;
-
                 response['events'] = bookingBloc.eventsData.toList();
-
                 AddAlbumDetailsScreen.open(context, response: response);
               }
             : null,

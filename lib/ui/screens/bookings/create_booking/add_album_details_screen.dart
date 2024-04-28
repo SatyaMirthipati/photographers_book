@@ -8,6 +8,7 @@ import '../../../../bloc/user_bloc.dart';
 import '../../../../model/sheet.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/details_tile.dart';
+import '../../../widgets/error_snackbar.dart';
 import '../../../widgets/navbar_button.dart';
 import 'add_amount_details_screen.dart';
 
@@ -139,7 +140,7 @@ class _AddAlbumDetailsScreenState extends State<AddAlbumDetailsScreen> {
                     setState(() {});
                     reset();
                   },
-                  child: const Text('Add more'),
+                  child: const Text('Add'),
                 ),
               ),
               if (bookingBloc.albumData.isNotEmpty) ...[
@@ -202,8 +203,15 @@ class _AddAlbumDetailsScreenState extends State<AddAlbumDetailsScreen> {
       extendBody: true,
       bottomNavigationBar: NavbarButton(
         onPressed: () async {
+          if (sheet != null &&
+              (quantityCtrl.text != '' || quantityCtrl.text.isNotEmpty)) {
+            return ErrorSnackBar.show(
+              context,
+              'Please click on add button to add new album details',
+            );
+          }
+
           var response = widget.response;
-          print('OKnow${bookingBloc.albumData}');
           response['sheets'] = bookingBloc.albumData.toList();
           AddAmountDetailsScreen.open(context, response: response);
         },
