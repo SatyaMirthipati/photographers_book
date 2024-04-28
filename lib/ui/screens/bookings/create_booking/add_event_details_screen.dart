@@ -238,7 +238,7 @@ class _AddEventDetailsScreenState extends State<AddEventDetailsScreen> {
                     setState(() {});
                     reset();
                   },
-                  child: const Text('Add more'),
+                  child: const Text('Add'),
                 ),
               ),
               const SizedBox(height: 20),
