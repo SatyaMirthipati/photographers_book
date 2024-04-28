@@ -171,6 +171,7 @@ class _EditBasicDetailsBodyState extends State<EditBasicDetailsBody> {
                 categories: data,
                 booking: widget.booking,
               );
+              setState(() {});
             }
           },
           child: const Text('Proceed'),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
-import 'package:photographers_book/ui/screens/bookings/edit_booking/edit_albums_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../bloc/booking_bloc.dart';
@@ -10,6 +10,7 @@ import '../../../../resources/images.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/details_tile.dart';
 import '../../../widgets/navbar_button.dart';
+import 'edit_albums_screen.dart';
 import 'edit_booking_event_screen.dart';
 
 class EditEventsScreen extends StatefulWidget {
@@ -46,6 +47,19 @@ class EditEventsScreen extends StatefulWidget {
 }
 
 class _EditEventsScreenState extends State<EditEventsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((t) => fetchData());
+  }
+
+  fetchData() async {
+    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
+    var data = await bookingBloc.getOneBooking(id: '${widget.booking.id}');
+    bookingBloc.updateEventsData = data.events ?? [];
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -159,7 +173,7 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                             ),
                           ],
                         ),
-                        if (i != 0)
+                        if (bookingBloc.updateEventsData.length > 1)
                           Positioned(
                             top: -15,
                             right: -15,
@@ -179,7 +193,9 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                             ),
                           ),
                         Positioned(
-                          top: i != 0 ? 15 : -15,
+                          top: bookingBloc.updateEventsData.length > 1
+                              ? 15
+                              : -15,
                           right: -15,
                           child: IconButton(
                             onPressed: () async {
@@ -214,9 +230,11 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
       bottomNavigationBar: NavbarButton(
         onPressed: () async {
           var response = widget.response;
-          response['events'] = bookingBloc.updateEventsData.map(
-            (e) => e.toMap(),
-          ).toList();
+          response['events'] = bookingBloc.updateEventsData
+              .map(
+                (e) => e.toMap(),
+              )
+              .toList();
 
           EditAlbumsScreen.open(
             context,
