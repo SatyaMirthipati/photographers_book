@@ -112,21 +112,6 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: advanceAmountCtrl,
-                    style: textTheme.bodyLarge,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    ],
-                    onChanged: (v) => calculate(),
-                    decoration: const InputDecoration(labelText: 'Advance'),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: TextFormField(
                     readOnly: true,
                     controller: payableAmountCtrl,
                     style: textTheme.bodyLarge,
@@ -145,7 +130,22 @@ class _AddAmountDetailsScreenState extends State<AddAmountDetailsScreen> {
                       return null;
                     },
                   ),
-                )
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: TextFormField(
+                    controller: advanceAmountCtrl,
+                    style: textTheme.bodyLarge,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    onChanged: (v) => calculate(),
+                    decoration: const InputDecoration(labelText: 'Advance'),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 25),
