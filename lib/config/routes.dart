@@ -13,7 +13,6 @@ import '../ui/screens/bookings/create_booking/add_basic_details_screen.dart';
 import '../ui/screens/bookings/edit_booking/edit_basic_details_screen.dart';
 import '../ui/screens/bookings/my_booking_screen.dart';
 import '../ui/screens/bookings/receive_payment_screen.dart';
-import '../ui/screens/events/edit_event_details_screen.dart';
 import '../ui/screens/events/event_details_screen.dart';
 import '../ui/screens/events/my_events_screen.dart';
 import '../ui/screens/main/main_screen.dart';
@@ -77,7 +76,6 @@ class Routes {
   //Events flow
   static String myEvents = '/myEvents';
   static String eventDetails = '/eventDetails/:id';
-  static String editEvent = '/editEvent/:id';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notFoundHandler;
@@ -191,12 +189,6 @@ class Routes {
     );
 
     router.define(
-      editEvent,
-      handler: editEventHandler,
-      transitionType: TransitionType.material,
-    );
-
-    router.define(
       dueList,
       handler: dueListHandler,
       transitionType: TransitionType.material,
@@ -290,10 +282,6 @@ var bookingSheetsHandler = Handler(
 
 var bookingPaymentsHandler = Handler(
   handlerFunc: (c, p) => BookingPaymentsScreen(bookingId: p['bookingId']![0]),
-);
-
-var editEventHandler = Handler(
-  handlerFunc: (context, params) => EditEventDetails(id: params['id']![0]),
 );
 
 var dueListHandler = Handler(handlerFunc: (c, p) => const DueListScreen());

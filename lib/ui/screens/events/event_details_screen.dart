@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../bloc/booking_bloc.dart';
 import '../../../bloc/event_bloc.dart';
-import '../../../config/routes.dart';
 import '../../../model/event.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../widgets/details_tile.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
+import 'edit_event_details_screen.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final String id;
@@ -29,60 +30,68 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       fontSize: 12,
     );
     var eventBloc = Provider.of<EventBloc>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Event Details'),
-        actions: [
-          PopupMenuButton<String>(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: BorderSide(color: Colors.black.withOpacity(0.2)),
-            ),
-            onSelected: (item) async {
-              if (item == 'edit') {
-                var res = await Navigator.pushNamed(
-                  context,
-                  Routes.editEvent.setId(widget.id),
-                );
-                if (res == null) return;
-                setState(() {});
-              }
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: Icon(Icons.more_vert),
-            ),
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  value: 'edit',
-                  child: Row(
-                    children: [
-                      Image.asset(Images.edit, width: 20, height: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Edit Event Details',
-                        style: textTheme.bodyLarge!.copyWith(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
+    return FutureBuilder<Event>(
+      future: eventBloc.getOneEvent(id: widget.id),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return CustomErrorWidget.scaffold(error: snapshot.error);
+        }
+        if (!snapshot.hasData) return const LoadingWidget.scaffold();
+        var event = snapshot.data!;
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Event Details'),
+            actions: [
+              PopupMenuButton<String>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: Colors.black.withOpacity(0.2)),
                 ),
-              ];
-            },
+                onSelected: (item) async {
+                  if (item == 'edit') {
+                    var bookingBloc = Provider.of<BookingBloc>(
+                      context,
+                      listen: false,
+                    );
+                    var data = await bookingBloc.getCategories();
+
+                    EditEventBody.open(
+                      context,
+                      event: event,
+                      id: '${event.id}',
+                      categories: data,
+                    );
+                    // if (res == null) return;
+                    setState(() {});
+                  }
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Icon(Icons.more_vert),
+                ),
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'edit',
+                      child: Row(
+                        children: [
+                          Image.asset(Images.edit, width: 20, height: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Edit Event Details',
+                            style: textTheme.bodyLarge!.copyWith(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      body: FutureBuilder<Event>(
-        future: eventBloc.getOneEvent(id: widget.id),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return CustomErrorWidget(error: snapshot.error);
-          }
-          if (!snapshot.hasData) return const LoadingWidget();
-          var event = snapshot.data!;
-          return ListView(
+          body: ListView(
             padding: const EdgeInsets.all(20),
             children: [
               Row(
@@ -200,9 +209,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 ],
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

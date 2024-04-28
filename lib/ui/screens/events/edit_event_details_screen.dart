@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
-import 'package:photographers_book/ui/widgets/navbar_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/booking_bloc.dart';
@@ -9,36 +9,58 @@ import '../../../bloc/event_bloc.dart';
 import '../../../model/category.dart';
 import '../../../model/event.dart';
 import '../../widgets/date_picker.dart';
-import '../../widgets/error_widget.dart';
-import '../../widgets/loading_widget.dart';
+import '../../widgets/navbar_button.dart';
 
-class EditEventDetails extends StatelessWidget {
-  final String id;
-
-  const EditEventDetails({super.key, required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-    var eventBloc = Provider.of<EventBloc>(context, listen: false);
-    return FutureBuilder<Event>(
-      future: eventBloc.getOneEvent(id: id),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return CustomErrorWidget.scaffold(error: snapshot.error);
-        }
-        if (!snapshot.hasData) return const LoadingWidget.scaffold();
-        var event = snapshot.data!;
-        return EditEventBody(id: id, event: event);
-      },
-    );
-  }
-}
+// class EditEventDetails extends StatelessWidget {
+//   final String id;
+//
+//   const EditEventDetails({super.key, required this.id});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     var eventBloc = Provider.of<EventBloc>(context, listen: false);
+//     return FutureBuilder<Event>(
+//       future: eventBloc.getOneEvent(id: id),
+//       builder: (context, snapshot) {
+//         if (snapshot.hasError) {
+//           return CustomErrorWidget.scaffold(error: snapshot.error);
+//         }
+//         if (!snapshot.hasData) return const LoadingWidget.scaffold();
+//         var event = snapshot.data!;
+//         return EditEventBody(id: id, event: event);
+//       },
+//     );
+//   }
+// }
 
 class EditEventBody extends StatefulWidget {
   final Event event;
+  final List<Category> categories;
   final String id;
 
-  const EditEventBody({super.key, required this.event, required this.id});
+  const EditEventBody({
+    super.key,
+    required this.event,
+    required this.id,
+    required this.categories,
+  });
+
+  static Future open(
+    BuildContext context, {
+    required Event event,
+    required List<Category> categories,
+    required String id,
+  }) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditEventBody(
+          id: id,
+          event: event,
+          categories: categories,
+        ),
+      ),
+    );
+  }
 
   @override
   State<EditEventBody> createState() => _EditEventBodyState();
@@ -47,26 +69,22 @@ class EditEventBody extends StatefulWidget {
 class _EditEventBodyState extends State<EditEventBody> {
   final _formKey = GlobalKey<FormState>();
 
+  late MultiSelectController<String> videoController;
+  late MultiSelectController<String> cameraController;
+  late MultiSelectController<String> droneController;
+
+  int textFieldCount = 1;
+
   final addressCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   DateTime? dateTime;
 
-  fetchCategories() async {
-    var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
-    var data = await bookingBloc.getCategories();
-    events = data.where((e) => e.category == 'EVENT').toList();
-    cameras = data.where((e) => e.category == 'CAMERA').toList();
-    videos = data.where((e) => e.category == 'VIDEO').toList();
-    drones = data.where((e) => e.category == 'DRONE').toList();
-    setState(() {});
-  }
-
+  List<Category> videosData = [];
+  List<Category> dronesData = [];
+  List<Category> camerasData = [];
   List<Category> events = [];
-  List<Category> videos = [];
-  List<Category> cameras = [];
-  List<Category> drones = [];
-  String? event;
 
+  String? event;
   List<String?> video = [];
   List<String?> camera = [];
   List<String?> drone = [];
@@ -74,12 +92,21 @@ class _EditEventBodyState extends State<EditEventBody> {
   @override
   void initState() {
     super.initState();
-    fetchCategories();
+    videoController = MultiSelectController();
+    cameraController = MultiSelectController();
+    droneController = MultiSelectController();
+
+    events = widget.categories.where((e) => e.category == 'EVENT').toList();
+    camerasData =
+        widget.categories.where((e) => e.category == 'CAMERA').toList();
+    videosData = widget.categories.where((e) => e.category == 'VIDEO').toList();
+    dronesData = widget.categories.where((e) => e.category == 'DRONE').toList();
+
     event = widget.event.event;
     video = widget.event.video ?? [];
-    camera = widget.event.camera ?? [];
     drone = widget.event.drone ?? [];
-    addressCtrl.text = widget.event.address ?? '';
+    camera = widget.event.camera ?? [];
+    addressCtrl.text = widget.event.address ?? 'NA';
     dateTime = widget.event.date;
     if (dateTime != null) {
       dateCtrl.text = DateFormat('dd MMMM, yyyy').format(dateTime!);
@@ -119,12 +146,6 @@ class _EditEventBodyState extends State<EditEventBody> {
                   setState(() => event = value);
                 },
                 onSaved: (value) => event = value,
-                validator: (value) {
-                  if (value == null) {
-                    return 'This field can\'t be empty';
-                  }
-                  return null;
-                },
                 items: [
                   for (var item in events)
                     DropdownMenuItem<String>(
@@ -139,6 +160,7 @@ class _EditEventBodyState extends State<EditEventBody> {
                 dateCtrl: dateCtrl,
                 startDate: DateTime.now(),
                 labelText: 'Event Date',
+                validator: true,
                 onDateChange: (dateTime) {
                   setState(() => this.dateTime = dateTime);
                 },
@@ -146,17 +168,11 @@ class _EditEventBodyState extends State<EditEventBody> {
               const SizedBox(height: 25),
               TextFormField(
                 controller: addressCtrl,
-                maxLines: 3,
+                maxLines: 4,
                 keyboardType: TextInputType.text,
                 style: textTheme.bodyLarge,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(labelText: 'Address'),
-                validator: (text) {
-                  if (text?.trim().isEmpty ?? true) {
-                    return 'This field cannot be empty';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 15),
               Text(
@@ -168,11 +184,15 @@ class _EditEventBodyState extends State<EditEventBody> {
               ),
               const SizedBox(height: 15),
               MultiSelectDropDown(
+                controller: videoController,
                 onOptionSelected: (options) {
                   video = options.map((e) => e.value).toList();
                 },
-                options: videos.map((e) {
-                  return ValueItem(label: '${e.type}', value: e.type);
+                selectedOptions: video.map((e) {
+                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
+                }).toList(),
+                options: videosData.map((e) {
+                  return ValueItem(label: '${e.type}', value: '${e.type}');
                 }).toList(),
                 hint: 'Select videos',
                 selectionType: SelectionType.multi,
@@ -182,13 +202,21 @@ class _EditEventBodyState extends State<EditEventBody> {
               ),
               const SizedBox(height: 25),
               MultiSelectDropDown(
+                controller: cameraController,
                 onOptionSelected: (options) {
+                  print(cameraController.options);
                   camera = options.map((e) => e.value).toList();
                 },
-                options: cameras.map((e) {
-                  return ValueItem(label: '${e.type}', value: e.type);
+                selectedOptions: camera.map((e) {
+                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
                 }).toList(),
-                hint: 'Select cameras',
+                options: camerasData.map((e) {
+                  return ValueItem(label: '${e.type}', value: '${e.type}');
+                }).toList(),
+                hint: 'Select cameras ',
+                alwaysShowOptionIcon: true,
+                borderRadius: 10,
+                dropdownHeight: 200,
                 selectionType: SelectionType.multi,
                 chipConfig: const ChipConfig(wrapType: WrapType.wrap),
                 optionTextStyle: textTheme.bodyLarge,
@@ -196,11 +224,15 @@ class _EditEventBodyState extends State<EditEventBody> {
               ),
               const SizedBox(height: 25),
               MultiSelectDropDown(
+                controller: droneController,
                 onOptionSelected: (options) {
                   drone = options.map((e) => e.value).toList();
                 },
-                options: drones.map((e) {
-                  return ValueItem(label: '${e.type}', value: e.type);
+                selectedOptions: drone.map((e) {
+                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
+                }).toList(),
+                options: dronesData.map((e) {
+                  return ValueItem(label: '${e.type}', value: '${e.type}');
                 }).toList(),
                 hint: 'Select drones',
                 selectionType: SelectionType.multi,
