@@ -68,6 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
                 return null;
               },
+              onTapOutside: (v) {
+                FocusScope.of(context).requestFocus(_focusNode1);
+              },
               onFieldSubmitted: (v) async {
                 FocusScope.of(context).requestFocus(_focusNode1);
               },

@@ -30,6 +30,14 @@ class _MobileScreenState extends State<MobileScreen> {
     borderSide: const BorderSide(color: Color(0x2024272C), width: 1),
   );
 
+  final _focusNode1 = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode1.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -64,6 +72,12 @@ class _MobileScreenState extends State<MobileScreen> {
               labelText: 'Username',
               hintText: 'Enter your Mobile number or Email id',
             ),
+            onTapOutside: (v) {
+              FocusScope.of(context).requestFocus(_focusNode1);
+            },
+            onFieldSubmitted: (v) async {
+              FocusScope.of(context).requestFocus(_focusNode1);
+            },
             validator: (text) {
               if (text?.trim().isEmpty ?? true) {
                 return 'This field cannot be empty';
@@ -94,6 +108,14 @@ class _MobileScreenState extends State<MobileScreen> {
                     token = res['access_token'];
                   }
                   setState(() => otp = true);
+                  if (res['userExists'] == true) {
+                    if (mounted) {
+                      return ErrorSnackBar.show(
+                        context,
+                        'Otp sent to your mail',
+                      );
+                    }
+                  }
                 },
                 child: Text(
                   'Get Otp',
@@ -108,6 +130,7 @@ class _MobileScreenState extends State<MobileScreen> {
           TextFormField(
             cursorWidth: 1,
             controller: otpCtrl,
+            focusNode: _focusNode1,
             style: textTheme.bodyLarge,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
