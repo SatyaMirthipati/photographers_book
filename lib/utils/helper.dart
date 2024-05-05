@@ -22,6 +22,15 @@ class Helper {
     await launchUrl(launchUri);
   }
 
+  static launchEmail({required String userName}) async {
+    final Uri launchUri = Uri(
+      scheme: 'mailto',
+      path: 'kumaraswamy.coign@gmail.com',
+      query: 'subject=$userName&body=',
+    );
+    await launchUrl(launchUri);
+  }
+
   static int calculateAge({required DateTime dob}) {
     DateTime now = DateTime.now();
     int age = now.year - dob.year;

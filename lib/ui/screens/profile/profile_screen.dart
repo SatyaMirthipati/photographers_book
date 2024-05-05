@@ -8,6 +8,7 @@ import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../../utils/helper.dart';
 import '../../widgets/dialog_confirm.dart';
+import 'widgets/contact_us_sheet.dart';
 import 'widgets/profile_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -145,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 15),
           GestureDetector(
             onTap: () {
-              Helper.launchCall(phone: '9963867732');
+              ContactUsSheet.open(context);
             },
             child: Text(
               'Contact us',
