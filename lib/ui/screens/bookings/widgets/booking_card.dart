@@ -30,10 +30,7 @@ class BookingCard extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 5,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
                   Text(
@@ -42,6 +39,7 @@ class BookingCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   IconButton(
+                    constraints: const BoxConstraints(maxHeight: 40),
                     onPressed: () {
                       Navigator.pushNamed(
                         context,
@@ -56,7 +54,7 @@ class BookingCard extends StatelessWidget {
             const SizedBox(height: 5),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -83,7 +81,6 @@ class BookingCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 15),
-                  const SizedBox(height: 20),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       foregroundColor: MyColors.primaryColor,

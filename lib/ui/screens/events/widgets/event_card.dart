@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:photographers_book/config/routes.dart';
+import 'package:photographers_book/utils/helper.dart';
 
 import '../../../../model/event.dart';
 import '../../../../resources/colors.dart';
@@ -36,6 +37,7 @@ class EventCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DetailsTile(
                     title: const Text('Event'),
@@ -81,7 +83,9 @@ class EventCard extends StatelessWidget {
                   Expanded(
                     child: DetailsTile(
                       title: const Text('Client Name'),
-                      value: Text(event.bookingDetails?.name ?? 'NA'),
+                      value: Text(
+                        (event.bookingDetails?.name ?? 'NA').toCapitalized(),
+                      ),
                     ),
                   ),
                 ],
@@ -92,19 +96,23 @@ class EventCard extends StatelessWidget {
                 value: Text(event.bookingDetails?.mobile ?? 'NA'),
               ),
               const SizedBox(height: 15),
-              DetailsTile(
-                title: const Text('Address'),
-                value: Text(
-                  event.address ?? 'NA',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: true,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: DetailsTile(
+                      title: const Text('Address'),
+                      value: Text(
+                        event.address ?? 'NA',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                      ),
+                    ),
+                  ),
+                  Image.asset(Images.left_arrow, width: 15, height: 15),
+                ],
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset(Images.left_arrow, width: 15, height: 15),
-              )
             ],
           ),
         ),
