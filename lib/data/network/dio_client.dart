@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import '../local/shared_prefs.dart';
 import 'api_client.dart';
@@ -10,12 +9,10 @@ class DioClient implements ApiClient {
   String store = 'default';
   late Dio dio;
   String accessToken = "Bearer fiakb9318uishfsksn5oibbynn86gb3w";
-  String baseUrl =
-      kReleaseMode ? 'http://78.142.47.247:9990' : 'http://192.168.1.5:9990';
+  String baseUrl = 'http://78.142.47.247:9990';
 
   DioClient() {
     dio = Dio();
-
     dio.options = BaseOptions(
       baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
