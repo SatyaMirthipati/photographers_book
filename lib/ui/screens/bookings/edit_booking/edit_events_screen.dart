@@ -10,6 +10,7 @@ import '../../../../resources/images.dart';
 import '../../../widgets/custom_card.dart';
 import '../../../widgets/details_tile.dart';
 import '../../../widgets/navbar_button.dart';
+import 'add_event_edit_booking_screen.dart';
 import 'edit_albums_screen.dart';
 import 'edit_booking_event_screen.dart';
 
@@ -65,7 +66,23 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
     var textTheme = Theme.of(context).textTheme;
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Booking')),
+      appBar: AppBar(
+        title: const Text('Edit Booking'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              var res = await AddEventEditBookingScreen.open(
+                context,
+                categories: widget.categories,
+              );
+              if (res == null) return;
+              setState(() {});
+            },
+            child: const Text('Add Event'),
+          ),
+          const SizedBox(width: 10),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
