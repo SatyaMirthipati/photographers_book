@@ -15,18 +15,21 @@ class AlbumCard extends StatelessWidget {
       radius: 5,
       margin: const EdgeInsets.all(5),
       child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(20),
+        child: Row(
           children: [
-            DetailsTile(
-              title: const Text('Sheet Type'),
-              value: Text(bookingSheet.sheet ?? ''),
+            Expanded(
+              child: DetailsTile(
+                title: const Text('Sheet Type'),
+                value: Text(bookingSheet.sheet ?? ''),
+              ),
             ),
-            const SizedBox(height: 15),
-            DetailsTile(
-              title: const Text('Price'),
-              value: Text(bookingSheet.quantity ?? ''),
+            const SizedBox(width: 20),
+            Expanded(
+              child: DetailsTile(
+                title: const Text('Quantity'),
+                value: Text(bookingSheet.quantity ?? ''),
+              ),
             ),
           ],
         ),
