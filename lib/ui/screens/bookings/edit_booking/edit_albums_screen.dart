@@ -134,11 +134,12 @@ class _EditAlbumsScreenState extends State<EditAlbumsScreen> {
                           right: -15,
                           child: IconButton(
                             onPressed: () async {
-                              EditAlbumDetailsScreen.open(
+                              var res = await EditAlbumDetailsScreen.open(
                                 context,
                                 response: bookingBloc.updateSheetsData[i],
                                 index: i,
                               );
+                              if (res == null) return;
                               setState(() {});
                             },
                             icon: Image.asset(

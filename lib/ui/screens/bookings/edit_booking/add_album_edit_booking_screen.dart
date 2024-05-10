@@ -130,13 +130,25 @@ class _AddAlbumEditBookingScreenState extends State<AddAlbumEditBookingScreen> {
           if (!(_formKey.currentState?.validate() ?? true)) return;
           _formKey.currentState?.save();
           final navigator = Navigator.of(context);
+          bool sheetExists = false;
+          for (var existingSheet in bookingBloc.updateSheetsData) {
+            if (existingSheet.sheet == sheet) {
+              int existing = int.tryParse('${existingSheet.quantity}') ?? 0;
+              existing += int.parse(quantityCtrl.text);
+              existingSheet.quantity = '$existing';
+              sheetExists = true;
+              break;
+            }
+          }
 
-          bookingBloc.updateSheetsData.add(
-            BookingsSheet.fromMap({
-              'sheet': sheet,
-              'quantity': quantityCtrl.text,
-            }),
-          );
+          if (!sheetExists) {
+            bookingBloc.updateSheetsData.add(
+              BookingsSheet.fromMap({
+                'sheet': sheet,
+                'quantity': quantityCtrl.text,
+              }),
+            );
+          }
           setState(() {});
           reset();
           navigator.pop(true);

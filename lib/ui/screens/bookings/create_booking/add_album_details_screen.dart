@@ -133,10 +133,23 @@ class _AddAlbumDetailsScreenState extends State<AddAlbumDetailsScreen> {
                   onPressed: () async {
                     if (!(_formKey.currentState?.validate() ?? true)) return;
                     _formKey.currentState?.save();
+                    bool sheetExists = false;
+                    for (var existingSheet in bookingBloc.albumData) {
+                      if (existingSheet['sheet'] == sheet) {
+                        int existing = int.tryParse('${existingSheet['quantity']}') ?? 0;
+                        existing += int.parse(quantityCtrl.text);
+                        existingSheet['quantity'] = '$existing';
+                        sheetExists = true;
+                        break;
+                      }
+                    }
 
-                    bookingBloc.albumData.add(
-                      {'sheet': sheet, 'quantity': quantityCtrl.text},
-                    );
+                    if (!sheetExists) {
+                      bookingBloc.albumData.add(
+                        {'sheet': sheet, 'quantity': quantityCtrl.text},
+                      );
+                    }
+
                     setState(() {});
                     reset();
                   },
