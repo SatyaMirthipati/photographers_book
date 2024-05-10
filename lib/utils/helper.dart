@@ -22,6 +22,11 @@ class Helper {
     await launchUrl(launchUri);
   }
 
+  static Future<void> launchSms({required String phone}) async {
+    final Uri launchUri = Uri(scheme: 'sms', path: phone);
+    await launchUrl(launchUri);
+  }
+
   static launchEmail({required String userName}) async {
     final Uri launchUri = Uri(
       scheme: 'mailto',

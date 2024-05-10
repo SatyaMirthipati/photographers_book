@@ -114,39 +114,86 @@ class _DueListScreenState extends State<DueListScreen> {
                               '${Routes.receivePayment}/${list[index].id}/${list[index].due}',
                             );
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              DetailsTile(
-                                title: Text(
-                                  list[index].name ?? 'NA',
-                                  style: textTheme.titleMedium!.copyWith(
-                                    fontSize: 18,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  DetailsTile(
+                                    title: Text(
+                                      list[index].name ?? 'NA',
+                                      style: textTheme.titleMedium!.copyWith(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    gap: 10,
+                                    value: Text(
+                                      list[index].mobile ?? 'NA',
+                                      style: textTheme.labelSmall,
+                                    ),
                                   ),
-                                ),
-                                gap: 10,
-                                value: Text(
-                                  list[index].mobile ?? 'NA',
-                                  style: textTheme.labelSmall,
-                                ),
+                                  const Spacer(),
+                                  DetailsTile(
+                                    title: Text(
+                                      '₹ ${list[index].due ?? '0'}/-',
+                                      style: textTheme.titleLarge!.copyWith(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    gap: 10,
+                                    value: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Helper.launchSms(
+                                              phone: '${list[index].mobile}',
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3),
+                                            child: Image.asset(
+                                              Images.sms,
+                                              height: 15,
+                                              width: 15,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        InkWell(
+                                          onTap: () {
+                                            Helper.launchCall(
+                                              phone: '${list[index].mobile}',
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3),
+                                            child: Image.asset(
+                                              Images.phone,
+                                              height: 15,
+                                              width: 15,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
-                              const Spacer(),
-                              DetailsTile(
-                                title: Text(
-                                  '₹ ${list[index].due ?? '0'}/-',
-                                  style: textTheme.titleLarge!.copyWith(
-                                    fontSize: 18,
-                                  ),
+                              const SizedBox(height: 8),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(double.maxFinite, 40),
                                 ),
-                                gap: 10,
-                                value: InkWell(
-                                  onTap: () {
-                                    Helper.launchCall(
-                                      phone: '${list[index].mobile}',
-                                    );
-                                  },
-                                  child: Image.asset(Images.phone, height: 15),
-                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '${Routes.receivePayment}/${list[index].id}/${list[index].due}',
+                                  );
+                                },
+                                child: const Text('Receive Payment'),
                               )
                             ],
                           ),
