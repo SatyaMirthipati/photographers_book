@@ -94,12 +94,10 @@ class BookingDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               if (booking.dueDate != null)
-                Expanded(
-                  child: DetailsTile(
-                    title: const Text('Due Date'),
-                    value: Text(
-                      DateFormat('MMMM dd, yyyy').format(booking.dueDate!),
-                    ),
+                DetailsTile(
+                  title: const Text('Due Date'),
+                  value: Text(
+                    DateFormat('MMMM dd, yyyy').format(booking.dueDate!),
                   ),
                 ),
               const SizedBox(height: 15),
