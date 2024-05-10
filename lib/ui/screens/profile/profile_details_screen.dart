@@ -181,15 +181,15 @@ class ProfileDetailsScreen extends StatelessWidget {
               icon: Image.asset(Images.logout),
               label: const Text('Logout'),
             ),
-            const SizedBox(height: 20),
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: Image.asset(Images.delete_account),
-              label: Text(
-                'Delete Account',
-                style: textTheme.bodySmall!.copyWith(color: MyColors.red),
-              ),
-            ),
+            // const SizedBox(height: 20),
+            // OutlinedButton.icon(
+            //   onPressed: () {},
+            //   icon: Image.asset(Images.delete_account),
+            //   label: Text(
+            //     'Delete Account',
+            //     style: textTheme.bodySmall!.copyWith(color: MyColors.red),
+            //   ),
+            // ),
           ],
         ),
       ),
