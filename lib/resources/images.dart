@@ -13,6 +13,9 @@ class Images {
   static const payments = 'assets/icons/payments.png';
   static const eye = 'assets/icons/eye.png';
   static const phone = 'assets/icons/phone.png';
+  static const how_it_works = 'assets/icons/how_it_works.png';
+  static const contact_us = 'assets/icons/contact_us.png';
+  static const sms = 'assets/icons/sms.png';
 
   static const calendar = 'assets/icons/calendar.png';
 
