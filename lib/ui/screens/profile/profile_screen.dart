@@ -128,32 +128,20 @@ class ProfileScreen extends StatelessWidget {
             title: 'My Duelist',
             image: Images.my_duelist,
           ),
-          const SizedBox(height: 15),
-          GestureDetector(
+          ProfileWidget(
             onTap: () {
               HowItWorksScreen.open(
                 context,
                 url: 'https://www.youtube.com/watch?v=ZBCUegTZF7M',
               );
             },
-            child: Text(
-              'How it works',
-              style: textTheme.titleSmall!.copyWith(
-                color: Colors.black.withOpacity(0.8),
-              ),
-            ),
+            title: 'How it works',
+            image: Images.how_it_works,
           ),
-          const SizedBox(height: 15),
-          GestureDetector(
-            onTap: () {
-              ContactUsSheet.open(context);
-            },
-            child: Text(
-              'Contact us',
-              style: textTheme.titleSmall!.copyWith(
-                color: Colors.black.withOpacity(0.8),
-              ),
-            ),
+          ProfileWidget(
+            onTap: () => ContactUsSheet.open(context),
+            title: 'Contact us',
+            image: Images.contact_us,
           ),
         ],
       ),
