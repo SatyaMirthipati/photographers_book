@@ -240,6 +240,7 @@ class _EditAmountDetailsScreenState extends State<EditAmountDetailsScreen> {
           bookingResponse['payable'] = payableAmountCtrl.text;
           bookingResponse['paid'] = advanceAmountCtrl.text;
           bookingResponse['due'] = dueBalanceCtrl.text;
+          bookingResponse['discount'] = discountAmountCtrl.text;
           bookingResponse['status'] = 'PENDING';
 
           if (dateTime != null) {
