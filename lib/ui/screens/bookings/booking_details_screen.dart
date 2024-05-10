@@ -50,10 +50,28 @@ class BookingDetailsScreen extends StatelessWidget {
                   const SizedBox(width: 20),
                   Expanded(
                     child: DetailsTile(
-                      title: const Text('Due'),
-                      value: Text('${booking.due ?? 'NA'}'),
+                      title: const Text('Total Amount'),
+                      value: Text('${booking.total ?? 'NA'}'),
                     ),
-                  )
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  Expanded(
+                    child: DetailsTile(
+                      title: const Text('Discount'),
+                      value: Text('${booking.discount ?? 'NA'}'),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: DetailsTile(
+                      title: const Text('Amount Payable'),
+                      value: Text('${booking.payable ?? 'NA'}'),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 15),
@@ -68,33 +86,22 @@ class BookingDetailsScreen extends StatelessWidget {
                   const SizedBox(width: 20),
                   Expanded(
                     child: DetailsTile(
-                      title: const Text('Total Amount'),
-                      value: Text('${booking.total ?? 'NA'}'),
+                      title: const Text('Due'),
+                      value: Text('${booking.due ?? 'NA'}'),
                     ),
-                  ),
+                  )
                 ],
               ),
               const SizedBox(height: 15),
-              Row(
-                children: [
-                  Expanded(
-                    child: DetailsTile(
-                      title: const Text('Amount Payable'),
-                      value: Text('${booking.payable ?? 'NA'}'),
+              if (booking.dueDate != null)
+                Expanded(
+                  child: DetailsTile(
+                    title: const Text('Due Date'),
+                    value: Text(
+                      DateFormat('MMMM dd, yyyy').format(booking.dueDate!),
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  if (booking.dueDate != null)
-                    Expanded(
-                      child: DetailsTile(
-                        title: const Text('Due Date'),
-                        value: Text(
-                          DateFormat('MMMM dd, yyyy').format(booking.dueDate!),
-                        ),
-                      ),
-                    )
-                ],
-              ),
+                ),
               const SizedBox(height: 15),
               DetailsTile(
                 title: const Text('Description'),
