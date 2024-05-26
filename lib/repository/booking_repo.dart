@@ -52,6 +52,14 @@ class BookingRepo {
     return response;
   }
 
+  Future completeBooking({required String id}) async {
+    var response = await apiClient.patch(
+      '${Api.bookings}/${Api.bookingStatus}/$id',
+      {'status': 'COMPLETED'},
+    );
+    return response;
+  }
+
   //Payments
   Future<List<BookingPayments>> getBookingPayments({query}) async {
     var response = await apiClient.get(Api.bookingPayments, query: query);

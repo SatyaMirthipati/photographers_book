@@ -23,10 +23,10 @@ class ConfirmDialog {
               : null,
           content: Text(
             message,
-            style: textTheme.bodyLarge!.copyWith(color: MyColors.primaryColor),
+            style: textTheme.bodyMedium!.copyWith(color: MyColors.primaryColor),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
           ),
           backgroundColor: MyColors.background,
           actions: [
@@ -45,7 +45,10 @@ class ConfirmDialog {
               },
               child: Text(
                 'YES',
-                style: textTheme.headlineSmall!.copyWith(fontSize: 16),
+                style: textTheme.headlineSmall!.copyWith(
+                  color: Colors.redAccent,
+                  fontSize: 16,
+                ),
               ),
             ),
           ],

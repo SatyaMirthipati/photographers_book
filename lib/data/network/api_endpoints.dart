@@ -17,6 +17,7 @@ class Api {
   static const bookings = '/bookings';
   static const bookingSheets = '/booking-sheets';
   static const duelist = '/duelist';
+  static const bookingStatus = '/booking-status';
 
   //Booking Payments
   static const bookingPayments = '/booking-payments';

@@ -7,22 +7,28 @@ import '../../../config/routes.dart';
 import '../../../model/booking.dart';
 import '../../../resources/images.dart';
 import '../../widgets/details_tile.dart';
+import '../../widgets/dialog_confirm.dart';
 import '../../widgets/error_widget.dart';
 import '../../widgets/loading_widget.dart';
 import 'widgets/booking_widget.dart';
 
-class BookingDetailsScreen extends StatelessWidget {
+class BookingDetailsScreen extends StatefulWidget {
   final String id;
 
   const BookingDetailsScreen({super.key, required this.id});
 
+  @override
+  State<BookingDetailsScreen> createState() => _BookingDetailsScreenState();
+}
+
+class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var primaryColor = Theme.of(context).primaryColor;
     var bookingBloc = Provider.of<BookingBloc>(context, listen: false);
     return FutureBuilder<Booking>(
-      future: bookingBloc.getOneBooking(id: id),
+      future: bookingBloc.getOneBooking(id: widget.id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return CustomErrorWidget.scaffold(error: snapshot.error);
@@ -30,7 +36,52 @@ class BookingDetailsScreen extends StatelessWidget {
         if (!snapshot.hasData) return const LoadingWidget.scaffold();
         var booking = snapshot.data!;
         return Scaffold(
-          appBar: AppBar(title: const Text('Booking Details')),
+          appBar: AppBar(
+            title: const Text('Booking Details'),
+            actions: [
+              PopupMenuButton<String>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: Colors.black.withOpacity(0.2)),
+                ),
+                onSelected: (item) async {
+                  if (item == 'update') {
+                    var res = await ConfirmDialog.show(
+                      context,
+                      message: 'Do you want to mark this booking as completed?',
+                      title: 'Complete booking ?',
+                    );
+                    if (res != true) return;
+                    await bookingBloc.completeBooking(id: widget.id);
+                    setState(() {});
+                  }
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Icon(Icons.more_vert),
+                ),
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'update',
+                      child: Row(
+                        children: [
+                          Image.asset(Images.edit, width: 20, height: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Update Booking Status',
+                            style: textTheme.bodyLarge!.copyWith(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ],
+          ),
           body: ListView(
             padding: const EdgeInsets.all(20),
             children: [
@@ -165,7 +216,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     onPressed: () async {
                       Navigator.pushNamed(
                         context,
-                        Routes.editBooking.setId(id),
+                        Routes.editBooking.setId(widget.id),
                       );
                     },
                     child: const Text('Edit'),
@@ -182,7 +233,7 @@ class BookingDetailsScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(
                         context,
-                        '${Routes.receivePayment}/$id/${booking.due}',
+                        '${Routes.receivePayment}/${widget.id}/${booking.due}',
                       );
                     },
                     child: const Text('Receive Payment'),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:photographers_book/ui/screens/profile/how_it_works_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../bloc/user_bloc.dart';
@@ -8,6 +7,7 @@ import '../../../resources/colors.dart';
 import '../../../resources/images.dart';
 import '../../../utils/helper.dart';
 import '../../widgets/dialog_confirm.dart';
+import 'how_it_works_screen.dart';
 import 'widgets/contact_us_sheet.dart';
 import 'widgets/profile_widget.dart';
 
