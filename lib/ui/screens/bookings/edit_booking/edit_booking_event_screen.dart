@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
+// import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:photographers_book/bloc/booking_bloc.dart';
 import 'package:photographers_book/model/booking.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +9,7 @@ import '../../../../model/category.dart';
 import '../../../widgets/date_picker.dart';
 import '../../../widgets/error_snackbar.dart';
 import '../../../widgets/navbar_button.dart';
+import '../widgets/select_type_dialog.dart';
 
 class EditBookingEventScreen extends StatefulWidget {
   final BookingsEvent bookingsEvents;
@@ -46,14 +47,13 @@ class EditBookingEventScreen extends StatefulWidget {
 class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  late MultiSelectController<String> videoController;
-  late MultiSelectController<String> cameraController;
-  late MultiSelectController<String> droneController;
-
   int textFieldCount = 1;
 
   final addressCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
+  final videoCtrl = TextEditingController();
+  final cameraCtrl = TextEditingController();
+  final droneCtrl = TextEditingController();
   DateTime? dateTime;
 
   List<Category> videosData = [];
@@ -62,16 +62,14 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
   List<Category> events = [];
 
   String? event;
-  List<String?> video = [];
-  List<String?> camera = [];
-  List<String?> drone = [];
+  List<String> video = [];
+  List<String> camera = [];
+  List<String> drone = [];
 
   @override
   void initState() {
     super.initState();
-    videoController = MultiSelectController();
-    cameraController = MultiSelectController();
-    droneController = MultiSelectController();
+
     events = widget.categories.where((e) => e.category == 'EVENT').toList();
     camerasData =
         widget.categories.where((e) => e.category == 'CAMERA').toList();
@@ -82,6 +80,9 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
     drone = widget.bookingsEvents.drone ?? [];
     camera = widget.bookingsEvents.camera ?? [];
     addressCtrl.text = widget.bookingsEvents.address ?? 'NA';
+    cameraCtrl.text = camera.join(', ');
+    videoCtrl.text = video.join(', ');
+    droneCtrl.text = drone.join(', ');
     dateTime = widget.bookingsEvents.date;
     if (dateTime != null) {
       dateCtrl.text = DateFormat('dd MMMM, yyyy').format(dateTime!);
@@ -96,17 +97,9 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
     dateTime = null;
     dateCtrl.text = '';
     addressCtrl.text = '';
-    videoController.clearAllSelection();
-    cameraController.clearAllSelection();
-    droneController.clearAllSelection();
-  }
-
-  @override
-  void dispose() {
-    videoController.dispose();
-    cameraController.dispose();
-    droneController.dispose();
-    super.dispose();
+    cameraCtrl.text = '';
+    droneCtrl.text = '';
+    videoCtrl.text = '';
   }
 
   @override
@@ -180,58 +173,61 @@ class _EditBookingEventScreenState extends State<EditBookingEventScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              MultiSelectDropDown(
-                controller: videoController,
-                onOptionSelected: (options) {
-                  video = options.map((e) => e.value).toList();
+              TextFormField(
+                readOnly: true,
+                maxLines: null,
+                controller: cameraCtrl,
+                style: textTheme.bodyLarge,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: 'Select Camera'),
+                onTap: () async {
+                  camera = await SelectTypeDialog.open(
+                        context,
+                        title: 'Select Camera Types',
+                        types: camerasData,
+                        selectedTypes: camera,
+                      ) ??
+                      [];
+                  cameraCtrl.text = camera.join(', ');
                 },
-                selectedOptions: video.map((e) {
-                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
-                }).toList(),
-                options: videosData.map((e) {
-                  return ValueItem(label: '${e.type}', value: '${e.type}');
-                }).toList(),
-                hint: 'Select videos',
-                selectionType: SelectionType.multi,
-                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                optionTextStyle: textTheme.bodyLarge,
-                selectedOptionIcon: const Icon(Icons.check_circle),
               ),
               const SizedBox(height: 25),
-              MultiSelectDropDown(
-                controller: cameraController,
-                onOptionSelected: (options) {
-                  camera = options.map((e) => e.value).toList();
+              TextFormField(
+                readOnly: true,
+                maxLines: null,
+                controller: videoCtrl,
+                style: textTheme.bodyLarge,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: 'Select Video'),
+                onTap: () async {
+                  video = await SelectTypeDialog.open(
+                        context,
+                        title: 'Select Video Types',
+                        types: videosData,
+                        selectedTypes: video,
+                      ) ??
+                      [];
+                  videoCtrl.text = video.join(', ');
                 },
-                selectedOptions: camera.map((e) {
-                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
-                }).toList(),
-                options: camerasData.map((e) {
-                  return ValueItem(label: '${e.type}', value: '${e.type}');
-                }).toList(),
-                hint: 'Select cameras',
-                selectionType: SelectionType.multi,
-                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                optionTextStyle: textTheme.bodyLarge,
-                selectedOptionIcon: const Icon(Icons.check_circle),
               ),
               const SizedBox(height: 25),
-              MultiSelectDropDown(
-                controller: droneController,
-                onOptionSelected: (options) {
-                  drone = options.map((e) => e.value).toList();
+              TextFormField(
+                readOnly: true,
+                maxLines: null,
+                controller: droneCtrl,
+                style: textTheme.bodyLarge,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: 'Select Drone'),
+                onTap: () async {
+                  drone = await SelectTypeDialog.open(
+                        context,
+                        title: 'Select Drone Types',
+                        types: dronesData,
+                        selectedTypes: drone,
+                      ) ??
+                      [];
+                  droneCtrl.text = drone.join(', ');
                 },
-                selectedOptions: drone.map((e) {
-                  return ValueItem(label: e ?? 'NA', value: e ?? 'NA');
-                }).toList(),
-                options: dronesData.map((e) {
-                  return ValueItem(label: '${e.type}', value: '${e.type}');
-                }).toList(),
-                hint: 'Select drones',
-                selectionType: SelectionType.multi,
-                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                optionTextStyle: textTheme.bodyLarge,
-                selectedOptionIcon: const Icon(Icons.check_circle),
               ),
               const SizedBox(height: 100),
             ],

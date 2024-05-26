@@ -55,13 +55,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                     );
                     var data = await bookingBloc.getCategories();
 
-                    EditEventBody.open(
+                    var res = await EditEventBody.open(
                       context,
                       event: event,
                       id: '${event.id}',
                       categories: data,
                     );
-                    // if (res == null) return;
+                    if (res == null) return;
                     setState(() {});
                   }
                 },
@@ -160,54 +160,60 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   softWrap: true,
                 ),
               ),
-              const SizedBox(height: 20),
-              Text('Video', style: style),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  if (event.video != [])
-                    Wrap(
-                      spacing: 5,
-                      runSpacing: 5,
-                      children: [
-                        for (var i in event.video ?? [])
-                          if (i != null) ContainerWidget(title: i ?? 'NA'),
-                      ],
-                    ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Text('Camera', style: style),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  if (event.camera != [])
-                    Wrap(
-                      spacing: 5,
-                      runSpacing: 5,
-                      children: [
-                        for (var i in event.camera ?? [])
-                          if (i != null) ContainerWidget(title: i ?? 'NA'),
-                      ],
-                    ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Text('Drone', style: style),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  if (event.drone != [])
-                    Wrap(
-                      spacing: 5,
-                      runSpacing: 5,
-                      children: [
-                        for (var i in event.drone ?? [])
-                          if (i != null) ContainerWidget(title: i ?? 'NA'),
-                      ],
-                    ),
-                ],
-              ),
+              if (event.video != null && event.video!.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Text('Video', style: style),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    if (event.video != [])
+                      Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: [
+                          for (var i in event.video ?? [])
+                            if (i != null) ContainerWidget(title: i ?? 'NA'),
+                        ],
+                      ),
+                  ],
+                ),
+              ],
+              if (event.camera != null && event.camera!.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Text('Camera', style: style),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    if (event.camera != [])
+                      Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: [
+                          for (var i in event.camera ?? [])
+                            if (i != null) ContainerWidget(title: i ?? 'NA'),
+                        ],
+                      ),
+                  ],
+                ),
+              ],
+              if (event.drone != null && event.drone!.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Text('Drone', style: style),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    if (event.drone != [])
+                      Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: [
+                          for (var i in event.drone ?? [])
+                            if (i != null) ContainerWidget(title: i ?? 'NA'),
+                        ],
+                      ),
+                  ],
+                ),
+              ],
             ],
           ),
         );
